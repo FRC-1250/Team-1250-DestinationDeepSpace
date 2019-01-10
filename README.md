@@ -5,7 +5,7 @@ Team 1250 Official 2019 Code for Destination: Deep Space
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+These instructions will get you a copy of the project on your local machine that is able to be deployed to the cRIO. 
 
 ### Prerequisites
 
@@ -26,7 +26,7 @@ Follow one of the methods below.
 ## Contributing
 
 1) Make an account - https://github.com/join
-2) In our private Discord or Facebook group, contact Rodney Lewis, Damien Fulerton OR Ruiqi Mao with your account name. We'll add you to project from there.
+2) In our private Discord or Facebook group, contact Damien Fullerton, Ruiqi Mao OR Rodney Lewis with your account name or email. We'll get you added to the project from there.
 
 ## FAQ
 *What is Git*? - It's a version control system that allows for easy group collaboration. Most often it's used for software development but it's not only limited to that. It could be easily used to persist changes in other types of files as well. - https://en.wikipedia.org/wiki/Version_control
