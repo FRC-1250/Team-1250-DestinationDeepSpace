@@ -1,6 +1,5 @@
 # Team-1250-DestinationDeepSpace
-[![Github Issues](http://githubbadges.herokuapp.com/badges/badgerbadgerbadger/issues.svg?style=flat-square)](https://github.com/FRC-1250/Team-1250-DestinationDeepSpace/issues)
-[![Pending Pull-Requests](http://githubbadges.herokuapp.com/badges/badgerbadgerbadger/pulls.svg?style=flat-square)](https://github.com/FRC-1250/Team-1250-DestinationDeepSpace/pulls)
+[![](https://img.shields.io/github/issues-raw/FRC-1250/Team-1250-DestinationDeepSpace.svg?style=for-the-badge)](https://github.com/FRC-1250/Team-1250-DestinationDeepSpace/issues) [![](https://img.shields.io/github/issues-pr-raw/FRC-1250/Team-1250-DestinationDeepSpace.svg?style=for-the-badge)](https://github.com/FRC-1250/Team-1250-DestinationDeepSpace/pulls)
 
 Team 1250 Official 2019 Code for Destination: Deep Space
 
