@@ -10,10 +10,13 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.RobotMap;
+import frc.robot.commands.Cmd_ManualDrive;
 
 
 public class Sub_DriveTrain extends Subsystem {
@@ -32,6 +35,10 @@ public class Sub_DriveTrain extends Subsystem {
   private SpeedController gRightSide = new SpeedControllerGroup(fRightMotor, mRightMotor, bRightMotor);
   private SpeedController gLeftSide = new SpeedControllerGroup(fLeftMotor, mRightMotor, bLeftMotor);
 
+  //
+
+  private DifferentialDrive diffDriveGroup = new DifferentialDrive(gLeftSide, gRightSide);
+
 public Sub_DriveTrain(){
 
   //Setting Linear Voltage Ramps for Drive Motors  TO DO - Check if values are high/low enough for robot
@@ -49,7 +56,18 @@ public Sub_DriveTrain(){
 
   @Override
   public void initDefaultCommand() {
-    // Set this to the Manual Driving Command - TO DO
-    // setDefaultCommand(new MySpecialCommand());
+    setDefaultCommand(new Cmd_ManualDrive());
   }
+
+  //The drive methods are overloaded btw
+
+  public void drive(double left, double right){
+    diffDriveGroup.tankDrive(left, right);
+  }
+
+  public void drive(Joystick joy){
+    drive(joy.getY(), joy.getThrottle());
+  }
+
+
 }
