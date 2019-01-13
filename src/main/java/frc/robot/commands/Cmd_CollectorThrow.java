@@ -12,11 +12,11 @@ import edu.wpi.first.wpilibj.command.TimedCommand;
 /**
  * Add your docs here.
  */
-public class Cmd_CollectorThrowFast extends TimedCommand {
+public class Cmd_CollectorThrow extends TimedCommand {
   /**
    * Add your docs here.
    */
-  public Cmd_CollectorThrowFast(double timeout) {
+  public Cmd_CollectorThrow(double timeout) {
     super(timeout);
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
