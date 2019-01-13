@@ -35,7 +35,7 @@ public class Sub_DriveTrain extends Subsystem {
   private SpeedController gRightSide = new SpeedControllerGroup(fRightMotor, mRightMotor, bRightMotor);
   private SpeedController gLeftSide = new SpeedControllerGroup(fLeftMotor, mRightMotor, bLeftMotor);
 
-  //
+  //Drive group sides
 
   private DifferentialDrive diffDriveGroup = new DifferentialDrive(gLeftSide, gRightSide);
 

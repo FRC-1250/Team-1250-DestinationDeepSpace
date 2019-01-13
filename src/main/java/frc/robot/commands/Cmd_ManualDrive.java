@@ -14,7 +14,7 @@ public class Cmd_ManualDrive extends Command {
   public Cmd_ManualDrive() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Robot.s_DriveTrain);
+    requires(Robot.s_drivetrain);
   }
 
   // Called just before this Command runs the first time
@@ -25,7 +25,7 @@ public class Cmd_ManualDrive extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.s_DriveTrain.drive(Robot.m_oi.getGamepad());
+    Robot.s_drivetrain.drive(Robot.m_oi.getGamepad());
   }
 
   // Make this return true when this Command no longer needs to run execute()

@@ -14,11 +14,18 @@ import edu.wpi.first.wpilibj.Joystick;
  * interface to the commands and command groups that allow control of the robot.
  */
 public class OI {
+  //Controllers for driver (Gamepad) and for operator(Board)
 
   Joystick Gamepad = new Joystick(0);
   Joystick Board = new Joystick(1);
 
   //Buttons on Gamepad (Driver Controller)
+
+
+  
+  //Buttons on Board (OP Controller)
+
+
 
   public Joystick getGamepad(){
     return Gamepad;
