@@ -8,9 +8,11 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.Robot;
 
 public class Cmd_CollectorInput extends Command {
   public Cmd_CollectorInput() {
+    requires(Robot.s_collector);
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
   }
@@ -23,22 +25,29 @@ public class Cmd_CollectorInput extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    Robot.s_collector.collectorIntake();
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
+    if (Robot.s_collector.isBallSensor()) {
+      return true;
+  } else {
     return false;
+  }
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    Robot.s_collector.collectorStop();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+    Robot.s_collector.collectorStop();
   }
 }
