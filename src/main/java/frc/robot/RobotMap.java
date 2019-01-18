@@ -23,5 +23,17 @@ public class RobotMap {
   public static final int DRV_LEFT_FRONT = 13;
   public static final int DRV_LEFT_MID = 14;
   public static final int DRV_LEFT_BACK = 15;
+// Collector Motor IDs
+  public static final int COL_LEFT = 16;
+  public static final int COL_RIGHT = 17;
+// Solenoid PCM Channel
+  public static final int COL_SOL_HAT = 0;
+  public static final int COL_SOL_COL = 1;
+// Collector Sensor IDs
+  public static final int COL_SENSE_HATCH = 0;
+  public static final int COL_SENSE_BALL = 1;
+// Drop Motor Victors IDs
+  public static final int COL_DROPMOTOR_0 = 18;
+  public static final int COL_DROPMOTOR_1 = 19;
 
 }

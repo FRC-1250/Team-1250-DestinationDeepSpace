@@ -8,20 +8,11 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-<<<<<<< HEAD
-
-public class Cmd_CollectorDropMotors extends Command {
-  public Cmd_CollectorDropMotors() {
-=======
 import frc.robot.Robot;
 
-public class Cmd_CollectorDropMotors extends Command {
-  double speed;
-
-public Cmd_CollectorDropMotors(double speed) {
+public class Cmd_CollectorForwardExtend extends Command {
+  public Cmd_CollectorForwardExtend() {
     requires(Robot.s_collector);
-    this.speed = speed;
->>>>>>> eseniya
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
   }
@@ -34,43 +25,25 @@ public Cmd_CollectorDropMotors(double speed) {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-<<<<<<< HEAD
-=======
-    Robot.s_collector.dropMotorSetSpeed(speed);
->>>>>>> eseniya
+    Robot.s_collector.solenoidExtendCollector();
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-<<<<<<< HEAD
     return false;
   }
-=======
-    if (Robot.s_collector.isBallSensor()) {
-      return true;
-  } else {
-    return false;
-  }
-  }
->>>>>>> eseniya
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-<<<<<<< HEAD
-=======
-    Robot.s_collector.dropMotorSetSpeed(0);
->>>>>>> eseniya
+    Robot.s_collector.solenoidRetractCollector();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-<<<<<<< HEAD
-=======
-    Robot.s_collector.dropMotorSetSpeed(0);
->>>>>>> eseniya
+    Robot.s_collector.solenoidRetractCollector();
   }
 }
