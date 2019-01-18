@@ -12,11 +12,8 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-<<<<<<< HEAD
-=======
-import frc.robot.subsystems.ExampleSubsystem;
+
 import frc.robot.subsystems.Sub_Collector;
->>>>>>> eseniya
 import frc.robot.subsystems.Sub_DriveTrain;
 import frc.robot.subsystems.Sub_Limelight;
 
@@ -29,14 +26,11 @@ import frc.robot.subsystems.Sub_Limelight;
  */
 public class Robot extends TimedRobot {
   public static OI m_oi;
-<<<<<<< HEAD
+
   public static Sub_DriveTrain s_drivetrain = new Sub_DriveTrain();
   public static Sub_Limelight s_limelight = new Sub_Limelight();
-
-=======
-  public static Sub_DriveTrain s_DriveTrain = new Sub_DriveTrain();
   public static Sub_Collector s_collector = new Sub_Collector();
->>>>>>> eseniya
+
   Command m_autonomousCommand;
   SendableChooser<Command> m_chooser = new SendableChooser<>();
 
