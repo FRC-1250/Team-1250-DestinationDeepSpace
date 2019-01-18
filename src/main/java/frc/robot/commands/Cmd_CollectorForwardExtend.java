@@ -8,9 +8,11 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.Robot;
 
 public class Cmd_CollectorForwardExtend extends Command {
   public Cmd_CollectorForwardExtend() {
+    requires(Robot.s_collector);
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
   }
@@ -23,6 +25,7 @@ public class Cmd_CollectorForwardExtend extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    Robot.s_collector.solenoidExtendCollector();
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -34,11 +37,13 @@ public class Cmd_CollectorForwardExtend extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    Robot.s_collector.solenoidRetractCollector();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+    Robot.s_collector.solenoidRetractCollector();
   }
 }

@@ -8,9 +8,14 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.Robot;
 
 public class Cmd_CollectorDropMotors extends Command {
-  public Cmd_CollectorDropMotors() {
+  double speed;
+
+public Cmd_CollectorDropMotors(double speed) {
+    requires(Robot.s_collector);
+    this.speed = speed;
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
   }
@@ -23,22 +28,29 @@ public class Cmd_CollectorDropMotors extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    Robot.s_collector.dropMotorSetSpeed(speed);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
+    if (Robot.s_collector.isBallSensor()) {
+      return true;
+  } else {
     return false;
+  }
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    Robot.s_collector.dropMotorSetSpeed(0);
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+    Robot.s_collector.dropMotorSetSpeed(0);
   }
 }
