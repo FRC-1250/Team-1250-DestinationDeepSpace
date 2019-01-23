@@ -11,6 +11,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
@@ -54,10 +55,10 @@ public class Sub_DriveTrain extends Subsystem {
 	private final double KP_SIMPLE = 0.05;
   private final double KI_SIMPLE = 0.03;
   
-  ADXRS450_Gyro gyro = new ADXRS450_Gyro(Port.kMXP);
+  AnalogGyro gyro = new AnalogGyro(RobotMap.GYRO);
 
-  public int driveSetpoint = 0;
-	private final double DRIVE_TICKS = 354.9;
+  public double driveSetpoint = 0;
+	private final double DRIVE_TICKS = 0.448286;
 
 public Sub_DriveTrain(){
 
@@ -94,12 +95,12 @@ public Sub_DriveTrain(){
 		diffDriveGroup.arcadeDrive(-joy.getThrottle(),joy.getZ());
 	}
 
+  //Encoder feedback from the drivetrain
+  //Velocity from each side
+
   public double leftVelocity(){
     return fLeftMotor.getEncoder().getVelocity();
   }
-
-  //Encoder feedback from the drivetrain
-  //Velocity from each side
 
   public double rightVelocity(){
     return fRightMotor.getEncoder().getVelocity();
@@ -113,22 +114,46 @@ public Sub_DriveTrain(){
     return fRightMotor.getEncoder().getPosition();
   }
 
+  
   //Gyro Feedback and control
+  //Gets angle form gryo
 
   public double getGyroAngle() {
     return gyro.getAngle();
   }
 
+  //Sets Current gyro position to 0 degrees
+
   public void resetGyro() {
     gyro.reset();
+  }
+
+  //Accepts the distance that you want the robot to go during auto motions
+  //Converts the distance in inches to DRIVE_TICKS
+  //Factors in the current position of the encoders on the neo so there os no need for encoder resets anymore
+
+  public void setSetpointPos(int distance){
+    driveSetpoint = DRIVE_TICKS * (distance + leftPosition());
   }
 
   //Auton Methods
   //Checks for if robot is done driving to position
 
   public boolean isDoneDriving() {
-    return ((Math.abs(this.rightPostion() - driveSetpoint) >= 0));
-  }
+        
+    double currVal = this.leftPosition();
+    double distToPos = currVal - driveSetpoint;
+    SmartDashboard.putNumber("DistToPos", distToPos);
+    return (distToPos >= 0);
+}
+
+public boolean isDoneDrivingBack() {
+    
+    double currVal = this.leftPosition();
+    double distToPos = currVal - driveSetpoint;
+    SmartDashboard.putNumber("DistToPos", distToPos);
+    return (distToPos <= 0);
+}
   
   //Checks for if robot is done turning
 
@@ -148,6 +173,27 @@ public Sub_DriveTrain(){
     
   }
 
+  //Method for auto turning, accepts an angle and an upper and lower turning speed for ramping
+
+  public void turn (double angle, double upperSpeed, double lowerSpeed) {
+    double corrected;
+    double rotation = angle - getGyroAngle();
+    double sign = Math.signum(rotation);      
+    corrected = 0.05 * rotation;
+            
+      if (sign > 0){
+              corrected = Math.min(upperSpeed * sign, corrected);
+              corrected = Math.max(lowerSpeed * sign, corrected);
+            }
+                
+      else {
+              corrected = Math.max(upperSpeed * sign, corrected);
+              corrected = Math.min(lowerSpeed * sign, corrected);                    
+            }
+    
+            diffDriveGroup.arcadeDrive(0, corrected);
+        }
+
   //Method for a linear ramping to a lower speed for auton driving
   //This increases accuracy for auton driving
   //uppperSpped is the fastest the robot will drive and lowerSpeed is the slowest the robot will drive
@@ -164,49 +210,46 @@ public Sub_DriveTrain(){
   }
 
   //Methods for limelight tracking
+  //Automatic alighnment but accepts the left joystick Y value as speed
+  //TO DO TEST THIS ONE :) // IT WORKS :)
 
-  public void setpointCube(double areaSetpoint) {
-    CUBE_AREA_SETPOINT = areaSetpoint;
-  }
-
-  //Automatic allignment and driving method
-
-  public void trackCube(double xOffset, double areaOffset) {
-  
-  double xDiff = 0 - xOffset *-1;
-  double aDiff = 5 - areaOffset;
-  double xCorrect = 0.05 * xDiff;
-  double aCorrect = 0.4 * aDiff;
-  
-  diffDriveGroup.arcadeDrive(aCorrect, xCorrect);
-}
-
-//Automatic allighnment but accepts the left joystick Y value as speed
-//TO DO TEST THIS ONE :)
-
-public void trackCubeManualSpeed(double xOffset, Joystick joy) {
+public void trackCubeManualSpeed(double xOffset, double aJoy) {
   
   double xDiff = 0 - xOffset *-1;
   double xCorrect = 0.05 * xDiff;
   
-  diffDriveGroup.arcadeDrive(joy.getY(), xCorrect);
+  diffDriveGroup.arcadeDrive(aJoy, xCorrect);
 }
 
-//Assorted PID math for auto driving
+  //Automatic alignment with auto distances
+
+public void driveToPosTrack(double upperSpeed, double lowerSpeed, double xOffset) {
+
+  double sign = Math.signum(driveSetpoint);
+  
+  double xDiff = xOffset;
+  double xCorrect = xDiff;
+
+  diffDriveGroup.arcadeDrive(linearRamp(upperSpeed,lowerSpeed) * sign, xCorrect);
+  
+}
+
+  //Assorted PID math for auto driving
   
   private double getGainP(double setpoint, double current, double kP) {
     	
     double error = setpoint - current;  		
     return KP_SIMPLE * error;
   }
-  
-  private double getGainPI(double setpoint, double current,double kP, double kI) {
-    
-    double error = setpoint - current; 
-    double p = KP_SIMPLE * error;
-    accumError = accumError + error;
-    double i = KI_SIMPLE * error;
-    return p + i;
+
+  //Methods to stop the drivetrain to smooth auto motions
+
+  public void driveStop(){
+    diffDriveGroup.arcadeDrive(0, 0);
+  }
+
+  public void pause(){
+    drive(0,0);
   }
 
 

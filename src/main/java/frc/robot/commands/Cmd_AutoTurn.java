@@ -10,64 +10,50 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class Cmd_ManualDrive extends Command {
+public class Cmd_AutoTurn extends Command {
 
-  private double xCube;
-  private double Kp = -0.05;
-  private double min_command = 0.3;
+  double angle = 0;
+  double upperSpeed = 0;
+  double lowerSpeed = 0;
 
-  public Cmd_ManualDrive() {
+  public Cmd_AutoTurn(double angle, double upperSpeed, double lowerSpeed) {
     requires(Robot.s_drivetrain);
-    requires(Robot.s_limelight);
+    this.angle = angle;
+    this.upperSpeed = upperSpeed;
+    this.lowerSpeed = lowerSpeed;
+    Robot.s_drivetrain.resetGyro();
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    Robot.s_drivetrain.resetGyro();
+    setTimeout(5);
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    if (Robot.m_oi.getButtonState(7) && Robot.m_oi.getButtonState(8)) {
-      xCube = Robot.s_limelight.getCubeX();
-
-      double heading_error = -xCube;
-      double steering_adjust = 0.0;
-
-          if(xCube > 1){
-              steering_adjust = Kp * heading_error + min_command;
-          }
-          if(xCube < 1){
-              steering_adjust = Kp * heading_error - min_command;
-          }
-
-      Robot.s_drivetrain.trackCubeManualSpeed(steering_adjust, -Robot.m_oi.getGamepad().getY());
-      }
-
-      else if (Robot.m_oi.getButtonState(8)){
-      Robot.s_drivetrain.driveArcade(Robot.m_oi.getGamepad());
-      }
-
-          else {
-              Robot.s_drivetrain.drive(Robot.m_oi.getGamepad());
-          }
+    Robot.s_drivetrain.turn(angle, upperSpeed, lowerSpeed);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return Robot.s_drivetrain.isDoneTurning(angle) || isTimedOut();
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    Robot.s_drivetrain.driveStop();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+    Robot.s_drivetrain.driveStop();
+
   }
 }

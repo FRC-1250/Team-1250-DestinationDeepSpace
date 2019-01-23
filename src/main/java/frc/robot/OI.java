@@ -31,4 +31,14 @@ public class OI {
     return Gamepad;
   }
 
+  public boolean getButtonState(int btn) {
+    return Gamepad.getRawButton(btn);
+}
+
+
+
+public Joystick getBoard() {
+    return Board;
+}
+
 }
