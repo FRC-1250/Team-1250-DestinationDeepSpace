@@ -36,4 +36,6 @@ public class RobotMap {
   public static final int COL_DROPMOTOR_0 = 18;
   public static final int COL_DROPMOTOR_1 = 19;
 
+  public static final int GYRO = 0;
+
 }
