@@ -24,25 +24,20 @@ public class Sub_Collector extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
-  // Spark Max motor controllers for collector
-
-  CANSparkMax lCollect = new CANSparkMax(RobotMap.COL_LEFT, MotorType.kBrushless);
-  CANSparkMax rCollect = new CANSparkMax(RobotMap.COL_RIGHT, MotorType.kBrushless);
   Solenoid solenoidHatch = new Solenoid(RobotMap.COL_SOL_HAT);
   Solenoid solenoidCollect = new Solenoid(RobotMap.COL_SOL_COL);
   DigitalInput sensorHatch = new DigitalInput(RobotMap.COL_SENSE_HATCH);
   DigitalInput sensorBall = new DigitalInput(RobotMap.COL_SENSE_BALL);
   WPI_VictorSPX dropMotor0 = new WPI_VictorSPX(RobotMap.COL_DROPMOTOR_0);
   WPI_VictorSPX dropMotor1 = new WPI_VictorSPX(RobotMap.COL_DROPMOTOR_1);
+  WPI_VictorSPX armCollector = new WPI_VictorSPX(RobotMap.COL_ARM);
+
 
   // Motor groups for collector
 
-  private SpeedController gCollector = new SpeedControllerGroup(lCollect, rCollect);
   private SpeedController gDropMotors = new SpeedControllerGroup(dropMotor0, dropMotor1);
 
   public Sub_Collector() {
-    lCollect.setInverted(true);
-
   }
   @Override
   public void initDefaultCommand() {
@@ -52,22 +47,22 @@ public class Sub_Collector extends Subsystem {
 
   // Methods for collector, collection speed, and throw speed
   public void collectorIntake() {
-    gCollector.set(1);
+    armCollector.set(1);
   }
   public void collectorThrow() {
-    gCollector.set(-1);
+    armCollector.set(-1);
   }
   // Stop collector
   public void collectorStop() {
-    gCollector.set(0);
+    armCollector.set(0);
   }
   // Half the speed of the cargo throw
   public void collectorThrowSlow() {
-    gCollector.set(-0.5);
+    armCollector.set(-0.5);
   }
   // Sets speed of collector
   public void collectorSetSpeed(double speed) {
-    gCollector.set(speed);
+    armCollector.set(speed);
   }
   // Extends hatch cylinders
   public void solenoidExtendHatch() {
