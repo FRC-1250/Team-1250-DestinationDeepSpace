@@ -15,17 +15,22 @@ package frc.robot;
  */
 public class RobotMap {
   //Drive motor controller CAN IDs
-  //Right Drive IDs
+
+   // Drive Train Subsystem IDs
+
+// Right Drive IDs
   public static final int DRV_RIGHT_FRONT = 10;
   public static final int DRV_RIGHT_MID = 11;
   public static final int DRV_RIGHT_BACK = 12;
-  //Left Drive IDs
+// Left Drive IDs
   public static final int DRV_LEFT_FRONT = 13;
   public static final int DRV_LEFT_MID = 14;
   public static final int DRV_LEFT_BACK = 15;
-// Collector Motor IDs
-  public static final int COL_LEFT = 16;
-  public static final int COL_RIGHT = 17;
+// Gyro ID
+  public static final int GYRO = 0;
+
+   // Collector Subsystem IDs
+
 // Solenoid PCM Channel
   public static final int COL_SOL_HAT = 0;
   public static final int COL_SOL_COL = 1;
@@ -35,7 +40,34 @@ public class RobotMap {
 // Drop Motor Victors IDs
   public static final int COL_DROPMOTOR_0 = 18;
   public static final int COL_DROPMOTOR_1 = 19;
+// Arm Collector ID
+  public static final int COL_ARM = 20;
 
-  public static final int GYRO = 0;
+   // Arm Subsystem IDs
+
+// Arm Sensor ID
+  public static final int ARM_HOME = 2;
+// Arm Spark IDs
+  public static final int ARM_DART0 = 16;
+  public static final int ARM_DART1 = 17;
+
+   // Bar Subsystem IDs
+
+// Bar Sensor IDs
+  public static final int BAR_HOMERIGHT = 3;
+  public static final int BAR_HOMELEFT = 4;
+  public static final int BAR_HATCHLEFT = 5;
+  public static final int BAR_HATCHRIGHT = 6;
+// Bar Motor IDs
+  public static final int BAR_MOTORLEFT = 20;
+  public static final int BAR_MOTORRIGHT = 21;
+
+   // Climber Subsystem IDs
+
+// Climber Solenoid ID
+  public static final int CLIMB_SOLENOID = 2;
+// Climber Talon ID
+  public static final int CLIMB_DRIVE = 22;
+
 
 }
