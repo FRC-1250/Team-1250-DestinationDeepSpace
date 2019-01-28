@@ -12,7 +12,8 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
+import frc.robot.subsystems.Sub_Arm;
+import frc.robot.subsystems.Sub_Bars;
 import frc.robot.subsystems.Sub_Collector;
 import frc.robot.subsystems.Sub_DriveTrain;
 import frc.robot.subsystems.Sub_Limelight;
@@ -30,6 +31,8 @@ public class Robot extends TimedRobot {
   public static Sub_DriveTrain s_drivetrain = new Sub_DriveTrain();
   public static Sub_Limelight s_limelight = new Sub_Limelight();
   public static Sub_Collector s_collector = new Sub_Collector();
+  public static Sub_Arm s_arm = new Sub_Arm();
+  public static Sub_Bars s_bars = new Sub_Bars();
 
   Command m_autonomousCommand;
   SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -54,6 +57,9 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
+    if (s_arm.isArmHome()){
+      double curHomeDiff = s_arm.dartMotor0Position() - s_arm.dartMotor1Position();
+    }
   }
 
   /**
