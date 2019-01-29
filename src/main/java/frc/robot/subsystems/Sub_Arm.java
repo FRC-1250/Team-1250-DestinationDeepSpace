@@ -32,10 +32,10 @@ public class Sub_Arm extends Subsystem {
   private SpeedController gDartDrive = new SpeedControllerGroup(dartMotor0, dartMotor1);
 
   public static double accumError = 0;
-	private final double AUTO_TURN_RATE = 0.3;
-	private final double KP_SIMPLE_STRAIT = 0.01;
 	private final double KP_SIMPLE = 0.05;
   private final double KI_SIMPLE = 0.03;
+
+  double armSetpoint0 = 0;
 
   public Sub_Arm(){
 
@@ -65,8 +65,40 @@ public void resetArmPos(){
   
 
   public void setArmPos(int distance){
-    double armSetpoint0 = DRIVE_TICKS * (distance);
+    armSetpoint0 = DRIVE_TICKS * (distance);
   }
+
+  public boolean isDoneDriving() {
+        
+    double currVal = this.dartMotor0Position();
+    double distToPos = currVal - armSetpoint0;
+    SmartDashboard.putNumber("DistToPosArm", distToPos);
+    return (distToPos >= 0);
+}
+
+public boolean isDoneDrivingBack() {
+    
+    double currVal = this.dartMotor0Position();
+    double distToPos = currVal - armSetpoint0;
+    SmartDashboard.putNumber("DistToPosArm", distToPos);
+    return (distToPos <= 0);
+}
+
+public void moveToPos( double upperSpeed, double lowerSpeed) {
+
+  gDartDrive.set(linearRamp(upperSpeed,lowerSpeed));
+  
+}
+
+private double linearRamp(double upperSpeed, double lowerSpeed) {
+  double diff = (armSetpoint0 - (double)Math.abs(dartMotor0Position()));
+  double corrected = .05 * diff;
+  double upperBound = Math.min(upperSpeed , corrected);
+  double lowerBound = Math.max(lowerSpeed , upperBound);
+  
+  SmartDashboard.putNumber("correctedoutputArm", corrected);
+  return lowerBound;
+}
 
 
 
