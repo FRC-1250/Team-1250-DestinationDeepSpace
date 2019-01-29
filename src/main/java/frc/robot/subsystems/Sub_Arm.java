@@ -66,7 +66,6 @@ public void resetArmPos(){
 
   public void setArmPos(int distance){
     double armSetpoint0 = DRIVE_TICKS * (distance);
-    double armSetpoint1 = DRIVE_TICKS * (distance);
   }
 
 

@@ -41,7 +41,8 @@ public class RobotMap {
   public static final int COL_DROPMOTOR_0 = 18;
   public static final int COL_DROPMOTOR_1 = 19;
 // Arm Collector ID
-  public static final int COL_ARM = 20;
+  public static final int COL_ARM_0 = 20;
+  public static final int COL_ARM_1 = 21;
 
    // Arm Subsystem IDs
 
@@ -59,15 +60,15 @@ public class RobotMap {
   public static final int BAR_HATCHLEFT = 5;
   public static final int BAR_HATCHRIGHT = 6;
 // Bar Motor IDs
-  public static final int BAR_MOTORLEFT = 20;
-  public static final int BAR_MOTORRIGHT = 21;
+  public static final int BAR_MOTORLEFT = 22;
+  public static final int BAR_MOTORRIGHT = 23;
 
    // Climber Subsystem IDs
 
 // Climber Solenoid ID
   public static final int CLIMB_SOLENOID = 2;
 // Climber Talon ID
-  public static final int CLIMB_DRIVE = 22;
+  public static final int CLIMB_DRIVE = 24;
 
 
 }
