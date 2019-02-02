@@ -30,16 +30,23 @@ public class Sub_Collector extends Subsystem {
   DigitalInput sensorBall = new DigitalInput(RobotMap.COL_SENSE_BALL);
   WPI_VictorSPX dropMotor0 = new WPI_VictorSPX(RobotMap.COL_DROPMOTOR_0);
   WPI_VictorSPX dropMotor1 = new WPI_VictorSPX(RobotMap.COL_DROPMOTOR_1);
-  WPI_VictorSPX armController0 = new WPI_VictorSPX(RobotMap.COL_ARM0);
-  WPI_VictorSPX armController1 = new WPI_VictorSPX(RobotMap.COL_ARM1);
+
+  WPI_VictorSPX armCollector0 = new WPI_VictorSPX(RobotMap.COL_ARM_0);
+  WPI_VictorSPX armCollector1 = new WPI_VictorSPX(RobotMap.COL_ARM_1);
+
 
 
   // Motor groups for collector
 
   private SpeedController gDropMotors = new SpeedControllerGroup(dropMotor0, dropMotor1);
-  private SpeedController gArmControllers = new SpeedControllerGroup(armController0, armController1);
+
+  private SpeedController gCollectorMotors = new SpeedControllerGroup(armCollector0, armCollector1);
+
+
+
 
   public Sub_Collector() {
+    armCollector0.setInverted(true);
   }
   @Override
   public void initDefaultCommand() {
@@ -49,22 +56,24 @@ public class Sub_Collector extends Subsystem {
 
   // Methods for collector, collection speed, and throw speed
   public void collectorIntake() {
-    gArmControllers.set(1);
+
+    gCollectorMotors.set(1);
   }
   public void collectorThrow() {
-    gArmControllers.set(-1);
+    gCollectorMotors.set(-1);
   }
   // Stop collector
   public void collectorStop() {
-    gArmControllers.set(0);
+    gCollectorMotors.set(0);
   }
   // Half the speed of the cargo throw
   public void collectorThrowSlow() {
-    gArmControllers.set(-0.5);
+    gCollectorMotors.set(-0.5);
   }
   // Sets speed of collector
   public void collectorSetSpeed(double speed) {
-    gArmControllers.set(speed);
+    gCollectorMotors.set(speed);
+
   }
   // Extends hatch cylinders
   public void solenoidExtendHatch() {

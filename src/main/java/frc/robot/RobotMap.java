@@ -41,8 +41,10 @@ public class RobotMap {
   public static final int COL_DROPMOTOR_0 = 18;
   public static final int COL_DROPMOTOR_1 = 19;
 // Arm Collector ID
-  public static final int COL_ARM0 = 20;
-  public static final int COL_ARM1 = 21;
+
+  public static final int COL_ARM_0 = 20;
+  public static final int COL_ARM_1 = 21;
+
 
    // Arm Subsystem IDs
 
