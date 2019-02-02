@@ -57,9 +57,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-    if (s_arm.isArmHome()){
-      double curHomeDiff = s_arm.dartMotor0Position() - s_arm.dartMotor1Position();
-    }
+  
   }
 
   /**

@@ -29,7 +29,7 @@ public class RobotMap {
 // Gyro ID
   public static final int GYRO = 0;
 
-   // Collector Subsystem IDs
+// Collector Subsystem IDs
 
 // Solenoid PCM Channel
   public static final int COL_SOL_HAT = 0;

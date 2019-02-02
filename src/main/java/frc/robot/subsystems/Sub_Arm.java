@@ -9,6 +9,8 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.ControlMode;
+
 
 
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -17,6 +19,7 @@ import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
+
 
 /**
  * Add your docs here.
@@ -35,16 +38,45 @@ public class Sub_Arm extends Subsystem {
 	private final double KP_SIMPLE = 0.05;
   private final double KI_SIMPLE = 0.03;
 
-  double armSetpoint0 = 0;
+  //Place holders for arm positions :)))
+  public double lowHatchPos = 10;
+  public double midHatchPos = 0;
+  public double highHatchPos = 0;
+  public double lowCargoPos = 0;
+  public double midCargoPos = 0;
+  public double highCargoPos = 0;
+  public double shipCargo = 0;
+
+  double armSetpoint0;
 
   public Sub_Arm(){
     dartMotor0.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 10);
     dartMotor1.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 10);
+
+    dartMotor0.configNominalOutputForward(0, 10);
+		dartMotor0.configNominalOutputReverse(0, 10);
+		dartMotor0.configPeakOutputForward(.8, 10);
+		dartMotor0.configPeakOutputReverse(-.8, 10);
+		dartMotor0.config_kF(0, 0.0, 10);
+		dartMotor0.config_kP(0, 1, 10);
+		dartMotor0.config_kI(0, 0, 10);
+		dartMotor0.config_kD(0, 0, 10);
+    dartMotor0.config_IntegralZone(0, 0, 10);
+    
+    dartMotor1.configNominalOutputForward(0, 10);
+		dartMotor1.configNominalOutputReverse(0, 10);
+		dartMotor1.configPeakOutputForward(.8, 10);
+		dartMotor1.configPeakOutputReverse(-.8, 10);
+		dartMotor1.config_kF(0, 0.0, 10);
+		dartMotor1.config_kP(0, 1, 10);
+		dartMotor1.config_kI(0, 0, 10);
+		dartMotor1.config_kD(0, 0, 10);
+		dartMotor1.config_IntegralZone(0, 0, 10);
   }
 
 
   // TODO: Figure out the math of this
-  private final double DRIVE_TICKS = 0;
+  public final double ARM_TICKS = 0;
 
   public double dartMotor0Position(){
     return dartMotor0.getSelectedSensorPosition();
@@ -58,44 +90,64 @@ public void resetArmPos(){
 
 }
 
+public void dartDriveGoDown(){
+  gDartDrive.set(-0.5);
+}
+
+public void dartDriveGoUp(){
+  gDartDrive.set(0.5);
+}
+
+
+public void armStop(){
+  gDartDrive.set(0);
+}
+
   public boolean isArmHome(){
     return armHomeSensor.get();
   }
   
 
-  public void setArmPos(int distance){
-    armSetpoint0 = DRIVE_TICKS * (distance);
+
+  public void setArmPosTest(double pos){
+
+    armSetpoint0 = (int) (ARM_TICKS * pos);
+    dartMotor0.set(ControlMode.Position, armSetpoint0);
+    dartMotor1.set(ControlMode.Position, armSetpoint0);
+
+
   }
 
-  public boolean isDoneDriving() { 
-    double currVal = this.dartMotor0Position();
-    double distToPos = currVal - armSetpoint0;
-    SmartDashboard.putNumber("DistToPosArm", distToPos);
-    return (distToPos >= 0);
-}
 
-public boolean isDoneDrivingBack() {   
-    double currVal = this.dartMotor0Position();
-    double distToPos = currVal - armSetpoint0;
-    SmartDashboard.putNumber("DistToPosArmBack", distToPos);
-    return (distToPos <= 0);
-}
 
-public void moveToPos( double upperSpeed, double lowerSpeed) {
+//   public boolean isDoneDriving() { 
+//     double currVal = this.dartMotor0Position();
+//     double distToPos = armSetpoint0 - currVal;
+//     SmartDashboard.putNumber("DistToPosArm", distToPos);
+//     return (distToPos >= 0);
+// }
 
-  gDartDrive.set(linearRamp(upperSpeed,lowerSpeed));
+// public boolean isDoneDrivingBack() {   
+//     double currVal = this.dartMotor0Position();
+//     double distToPos = armSetpoint0 - currVal;
+//     SmartDashboard.putNumber("DistToPosArmBack", distToPos);
+//     return (distToPos <= 0);
+// }
+
+// public void moveToPos( double upperSpeed, double lowerSpeed) {
+//   gDartDrive.set(linearRamp(upperSpeed,lowerSpeed));
   
-}
+// }
 
-private double linearRamp(double upperSpeed, double lowerSpeed) {
-  double diff = (armSetpoint0 - (double)Math.abs(dartMotor0Position()));
-  double corrected = .05 * diff;
-  double upperBound = Math.min(upperSpeed , corrected);
-  double lowerBound = Math.max(lowerSpeed , upperBound);
+// private double linearRamp(double upperSpeed, double lowerSpeed) {
+//   double diff = (armSetpoint0 - (double)Math.abs(dartMotor0Position()));
+//   double corrected = .05 * diff;
+//   double upperBound = Math.min(upperSpeed , corrected);
+//   double lowerBound = Math.max(lowerSpeed , upperBound);
   
-  SmartDashboard.putNumber("correctedoutputArm", corrected);
-  return lowerBound;
-}
+//   SmartDashboard.putNumber("correctedoutputArm", corrected);
+//   return lowerBound;
+// }
 
 
 
