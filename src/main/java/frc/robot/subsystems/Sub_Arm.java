@@ -39,13 +39,13 @@ public class Sub_Arm extends Subsystem {
   private final double KI_SIMPLE = 0.03;
 
   //Place holders for arm positions :)))
-  public double lowHatchPos = 10;
-  public double midHatchPos = 0;
   public double highHatchPos = 0;
+  public double midHatchPos = 0;
+  public double lowHatchPos = 0;
   public double lowCargoPos = 0;
   public double midCargoPos = 0;
   public double highCargoPos = 0;
-  public double shipCargo = 0;
+  public double shipCargoPos = 0;
 
   double armSetpoint0;
 
