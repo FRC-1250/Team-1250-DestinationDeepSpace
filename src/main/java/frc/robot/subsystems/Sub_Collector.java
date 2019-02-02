@@ -56,7 +56,6 @@ public class Sub_Collector extends Subsystem {
 
   // Methods for collector, collection speed, and throw speed
   public void collectorIntake() {
-
     gCollectorMotors.set(1);
   }
   public void collectorThrow() {

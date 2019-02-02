@@ -38,7 +38,6 @@ public class Sub_Arm extends Subsystem {
   double armSetpoint0 = 0;
 
   public Sub_Arm(){
-
     dartMotor0.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 10);
     dartMotor1.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 10);
   }
@@ -68,19 +67,17 @@ public void resetArmPos(){
     armSetpoint0 = DRIVE_TICKS * (distance);
   }
 
-  public boolean isDoneDriving() {
-        
+  public boolean isDoneDriving() { 
     double currVal = this.dartMotor0Position();
     double distToPos = currVal - armSetpoint0;
     SmartDashboard.putNumber("DistToPosArm", distToPos);
     return (distToPos >= 0);
 }
 
-public boolean isDoneDrivingBack() {
-    
+public boolean isDoneDrivingBack() {   
     double currVal = this.dartMotor0Position();
     double distToPos = currVal - armSetpoint0;
-    SmartDashboard.putNumber("DistToPosArm", distToPos);
+    SmartDashboard.putNumber("DistToPosArmBack", distToPos);
     return (distToPos <= 0);
 }
 

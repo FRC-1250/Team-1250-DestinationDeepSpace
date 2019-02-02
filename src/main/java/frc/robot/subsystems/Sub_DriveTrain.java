@@ -10,12 +10,10 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
-import edu.wpi.first.wpilibj.SPI.Port;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -37,15 +35,14 @@ public class Sub_DriveTrain extends Subsystem {
   //Driving motor comtroller groups for grouping drive sides without using Masters and Followers
 
   private SpeedController gRightSide = new SpeedControllerGroup(fRightMotor, mRightMotor, bRightMotor);
-  private SpeedController gLeftSide = new SpeedControllerGroup(fLeftMotor, mRightMotor, bLeftMotor);
+  private SpeedController gLeftSide = new SpeedControllerGroup(fLeftMotor, mLeftMotor, bLeftMotor);
 
   //Drive group sides
 
   private DifferentialDrive diffDriveGroup = new DifferentialDrive(gLeftSide, gRightSide);
 
-  //Limelight math variables
 
-  private double CUBE_AREA_SETPOINT= 0;
+
 
   //Constants for Closed Loop Feedback
 
@@ -114,7 +111,7 @@ public Sub_DriveTrain(){
     return fRightMotor.getEncoder().getPosition();
   }
 
-  
+
   //Gyro Feedback and control
   //Gets angle form gryo
 
@@ -133,25 +130,23 @@ public Sub_DriveTrain(){
   //Factors in the current position of the encoders on the neo so there os no need for encoder resets anymore
 
   public void setSetpointPos(int distance){
-    driveSetpoint = DRIVE_TICKS * (distance + leftPosition());
+    driveSetpoint = (DRIVE_TICKS * distance) + leftPosition();
   }
 
   //Auton Methods
   //Checks for if robot is done driving to position
 
-  public boolean isDoneDriving() {
-        
+  public boolean isDoneDriving() {    
     double currVal = this.leftPosition();
     double distToPos = currVal - driveSetpoint;
     SmartDashboard.putNumber("DistToPos", distToPos);
     return (distToPos >= 0);
 }
 
-public boolean isDoneDrivingBack() {
-    
+public boolean isDoneDrivingBack() {   
     double currVal = this.leftPosition();
     double distToPos = currVal - driveSetpoint;
-    SmartDashboard.putNumber("DistToPos", distToPos);
+    SmartDashboard.putNumber("DistToPosBack", distToPos);
     return (distToPos <= 0);
 }
   
