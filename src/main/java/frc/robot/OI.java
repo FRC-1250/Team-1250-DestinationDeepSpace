@@ -7,7 +7,13 @@
 
 package frc.robot;
 
+import frc.robot.commands.Cmd_ArmManualDown;
+import frc.robot.commands.Cmd_ArmManualUp;
+import frc.robot.commands.Cmd_ManualArmStop;
+import frc.robot.commands.Cmd_ManualBars;
+import frc.robot.commands.Cmd_TestDropRun;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -22,8 +28,29 @@ public class OI {
   //Buttons on Gamepad (Driver Controller)
 
 
+	JoystickButton x = new JoystickButton(Gamepad, 1);
+	JoystickButton a = new JoystickButton(Gamepad, 2);
+	JoystickButton b = new JoystickButton(Gamepad, 3);
+	JoystickButton y = new JoystickButton(Gamepad, 4);
+
+	JoystickButton lb = new JoystickButton(Gamepad, 5);
+	JoystickButton rb = new JoystickButton(Gamepad, 6);
+	JoystickButton lt = new JoystickButton(Gamepad, 7);
+	JoystickButton rt = new JoystickButton(Gamepad, 8);
+
   
   //Buttons on Board (OP Controller)
+
+  public OI() {
+
+    y.whenActive(new Cmd_ArmManualUp());
+    a.whenActive(new Cmd_ArmManualDown());
+    b.whenActive(new Cmd_ManualArmStop());
+    x.whenActive(new Cmd_TestDropRun());
+
+
+
+  }
 
 
 

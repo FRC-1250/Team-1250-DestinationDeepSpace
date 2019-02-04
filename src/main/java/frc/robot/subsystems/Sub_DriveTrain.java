@@ -8,6 +8,7 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.AnalogGyro;
@@ -68,7 +69,14 @@ public Sub_DriveTrain(){
   fLeftMotor.setRampRate(.1);
   mLeftMotor.setRampRate(.1);
   bLeftMotor.setRampRate(.1);
-
+  //Right Idlemode
+  fRightMotor.setIdleMode(IdleMode.kCoast);
+  mRightMotor.setIdleMode(IdleMode.kCoast);
+  bRightMotor.setIdleMode(IdleMode.kCoast);
+  //Left Idlemode
+  fLeftMotor.setIdleMode(IdleMode.kCoast);
+  mLeftMotor.setIdleMode(IdleMode.kCoast);
+  bLeftMotor.setIdleMode(IdleMode.kCoast);
 }
 
 
@@ -85,7 +93,7 @@ public Sub_DriveTrain(){
   }
 
   public void drive(Joystick joy){
-    drive(joy.getY(), joy.getThrottle());
+    drive(-joy.getY(), -joy.getThrottle());
   }
 
   public void driveArcade(Joystick joy) {

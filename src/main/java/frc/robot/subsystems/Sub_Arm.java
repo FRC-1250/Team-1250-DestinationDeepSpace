@@ -91,11 +91,11 @@ public void resetArmPos(){
 }
 
 public void dartDriveGoDown(){
-  gDartDrive.set(-0.5);
+  gDartDrive.set(-1);
 }
 
 public void dartDriveGoUp(){
-  gDartDrive.set(0.5);
+  gDartDrive.set(1);
 }
 
 

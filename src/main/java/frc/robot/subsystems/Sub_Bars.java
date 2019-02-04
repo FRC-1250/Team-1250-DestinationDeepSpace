@@ -8,6 +8,7 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -23,12 +24,19 @@ public class Sub_Bars extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
-  CANSparkMax barMotorLeft = new CANSparkMax(RobotMap.ARM_DART1, MotorType.kBrushless);
-  CANSparkMax barMotorRight = new CANSparkMax(RobotMap.ARM_DART1, MotorType.kBrushless);
+  CANSparkMax barMotorLeft = new CANSparkMax(RobotMap.BAR_MOTORLEFT, MotorType.kBrushless);
+  CANSparkMax barMotorRight = new CANSparkMax(RobotMap.BAR_MOTORRIGHT, MotorType.kBrushless);
   DigitalInput homeRightSensor = new DigitalInput(RobotMap.BAR_HOMERIGHT);
   DigitalInput homeLeftSensor = new DigitalInput(RobotMap.BAR_HOMELEFT);
   DigitalInput hatchRightSensor = new DigitalInput(RobotMap.BAR_HATCHRIGHT);
   DigitalInput hatchLeftSensor = new DigitalInput(RobotMap.BAR_HATCHLEFT);
+
+public Sub_Bars(){
+  barMotorLeft.setInverted(true);
+  barMotorRight.setInverted(true);
+  barMotorLeft.setIdleMode(IdleMode.kBrake);
+  barMotorRight.setIdleMode(IdleMode.kBrake);
+}
 
   private SpeedController gBarMotors = new SpeedControllerGroup(barMotorLeft, barMotorRight);
 
