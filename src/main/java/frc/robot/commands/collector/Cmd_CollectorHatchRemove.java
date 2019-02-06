@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.collector;
 
 import edu.wpi.first.wpilibj.command.TimedCommand;
 import frc.robot.Robot;
@@ -13,11 +13,11 @@ import frc.robot.Robot;
 /**
  * Add your docs here.
  */
-public class Cmd_CollectorThrowSlow extends TimedCommand {
+public class Cmd_CollectorHatchRemove extends TimedCommand {
   /**
    * Add your docs here.
    */
-  public Cmd_CollectorThrowSlow(double timeout) {
+  public Cmd_CollectorHatchRemove(double timeout) {
     super(timeout);
       requires(Robot.s_collector);
     // Use requires() here to declare subsystem dependencies
@@ -32,19 +32,19 @@ public class Cmd_CollectorThrowSlow extends TimedCommand {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.s_collector.collectorThrowSlow();
+    Robot.s_collector.solenoidExtendHatch();
   }
 
   // Called once after timeout
   @Override
   protected void end() {
-    Robot.s_collector.collectorStop();
+    Robot.s_collector.solenoidRetractHatch();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    Robot.s_collector.collectorStop();
+    Robot.s_collector.solenoidRetractHatch();
   }
 }

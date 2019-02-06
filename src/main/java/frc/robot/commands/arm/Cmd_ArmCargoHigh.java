@@ -5,18 +5,18 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.arm;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
 
-public class Cmd_ArmCargoMid extends Command {
+public class Cmd_ArmCargoHigh extends Command {
   float sign;
   int distance = 0;
 
 
-  public Cmd_ArmCargoMid() {
+  public Cmd_ArmCargoHigh() {
     requires(Robot.s_arm);
   }
 
@@ -29,13 +29,13 @@ public class Cmd_ArmCargoMid extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.s_arm.setArmPosTest(Robot.s_arm.midCargoPos);
+    Robot.s_arm.setArmPosTest(Robot.s_arm.highCargoPos);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return(Robot.s_arm.dartMotor0Position() == Robot.s_arm.ARM_TICKS * Robot.s_arm.midCargoPos || isTimedOut());
+    return(Robot.s_arm.dartMotor0Position() == Robot.s_arm.ARM_TICKS * Robot.s_arm.highCargoPos || isTimedOut());
   }
 
   // Called once after isFinished returns true

@@ -19,7 +19,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
-import frc.robot.commands.Cmd_ManualDrive;
+import frc.robot.commands.drive.Cmd_ManualDrive;
 
 
 public class Sub_DriveTrain extends Subsystem {

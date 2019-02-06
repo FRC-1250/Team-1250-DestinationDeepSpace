@@ -5,23 +5,15 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.arm;
 
-import edu.wpi.first.wpilibj.command.TimedCommand;
+import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-/**
- * Add your docs here.
- */
-public class Cmd_CollectorThrow extends TimedCommand {
-  /**
-   * Add your docs here.
-   */
-  public Cmd_CollectorThrow(double timeout) {
-    super(timeout);
-      requires(Robot.s_collector);
+public class Cmd_ArmHome extends Command {
+  public Cmd_ArmHome() {
     // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
+    requires(Robot.s_arm);
   }
 
   // Called just before this Command runs the first time
@@ -32,19 +24,28 @@ public class Cmd_CollectorThrow extends TimedCommand {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.s_collector.collectorThrow();
+    Robot.s_arm.dartDriveGoDown();
   }
 
-  // Called once after timeout
+  // Make this return true when this Command no longer needs to run execute()
+  @Override
+  protected boolean isFinished() {
+    return(Robot.s_arm.isArmHome());
+  }
+
+  // Called once after isFinished returns true
   @Override
   protected void end() {
-    Robot.s_collector.collectorStop();
+    Robot.s_arm.armStop();
+    Robot.s_arm.resetArmPos();
+
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    Robot.s_collector.collectorStop();
+    Robot.s_arm.armStop();
+
   }
 }

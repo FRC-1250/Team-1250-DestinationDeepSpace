@@ -7,11 +7,11 @@
 
 package frc.robot;
 
-import frc.robot.commands.Cmd_ArmManualDown;
-import frc.robot.commands.Cmd_ArmManualUp;
-import frc.robot.commands.Cmd_ManualArmStop;
-import frc.robot.commands.Cmd_ManualBars;
-import frc.robot.commands.Cmd_TestDropRun;
+import frc.robot.commands.arm.Cmd_ArmManualDown;
+import frc.robot.commands.arm.Cmd_ArmManualUp;
+import frc.robot.commands.arm.Cmd_ArmManualStop;
+import frc.robot.commands.bars.Cmd_ManualBars;
+import frc.robot.commands.test.Cmd_TestDropRun;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
@@ -64,7 +64,7 @@ public class OI {
     //Arm testing
     y.whenActive(new Cmd_ArmManualUp());
     a.whenActive(new Cmd_ArmManualDown());
-    b.whenActive(new Cmd_ManualArmStop());
+    b.whenActive(new Cmd_ArmManualStop());
     x.whenActive(new Cmd_TestDropRun());
   }
 

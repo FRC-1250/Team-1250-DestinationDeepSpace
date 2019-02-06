@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.arm;
 
 import edu.wpi.first.wpilibj.command.InstantCommand;
 import frc.robot.Robot;
@@ -13,11 +13,11 @@ import frc.robot.Robot;
 /**
  * Add your docs here.
  */
-public class Cmd_ManualArmStop extends InstantCommand {
+public class Cmd_ArmManualStop extends InstantCommand {
   /**
    * Add your docs here.
    */
-  public Cmd_ManualArmStop() {
+  public Cmd_ArmManualStop() {
     super();
     requires(Robot.s_arm);
   }

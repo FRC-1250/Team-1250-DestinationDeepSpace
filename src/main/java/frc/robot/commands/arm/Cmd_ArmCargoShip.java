@@ -5,46 +5,49 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.arm;
 
-import edu.wpi.first.wpilibj.command.TimedCommand;
+import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-/**
- * Add your docs here.
- */
-public class Cmd_CollectorHatchRemove extends TimedCommand {
-  /**
-   * Add your docs here.
-   */
-  public Cmd_CollectorHatchRemove(double timeout) {
-    super(timeout);
-      requires(Robot.s_collector);
-    // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
+
+public class Cmd_ArmCargoShip extends Command {
+  float sign;
+  int distance = 0;
+
+
+  public Cmd_ArmCargoShip() {
+    requires(Robot.s_arm);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    setTimeout(5);
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.s_collector.solenoidExtendHatch();
+    Robot.s_arm.setArmPosTest(Robot.s_arm.shipCargoPos);
   }
 
-  // Called once after timeout
+  // Make this return true when this Command no longer needs to run execute()
+  @Override
+  protected boolean isFinished() {
+    return(Robot.s_arm.dartMotor0Position() == Robot.s_arm.ARM_TICKS * Robot.s_arm.shipCargoPos || isTimedOut());
+  }
+
+  // Called once after isFinished returns true
   @Override
   protected void end() {
-    Robot.s_collector.solenoidRetractHatch();
+    Robot.s_arm.armStop();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    Robot.s_collector.solenoidRetractHatch();
+    Robot.s_arm.armStop();
   }
 }

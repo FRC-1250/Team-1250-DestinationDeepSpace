@@ -5,49 +5,45 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.test;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-
-public class Cmd_ArmCargoHigh extends Command {
-  float sign;
-  int distance = 0;
-
-
-  public Cmd_ArmCargoHigh() {
-    requires(Robot.s_arm);
+public class Cmd_TestDropRun extends Command {
+  public Cmd_TestDropRun() {
+    requires(Robot.s_collector);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    setTimeout(5);
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.s_arm.setArmPosTest(Robot.s_arm.highCargoPos);
+    Robot.s_collector.dropMotorSetSpeed(.5);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return(Robot.s_arm.dartMotor0Position() == Robot.s_arm.ARM_TICKS * Robot.s_arm.highCargoPos || isTimedOut());
+    return false;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    Robot.s_arm.armStop();
+    Robot.s_collector.dropMotorSetSpeed(0);
+
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    Robot.s_arm.armStop();
+    Robot.s_collector.dropMotorSetSpeed(0);
+
   }
 }

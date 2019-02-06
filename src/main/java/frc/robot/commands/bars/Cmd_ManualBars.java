@@ -5,49 +5,44 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.bars;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
+public class Cmd_ManualBars extends Command {
 
-public class Cmd_ArmHatchLow extends Command {
-  float sign;
-  int distance = 0;
-
-
-  public Cmd_ArmHatchLow() {
-    requires(Robot.s_arm);
+  public Cmd_ManualBars() {
+    requires(Robot.s_bars);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    setTimeout(5);
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.s_arm.setArmPosTest(Robot.s_arm.lowHatchPos);
+    Robot.s_bars.barsManualSpeed(0.5);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return(Robot.s_arm.dartMotor0Position() == Robot.s_arm.ARM_TICKS * Robot.s_arm.lowHatchPos || isTimedOut());
+    return false;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    Robot.s_arm.armStop();
+    Robot.s_bars.barsManualSpeed(0);
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    Robot.s_arm.armStop();
+    Robot.s_bars.barsManualSpeed(0);
   }
 }

@@ -5,69 +5,49 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.arm;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class Cmd_ManualDrive extends Command {
 
-  private double xCube;
-  private double Kp = -0.05;
-  private double min_command = 0.3;
+public class Cmd_ArmHatchLow extends Command {
+  float sign;
+  int distance = 0;
 
-  public Cmd_ManualDrive() {
-    requires(Robot.s_drivetrain);
-    requires(Robot.s_limelight);
+
+  public Cmd_ArmHatchLow() {
+    requires(Robot.s_arm);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    setTimeout(5);
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    if (Robot.m_oi.getButtonState(7) && Robot.m_oi.getButtonState(8)) {
-      xCube = Robot.s_limelight.getCubeX();
-
-      double heading_error = -xCube;
-      double steering_adjust = 0.0;
-
-          if(xCube > 1){
-              steering_adjust = Kp * heading_error + min_command;
-          }
-          if(xCube < 1){
-              steering_adjust = Kp * heading_error - min_command;
-          }
-
-      Robot.s_drivetrain.trackCubeManualSpeed(steering_adjust, -Robot.m_oi.getGamepad().getY());
-      }
-
-      else if (Robot.m_oi.getButtonState(8)){
-      Robot.s_drivetrain.driveArcade(Robot.m_oi.getGamepad());
-      }
-
-          else {
-              Robot.s_drivetrain.drive(Robot.m_oi.getGamepad());
-          }
+    Robot.s_arm.setArmPosTest(Robot.s_arm.lowHatchPos);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return(Robot.s_arm.dartMotor0Position() == Robot.s_arm.ARM_TICKS * Robot.s_arm.lowHatchPos || isTimedOut());
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    Robot.s_arm.armStop();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+    Robot.s_arm.armStop();
   }
 }
