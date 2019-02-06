@@ -7,11 +7,12 @@
 
 package frc.robot;
 
-import frc.robot.commands.arm.Cmd_ArmManualDown;
-import frc.robot.commands.arm.Cmd_ArmManualUp;
-import frc.robot.commands.arm.Cmd_ArmManualStop;
-import frc.robot.commands.bars.Cmd_ManualBars;
-import frc.robot.commands.test.Cmd_TestDropRun;
+import frc.robot.commands.arm.*;
+import frc.robot.commands.collector.*;
+import frc.robot.commands.bars.*;
+import frc.robot.commands.groups.*;
+import frc.robot.commands.test.*;
+import frc.robot.commands.drive.*;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
@@ -28,8 +29,14 @@ public class OI {
 	JoystickButton b = new JoystickButton(Gamepad, 3);
 	JoystickButton y = new JoystickButton(Gamepad, 4);
 
+  //lb slow cargo throw
+  //rb fast cargo throw
 	JoystickButton lb = new JoystickButton(Gamepad, 5);
-	JoystickButton rb = new JoystickButton(Gamepad, 6);
+  JoystickButton rb = new JoystickButton(Gamepad, 6);
+  
+  //Used in manual drive command
+  //7 and 8 held, swich to arcade drive and track vision target while held
+  //8 held, switch to arcade drive while held
 	JoystickButton lt = new JoystickButton(Gamepad, 7);
   JoystickButton rt = new JoystickButton(Gamepad, 8);
   
@@ -66,18 +73,47 @@ public class OI {
     a.whenActive(new Cmd_ArmManualDown());
     b.whenActive(new Cmd_ArmManualStop());
     x.whenActive(new Cmd_TestDropRun());
+
   }
 
   public void setAllowedHomeButtons() {
-
+ 
   }
 
   public void setAllowedDefenseButtons() {
-    
+
   }
 
-  public void setAllowedCargoHatchButtons() {
+  public void setAllowedCargoButtons() {
+    //Auto positions cargo
+    high.whenActive(new Cmd_ArmCargoHigh());
+    mid.whenActive(new Cmd_ArmCargoMid());
+    low.whenActive(new Cmd_ArmCargoLow());
+    //Collector slow spit
+    lb.whenActive(new Cmd_CollectorThrowSlow(2));
+    //Collector fast spit
+    rb.whenActive(new Cmd_CollectorThrow(1));
     
+    //Intake on
+    //a.whenPressed(new Cmd_CollectorDropMotors(0.5));
+    //Intake off
+    //b.whenPressed(new Cmd_CollectorDropMotors(0));
+    
+    //Jog up
+    //Jog down 
+  }
+
+  public void setAllowedHatchButtons() {
+    //Auto positions hatch
+    high.whenActive(new Cmd_ArmHatchHigh());
+    mid.whenActive(new Cmd_ArmHatchMid());
+    low.whenActive(new Cmd_ArmHatchLow());
+
+    //Hatch plunger
+    //x.whenPressed(new Cmd_CollectorHatchRemove(0.5));
+    
+    //Jog up
+    //Jog down
   }
 
   public Joystick getGamepad(){
