@@ -32,7 +32,7 @@ public class Robot extends TimedRobot {
   public static Sub_Collector s_collector = new Sub_Collector();
   public static Sub_Arm s_arm = new Sub_Arm();
   public static Sub_Bars s_bars = new Sub_Bars();
-  private String mode;
+  public String mode;
 
   Command m_autonomousCommand;
   SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -138,18 +138,21 @@ public class Robot extends TimedRobot {
   }
 
   public void setMode() {
-
     if(m_oi.defense.get()) {
       m_oi.setAllowedDefenseButtons();
       mode = "defense";
     }
-    else if(m_oi.home.get() || mode == "home") {
+    else if(m_oi.home.get()) {
       m_oi.setAllowedHomeButtons();
       mode = "home";
     }
-    else if(m_oi.cargo.get() || m_oi.hatch.get() || mode == "score") {
-      m_oi.setAllowedCargoHatchButtons();
-      mode = "score";
+    else if(m_oi.cargo.get()) {
+      m_oi.setAllowedCargoButtons();
+      mode = "cargo";
+    }
+    else if(m_oi.hatch.get()) {
+      m_oi.setAllowedHatchButtons();
+      mode = "hatch";
     }
   }
 }
