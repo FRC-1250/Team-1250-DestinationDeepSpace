@@ -9,8 +9,7 @@ package frc.robot;
 
 import frc.robot.commands.arm.*;
 import frc.robot.commands.collector.*;
-import frc.robot.commands.bars.*;
-import frc.robot.commands.groups.*;
+import frc.robot.commands.bars.*; 
 import frc.robot.commands.test.*;
 import frc.robot.commands.drive.*;
 import edu.wpi.first.wpilibj.Joystick;
@@ -41,39 +40,40 @@ public class OI {
   JoystickButton rt = new JoystickButton(Gamepad, 8);
   
   //Buttons on Board (OP Controller)
-  JoystickButton defense = new JoystickButton(BoardController, 0);
-  JoystickButton high = new JoystickButton(BoardController, 1);
-  JoystickButton mid = new JoystickButton(BoardController, 2);
-  JoystickButton low = new JoystickButton(BoardController, 3);
-  JoystickButton hatch = new JoystickButton(BoardController, 4);
-  JoystickButton cargo = new JoystickButton(BoardController, 5);
-  JoystickButton home = new JoystickButton(BoardController, 6);
+  JoystickButton defense = new JoystickButton(BoardController, 1);
+  JoystickButton high = new JoystickButton(BoardController, 2);
+  JoystickButton mid = new JoystickButton(BoardController, 3);
+  JoystickButton low = new JoystickButton(BoardController, 4);
+  JoystickButton hatch = new JoystickButton(BoardController, 5);
+  JoystickButton cargo = new JoystickButton(BoardController, 6);
+  JoystickButton home = new JoystickButton(BoardController, 7);
   
-  JoystickButton leftRocketFar = new JoystickButton(BoardLeftField, 0);
-  JoystickButton leftRocketMid = new JoystickButton(BoardLeftField, 1);
-  JoystickButton leftRocketNear = new JoystickButton(BoardLeftField, 2);
-  JoystickButton leftCargoShipFar = new JoystickButton(BoardLeftField, 3);
-  JoystickButton leftCargoShipMid = new JoystickButton(BoardLeftField, 4);
-  JoystickButton leftCargoShipNear = new JoystickButton(BoardLeftField, 5);
-  JoystickButton leftCargoShipFront = new JoystickButton(BoardLeftField, 6);
-  JoystickButton leftFeedingStation = new JoystickButton(BoardLeftField, 7);
+  JoystickButton leftRocketFar = new JoystickButton(BoardLeftField, 1);
+  JoystickButton leftRocketMid = new JoystickButton(BoardLeftField, 2);
+  JoystickButton leftRocketNear = new JoystickButton(BoardLeftField, 3);
+  JoystickButton leftCargoShipFar = new JoystickButton(BoardLeftField, 4);
+  JoystickButton leftCargoShipMid = new JoystickButton(BoardLeftField, 5);
+  JoystickButton leftCargoShipNear = new JoystickButton(BoardLeftField, 6);
+  JoystickButton leftCargoShipFront = new JoystickButton(BoardLeftField, 7);
+  JoystickButton leftFeedingStation = new JoystickButton(BoardLeftField, 8);
 
-  JoystickButton rightRocketFar = new JoystickButton(BoardRightField, 0);
-  JoystickButton rightRocketMid = new JoystickButton(BoardRightField, 1);
-  JoystickButton rightRocketNear = new JoystickButton(BoardRightField, 2);
-  JoystickButton rightCargoShipFar = new JoystickButton(BoardRightField, 3);
-  JoystickButton rightCargoShipMid = new JoystickButton(BoardRightField, 4);
-  JoystickButton rightCargoShipNear = new JoystickButton(BoardRightField, 5);
-  JoystickButton rightCargoShipFront = new JoystickButton(BoardRightField, 6);
-  JoystickButton rightFeedingStation = new JoystickButton(BoardRightField, 7);
+  JoystickButton rightRocketFar = new JoystickButton(BoardRightField, 1);
+  JoystickButton rightRocketMid = new JoystickButton(BoardRightField, 2);
+  JoystickButton rightRocketNear = new JoystickButton(BoardRightField, 3);
+  JoystickButton rightCargoShipFar = new JoystickButton(BoardRightField, 4);
+  JoystickButton rightCargoShipMid = new JoystickButton(BoardRightField, 5);
+  JoystickButton rightCargoShipNear = new JoystickButton(BoardRightField, 6);
+  JoystickButton rightCargoShipFront = new JoystickButton(BoardRightField, 7);
+  JoystickButton rightFeedingStation = new JoystickButton(BoardRightField, 8);
 
   public OI() {
     //Arm testing
     y.whenActive(new Cmd_ArmManualUp());
     a.whenActive(new Cmd_ArmManualDown());
     b.whenActive(new Cmd_ArmManualStop());
-    x.whenActive(new Cmd_TestDropRun());
-
+    x.whenActive(new Cmd_CollectorHatchRemove(0.5));
+    lb.whenPressed(new Cmd_CollectorInput());
+    rb.whenActive(new Cmd_CollectorThrow(1));
   }
 
   public void setAllowedHomeButtons() {

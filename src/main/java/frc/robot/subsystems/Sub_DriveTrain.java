@@ -62,13 +62,13 @@ public Sub_DriveTrain(){
 
   //Setting Linear Voltage Ramps for Drive Motors  TO DO - Check if values are high/low enough for robot
   //RightSide Ramps
-  fRightMotor.setRampRate(.1);
-  mRightMotor.setRampRate(.1);
-  bRightMotor.setRampRate(.1);
+  fRightMotor.setRampRate(.6);
+  mRightMotor.setRampRate(.6);
+  bRightMotor.setRampRate(.6);
   //LeftSide Ramps
-  fLeftMotor.setRampRate(.1);
-  mLeftMotor.setRampRate(.1);
-  bLeftMotor.setRampRate(.1);
+  fLeftMotor.setRampRate(.6);
+  mLeftMotor.setRampRate(.6);
+  bLeftMotor.setRampRate(.6);
   //Right Idlemode
   fRightMotor.setIdleMode(IdleMode.kCoast);
   mRightMotor.setIdleMode(IdleMode.kCoast);
