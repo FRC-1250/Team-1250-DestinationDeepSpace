@@ -11,11 +11,9 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
 public class Cmd_CollectorDropMotors extends Command {
-  double speed;
 
-public Cmd_CollectorDropMotors(double speed) {
+public Cmd_CollectorDropMotors() {
     requires(Robot.s_collector);
-    this.speed = speed;
   }
 
   // Called just before this Command runs the first time
@@ -26,14 +24,14 @@ public Cmd_CollectorDropMotors(double speed) {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.s_collector.dropMotorSetSpeed(speed);
+    Robot.s_collector.dropMotorSetSpeed(1);
 
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return (Robot.s_collector.isBallSensor());
+    return(Robot.s_collector.isBallSensor() == false);
 }
   
   // Called once after isFinished returns true
