@@ -68,9 +68,9 @@ public class OI {
 
   public OI() {
     //Arm testing
-    y.whenActive(new Cmd_ArmManualUp());
-    a.whenActive(new Cmd_ArmManualDown());
-    b.whenActive(new Cmd_ArmManualStop());
+    // y.whenActive(new Cmd_ArmManualUp());
+    // a.whenActive(new Cmd_ArmManualDown());
+    // b.whenActive(new Cmd_ArmManualStop());
     x.whenActive(new Cmd_CollectorHatchRemove(0.5));
     lb.whenPressed(new Cmd_CollectorInput());
     rb.whenActive(new Cmd_CollectorThrow(1));
@@ -122,6 +122,10 @@ public class OI {
 
   public Joystick getBoardController(){
     return BoardController;
+  }
+
+  public Joystick getLeftField(){
+    return BoardLeftField;
   }
 
   public boolean getButtonState(int btn) {
