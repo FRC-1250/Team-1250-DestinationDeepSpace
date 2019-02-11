@@ -13,7 +13,6 @@ import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
-
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 
@@ -27,7 +26,6 @@ public class Sub_Collector extends Subsystem {
   DigitalInput sensorBall = new DigitalInput(RobotMap.COL_SENSE_BALL);
   WPI_VictorSPX dropMotor0 = new WPI_VictorSPX(RobotMap.COL_DROPMOTOR_0);
   WPI_VictorSPX dropMotor1 = new WPI_VictorSPX(RobotMap.COL_DROPMOTOR_1);
-
   WPI_VictorSPX armCollector0 = new WPI_VictorSPX(RobotMap.COL_ARM_0);
   WPI_VictorSPX armCollector1 = new WPI_VictorSPX(RobotMap.COL_ARM_1);
 
