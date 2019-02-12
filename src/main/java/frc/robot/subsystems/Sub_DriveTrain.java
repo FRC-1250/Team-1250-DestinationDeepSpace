@@ -76,6 +76,7 @@ public Sub_DriveTrain(){
   fLeftMotor.setIdleMode(IdleMode.kCoast);
   mLeftMotor.setIdleMode(IdleMode.kCoast);
   bLeftMotor.setIdleMode(IdleMode.kCoast);
+
 }
 
 
@@ -118,6 +119,22 @@ public Sub_DriveTrain(){
     return fRightMotor.getEncoder().getPosition();
   }
 
+  public void linearDrivingAmpControl(){
+    double leftTemp = fLeftMotor.getMotorTemperature();
+    double rightTemp = fRightMotor.getMotorTemperature();
+    double currentTemp = Math.max(leftTemp, rightTemp);
+    int linearCorrect = (-4 * (int)currentTemp) + 220;
+  
+    if (currentTemp < 80){
+      fRightMotor.setSmartCurrentLimit(100);
+    }
+    else if (currentTemp > 100){
+      fRightMotor.setSmartCurrentLimit(20);
+    }
+    else if (currentTemp >= 80) {
+      fRightMotor.setSmartCurrentLimit(linearCorrect);
+    }
+  }
 
   //Gyro Feedback and control
   //Gets angle form gryo

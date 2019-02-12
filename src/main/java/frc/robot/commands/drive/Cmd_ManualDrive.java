@@ -29,6 +29,8 @@ public class Cmd_ManualDrive extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    Robot.s_drivetrain.linearDrivingAmpControl();
+    //For switching between diving states such as tank, arcade, and assisted arcade
     if (Robot.m_oi.getButtonState(7) && Robot.m_oi.getButtonState(8)) {
       xCube = Robot.s_limelight.getCubeX();
 
@@ -45,9 +47,9 @@ public class Cmd_ManualDrive extends Command {
       Robot.s_drivetrain.trackCubeManualSpeed(steering_adjust, -Robot.m_oi.getGamepad().getY());
       }
 
-      else if (Robot.m_oi.getButtonState(8)){
-      Robot.s_drivetrain.driveArcade(Robot.m_oi.getGamepad());
-      }
+        else if (Robot.m_oi.getButtonState(8)){
+            Robot.s_drivetrain.driveArcade(Robot.m_oi.getGamepad());
+        }
 
           else {
               Robot.s_drivetrain.drive(Robot.m_oi.getGamepad());
