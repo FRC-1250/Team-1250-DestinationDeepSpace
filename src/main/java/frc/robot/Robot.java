@@ -27,12 +27,12 @@ import frc.robot.subsystems.Sub_Limelight;
  */
 public class Robot extends TimedRobot {
   public static OI m_oi;
-
   public static Sub_DriveTrain s_drivetrain = new Sub_DriveTrain();
   public static Sub_Limelight s_limelight = new Sub_Limelight();
   public static Sub_Collector s_collector = new Sub_Collector();
   public static Sub_Arm s_arm = new Sub_Arm();
   public static Sub_Bars s_bars = new Sub_Bars();
+  public String mode;
 
   Command m_autonomousCommand;
   SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -57,9 +57,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-    if (s_arm.isArmHome()){
-      double curHomeDiff = s_arm.dartMotor0Position() - s_arm.dartMotor1Position();
-    }
+  
   }
 
   /**
@@ -129,6 +127,7 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
+    setMode();
   }
 
   /**
@@ -136,5 +135,24 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void testPeriodic() {
+  }
+
+  public void setMode() {
+    if(m_oi.defense.get()) {
+      m_oi.setAllowedDefenseButtons();
+      mode = "defense";
+    }
+    else if(m_oi.home.get()) {
+      m_oi.setAllowedHomeButtons();
+      mode = "home";
+    }
+    else if(m_oi.cargo.get()) {
+      m_oi.setAllowedCargoButtons();
+      mode = "cargo";
+    }
+    else if(m_oi.hatch.get()) {
+      m_oi.setAllowedHatchButtons();
+      mode = "hatch";
+    }
   }
 }

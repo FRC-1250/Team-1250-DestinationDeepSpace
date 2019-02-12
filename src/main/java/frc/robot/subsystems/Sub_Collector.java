@@ -13,24 +13,19 @@ import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
-
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType; 
-
 
 
 public class Sub_Collector extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
-  Solenoid solenoidHatch = new Solenoid(RobotMap.COL_SOL_HAT);
-  Solenoid solenoidCollect = new Solenoid(RobotMap.COL_SOL_COL);
+  Solenoid solenoidHatch = new Solenoid(RobotMap.COL_SOL_COL_0);
+  Solenoid solenoidCollect = new Solenoid(RobotMap.COL_SOL_COL_1);
   DigitalInput sensorHatch = new DigitalInput(RobotMap.COL_SENSE_HATCH);
   DigitalInput sensorBall = new DigitalInput(RobotMap.COL_SENSE_BALL);
   WPI_VictorSPX dropMotor0 = new WPI_VictorSPX(RobotMap.COL_DROPMOTOR_0);
   WPI_VictorSPX dropMotor1 = new WPI_VictorSPX(RobotMap.COL_DROPMOTOR_1);
-
   WPI_VictorSPX armCollector0 = new WPI_VictorSPX(RobotMap.COL_ARM_0);
   WPI_VictorSPX armCollector1 = new WPI_VictorSPX(RobotMap.COL_ARM_1);
 
@@ -46,7 +41,7 @@ public class Sub_Collector extends Subsystem {
 
 
   public Sub_Collector() {
-    armCollector0.setInverted(true);
+    armCollector1.setInverted(true);
   }
   @Override
   public void initDefaultCommand() {
@@ -91,7 +86,7 @@ public class Sub_Collector extends Subsystem {
     solenoidCollect.set(false);
   }
   // Returns if hatch sensor is activated
-  public boolean isHatchSensor() {
+  public boolean isBallSensorBackup() {
     return sensorHatch.get();
   }
   // Returns if ball sensor is activated

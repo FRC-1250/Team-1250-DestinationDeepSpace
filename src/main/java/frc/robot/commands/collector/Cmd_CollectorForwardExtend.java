@@ -5,21 +5,14 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.collector;
 
-import edu.wpi.first.wpilibj.command.TimedCommand;
+import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-/**
- * Add your docs here.
- */
-public class Cmd_CollectorHatchRemove extends TimedCommand {
-  /**
-   * Add your docs here.
-   */
-  public Cmd_CollectorHatchRemove(double timeout) {
-    super(timeout);
-      requires(Robot.s_collector);
+public class Cmd_CollectorForwardExtend extends Command {
+  public Cmd_CollectorForwardExtend() {
+    requires(Robot.s_collector);
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
   }
@@ -32,19 +25,25 @@ public class Cmd_CollectorHatchRemove extends TimedCommand {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.s_collector.solenoidExtendHatch();
+    Robot.s_collector.solenoidExtendCollector();
   }
 
-  // Called once after timeout
+  // Make this return true when this Command no longer needs to run execute()
+  @Override
+  protected boolean isFinished() {
+    return(Robot.s_collector.isBallSensor() == false);
+  }
+
+  // Called once after isFinished returns true
   @Override
   protected void end() {
-    Robot.s_collector.solenoidRetractHatch();
+    Robot.s_collector.solenoidRetractCollector();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    Robot.s_collector.solenoidRetractHatch();
+    Robot.s_collector.solenoidRetractCollector();
   }
 }

@@ -8,8 +8,8 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.SpeedController;
@@ -18,7 +18,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
-import frc.robot.commands.Cmd_ManualDrive;
+import frc.robot.commands.drive.Cmd_ManualDrive;
 
 
 public class Sub_DriveTrain extends Subsystem {
@@ -61,13 +61,21 @@ public Sub_DriveTrain(){
 
   //Setting Linear Voltage Ramps for Drive Motors  TO DO - Check if values are high/low enough for robot
   //RightSide Ramps
-  fRightMotor.setRampRate(.1);
-  mRightMotor.setRampRate(.1);
-  bRightMotor.setRampRate(.1);
+  fRightMotor.setRampRate(0.8);
+  mRightMotor.setRampRate(0.8);
+  bRightMotor.setRampRate(0.8);
   //LeftSide Ramps
-  fLeftMotor.setRampRate(.1);
-  mLeftMotor.setRampRate(.1);
-  bLeftMotor.setRampRate(.1);
+  fLeftMotor.setRampRate(0.8);
+  mLeftMotor.setRampRate(0.8);
+  bLeftMotor.setRampRate(0.8);
+  //Right Idlemode
+  fRightMotor.setIdleMode(IdleMode.kCoast);
+  mRightMotor.setIdleMode(IdleMode.kCoast);
+  bRightMotor.setIdleMode(IdleMode.kCoast);
+  //Left Idlemode
+  fLeftMotor.setIdleMode(IdleMode.kCoast);
+  mLeftMotor.setIdleMode(IdleMode.kCoast);
+  bLeftMotor.setIdleMode(IdleMode.kCoast);
 
 }
 
@@ -75,7 +83,7 @@ public Sub_DriveTrain(){
   @Override
   public void initDefaultCommand() {
     setDefaultCommand(new Cmd_ManualDrive());
-  }
+  } 
 
   //Methods for driving
   //The drive methods are overloaded btw
@@ -85,7 +93,7 @@ public Sub_DriveTrain(){
   }
 
   public void drive(Joystick joy){
-    drive(joy.getY(), joy.getThrottle());
+    drive(-joy.getY(), -joy.getThrottle());
   }
 
   public void driveArcade(Joystick joy) {
@@ -111,6 +119,22 @@ public Sub_DriveTrain(){
     return fRightMotor.getEncoder().getPosition();
   }
 
+  public void linearDrivingAmpControl(){
+    double leftTemp = fLeftMotor.getMotorTemperature();
+    double rightTemp = fRightMotor.getMotorTemperature();
+    double currentTemp = Math.max(leftTemp, rightTemp);
+    int linearCorrect = (-4 * (int)currentTemp) + 220;
+  
+    if (currentTemp < 80){
+      fRightMotor.setSmartCurrentLimit(100);
+    }
+    else if (currentTemp > 100){
+      fRightMotor.setSmartCurrentLimit(20);
+    }
+    else if (currentTemp >= 80) {
+      fRightMotor.setSmartCurrentLimit(linearCorrect);
+    }
+  }
 
   //Gyro Feedback and control
   //Gets angle form gryo
@@ -158,10 +182,8 @@ public boolean isDoneDrivingBack() {
 
   //Method for driving to position in auton
 
-  public void driveToPos( double upperSpeed, double lowerSpeed) {
-    	
+  public void driveToPos( double upperSpeed, double lowerSpeed) {	
     double offset = getGainP(0,this.getGyroAngle(),KP_SIMPLE_STRAIT);
-    
     double sign = Math.signum(driveSetpoint);
     
     diffDriveGroup.arcadeDrive(linearRamp(upperSpeed,lowerSpeed) * sign, 0 + offset);
@@ -209,7 +231,6 @@ public boolean isDoneDrivingBack() {
   //TO DO TEST THIS ONE :) // IT WORKS :)
 
 public void trackCubeManualSpeed(double xOffset, double aJoy) {
-  
   double xDiff = 0 - xOffset *-1;
   double xCorrect = 0.05 * xDiff;
   
@@ -219,9 +240,7 @@ public void trackCubeManualSpeed(double xOffset, double aJoy) {
   //Automatic alignment with auto distances
 
 public void driveToPosTrack(double upperSpeed, double lowerSpeed, double xOffset) {
-
   double sign = Math.signum(driveSetpoint);
-  
   double xDiff = xOffset;
   double xCorrect = xDiff;
 
@@ -247,205 +266,4 @@ public void driveToPosTrack(double upperSpeed, double lowerSpeed, double xOffset
     drive(0,0);
   }
 
-
 }
-
-// ⠀⠀⠀⠀⣀⣤
-// ⠀⠀⠀⠀⣿⠿⣶
-// ⠀⠀⠀⠀⣿⣿⣀
-// ⠀⠀⠀⣶⣶⣿⠿⠛⣶
-// ⠤⣀⠛⣿⣿⣿⣿⣿⣿⣭⣿⣤
-// ⠒⠀⠀⠀⠉⣿⣿⣿⣿⠀⠀⠉⣀
-// ⠀⠤⣤⣤⣀⣿⣿⣿⣿⣀⠀⠀⣿
-// ⠀⠀⠛⣿⣿⣿⣿⣿⣿⣿⣭⣶⠉
-// ⠀⠀⠀⠤⣿⣿⣿⣿⣿⣿⣿
-// ⠀⠀⠀⣭⣿⣿⣿⠀⣿⣿⣿
-// ⠀⠀⠀⣉⣿⣿⠿⠀⠿⣿⣿
-// ⠀⠀⠀⠀⣿⣿⠀⠀⠀⣿⣿⣤
-// ⠀⠀⠀⣀⣿⣿⠀⠀⠀⣿⣿⣿
-// ⠀⠀⠀⣿⣿⣿⠀⠀⠀⣿⣿⣿
-// ⠀⠀⠀⣿⣿⠛⠀⠀⠀⠉⣿⣿
-// ⠀⠀⠀⠉⣿⠀⠀⠀⠀⠀⠛⣿
-// ⠀⠀⠀⠀⣿⠀⠀⠀⠀⠀⠀⣿⣿
-// ⠀⠀⠀⠀⣛⠀⠀⠀⠀⠀⠀⠛⠿⠿⠿
-// ⠀⠀⠀⠛⠛
-
-
-// ⠀⠀⠀⣀⣶⣀
-// ⠀⠀⠀⠒⣛⣭
-// ⠀⠀⠀⣀⠿⣿⣶
-// ⠀⣤⣿⠤⣭⣿⣿
-// ⣤⣿⣿⣿⠛⣿⣿⠀⣀
-// ⠀⣀⠤⣿⣿⣶⣤⣒⣛
-// ⠉⠀⣀⣿⣿⣿⣿⣭⠉
-// ⠀⠀⣭⣿⣿⠿⠿⣿
-// ⠀⣶⣿⣿⠛⠀⣿⣿
-// ⣤⣿⣿⠉⠤⣿⣿⠿
-// ⣿⣿⠛⠀⠿⣿⣿
-// ⣿⣿⣤⠀⣿⣿⠿
-// ⠀⣿⣿⣶⠀⣿⣿⣶
-// ⠀⠀⠛⣿⠀⠿⣿⣿
-// ⠀⠀⠀⣉⣿⠀⣿⣿
-// ⠀⠶⣶⠿⠛⠀⠉⣿
-// ⠀⠀⠀⠀⠀⠀⣀⣿
-// ⠀⠀⠀⠀⠀⣶⣿⠿
-
-// ⠀⠀⠀⠀⠀⠀⠀⠀⣤⣿⣿⠶⠀⠀⣀⣀
-// ⠀⠀⠀⠀⠀⠀⣀⣀⣤⣤⣶⣿⣿⣿⣿⣿⣿
-// ⠀⠀⣀⣶⣤⣤⠿⠶⠿⠿⠿⣿⣿⣿⣉⣿⣿
-// ⠿⣉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠛⣤⣿⣿⣿⣀
-// ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⣿⣿⣿⣿⣶⣤
-// ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣤⣿⣿⣿⣿⠿⣛⣿
-// ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⠛⣿⣿⣿⣿
-// ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣶⣿⣿⠿⠀⣿⣿⣿⠛
-// ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⠀⠀⣿⣿⣿
-// ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠿⠿⣿⠀⠀⣿⣶
-// ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⠛⠀⠀⣿⣿⣶
-// ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⣿⣿⠤
-// ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠿⣿
-// ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿
-// ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣀
-// ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣶⣿
-
-// ⠀⠀⣀
-// ⠀⠿⣿⣿⣀
-// ⠀⠉⣿⣿⣀
-// ⠀⠀⠛⣿⣭⣀⣀⣤
-// ⠀⠀⣿⣿⣿⣿⣿⠛⠿⣶⣀
-// ⠀⣿⣿⣿⣿⣿⣿⠀⠀⠀⣉⣶
-// ⠀⠀⠉⣿⣿⣿⣿⣀⠀⠀⣿⠉
-// ⠀⠀⠀⣿⣿⣿⣿⣿⣿⣿⣿
-// ⠀⣀⣿⣿⣿⣿⣿⣿⣿⣿⠿
-// ⠀⣿⣿⣿⠿⠉⣿⣿⣿⣿
-// ⠀⣿⣿⠿⠀⠀⣿⣿⣿⣿
-// ⣶⣿⣿⠀⠀⠀⠀⣿⣿⣿
-// ⠛⣿⣿⣀⠀⠀⠀⣿⣿⣿⣿⣶⣀
-// ⠀⣿⣿⠉⠀⠀⠀⠉⠉⠉⠛⠛⠿⣿⣶
-// ⠀⠀⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣿
-// ⠀⠀⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀⠉⠉
-// ⣀⣶⣿⠛
-
-// ⠀⠀⠀⠀⠀⠀⠀⣀⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-// ⠀⠀⠀⠀⠀⠀⣿⣿⣿⣤⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣤⣤⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-// ⠀⠀⠀⠀⠀⠀⠉⣿⣿⣿⣶⣿⣿⣿⣶⣶⣤⣶⣶⠶⠛⠉⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-// ⠀⠀⠀⠀⠀⠀⣤⣿⠿⣿⣿⣿⣿⣿⠀⠀⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-// ⠛⣿⣤⣤⣀⣤⠿⠉⠀⠉⣿⣿⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-// ⠀⠉⠉⠉⠉⠉⠀⠀⠀⠀⠉⣿⣿⣿⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-// ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣶⣿⣿⣿⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-// ⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⣿⣿⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-// ⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⣿⣿⣿⠛⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-// ⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⣿⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-// ⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣛⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-// ⠀⠀⠀⠀⠀⠀⠀⣶⣿⣿⠛⠿⣿⣿⣿⣶⣤⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-// ⠀⠀⠀⠀⠀⠀⠀⣿⠛⠉⠀⠀⠀⠛⠿⣿⣿⣶⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-// ⠀⠀⠀⠀⠀⠀⣿⣀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠛⠿⣶⣤⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-// ⠀⠀⠀⠀⠀⠛⠿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣿⣿⠿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-// ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠛⠉⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-
-// ⠀⠀⠀⠀⠀⠀⣤⣶⣶
-// ⠀⠀⠀⠀⠀⠀⣿⣿⣿⣿⣀⣀
-// ⠀⠀⠀⠀⠀⣀⣶⣿⣿⣿⣿⣿⣿
-// ⣤⣶⣀⠿⠶⣿⣿⣿⠿⣿⣿⣿⣿
-// ⠉⠿⣿⣿⠿⠛⠉⠀⣿⣿⣿⣿⣿
-// ⠀⠀⠉⠀⠀⠀⠀⠀⠀⣿⣿⣿⣿⣤⣤
-// ⠀⠀⠀⠀⠀⠀⠀⣤⣶⣿⣿⣿⣿⣿⣿
-// ⠀⠀⠀⠀⠀⣀⣿⣿⣿⣿⣿⠿⣿⣿⣿⣿
-// ⠀⠀⠀⠀⣀⣿⣿⣿⠿⠉⠀⠀⣿⣿⣿⣿
-// ⠀⠀⠀⠀⣿⣿⠿⠉⠀⠀⠀⠀⠿⣿⣿⠛
-// ⠀⠀⠀⠀⠛⣿⣿⣀⠀⠀⠀⠀⠀⣿⣿⣀
-// ⠀⠀⠀⠀⠀⣿⣿⣿⠀⠀⠀⠀⠀⠿⣿⣿
-// ⠀⠀⠀⠀⠀⠉⣿⣿⠀⠀⠀⠀⠀⠀⠉⣿
-// ⠀⠀⠀⠀⠀⠀⠀⣿⠀⠀⠀⠀⠀⠀⣀⣿
-// ⠀⠀⠀⠀⠀⠀⣀⣿⣿
-// ⠀⠀⠀⠀⠤⣿⠿⠿⠿
-
-// ⠀⠀⠀⠀⣀
-// ⠀⠀⣶⣿⠿⠀⠀⠀⣀⠀⣤⣤
-// ⠀⣶⣿⠀⠀⠀⠀⣿⣿⣿⠛⠛⠿⣤⣀
-// ⣶⣿⣤⣤⣤⣤⣤⣿⣿⣿⣀⣤⣶⣭⣿⣶⣀
-// ⠉⠉⠉⠛⠛⠿⣿⣿⣿⣿⣿⣿⣿⠛⠛⠿⠿
-// ⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⣿⣿⠿
-// ⠀⠀⠀⠀⠀⠀⠀⠿⣿⣿⣿⣿
-// ⠀⠀⠀⠀⠀⠀⠀⠀⣭⣿⣿⣿⣿⣿
-// ⠀⠀⠀⠀⠀⠀⠀⣤⣿⣿⣿⣿⣿⣿
-// ⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⣿⣿⣿⠿
-// ⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⣿⣿⠿
-// ⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⣿⣿
-// ⠀⠀⠀⠀⠀⠀⠀⠉⣿⣿⣿⣿
-// ⠀⠀⠀⠀⠀⠀⠀⠀⠉⣿⣿⣿⣿
-// ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⣿⠛⠿⣿⣤
-// ⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣿⠀⠀⠀⣿⣿⣤
-// ⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⠀⠀⠀⣶⣿⠛⠉
-// ⠀⠀⠀⠀⠀⠀⠀⠀⣤⣿⣿⠀⠀⠉
-// ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉
-
-// ⠀⠀⠀⠀⠀⠀⣶⣿⣶
-// ⠀⠀⠀⣤⣤⣤⣿⣿⣿
-// ⠀⠀⣶⣿⣿⣿⣿⣿⣿⣿⣶
-// ⠀⠀⣿⣿⣿⣿⣿⣿⣿⣿⣿
-// ⠀⠀⣿⣉⣿⣿⣿⣿⣉⠉⣿⣶
-// ⠀⠀⣿⣿⣿⣿⣿⣿⣿⣿⠿⣿
-// ⠀⣤⣿⣿⣿⣿⣿⣿⣿⠿⠀⣿⣶
-// ⣤⣿⠿⣿⣿⣿⣿⣿⠿⠀⠀⣿⣿⣤
-// ⠉⠉⠀⣿⣿⣿⣿⣿⠀⠀⠒⠛⠿⠿⠿
-// ⠀⠀⠀⠉⣿⣿⣿⠀⠀⠀⠀⠀⠀⠉
-// ⠀⠀⠀⣿⣿⣿⣿⣿⣶
-// ⠀⠀⠀⠀⣿⠉⠿⣿⣿
-// ⠀⠀⠀⠀⣿⣤⠀⠛⣿⣿
-// ⠀⠀⠀⠀⣶⣿⠀⠀⠀⣿⣶
-// ⠀⠀⠀⠀⠀⠀⠀⠀⠀⣭⣿⣿
-// ⠀⠀⠀⠀⠀⠀⠀⠀⣤⣿⣿⠉
-
-// ⠀⠀⠀⠀⠀⠀⠀⠀⠀⣤⣶
-// ⠀⠀⠀⠀⠀⣀⣀⠀⣶⣿⣿⠶
-// ⣶⣿⠿⣿⣿⣿⣿⣿⣿⣿⣿⣤⣤
-// ⠀⠉⠶⣶⣀⣿⣿⣿⣿⣿⣿⣿⠿⣿⣤⣀
-// ⠀⠀⠀⣿⣿⠿⠉⣿⣿⣿⣿⣭⠀⠶⠿⠿
-// ⠀⠀⠛⠛⠿⠀⠀⣿⣿⣿⣉⠿⣿⠶
-// ⠀⠀⠀⠀⠀⣤⣶⣿⣿⣿⣿⣿
-// ⠀⠀⠀⠀⠀⣿⣿⣿⣿⣿⣿⣿⠒
-// ⠀⠀⠀⠀⣀⣿⣿⣿⣿⣿⣿⣿
-// ⠀⠀⠀⠀⠀⣿⣿⣿⠛⣭⣭⠉
-// ⠀⠀⠀⠀⠀⣿⣿⣭⣤⣿⠛
-// ⠀⠀⠀⠀⠀⠛⠿⣿⣿⣿⣭
-// ⠀⠀⠀⠀⠀⠀⠀⣿⣿⠉⠛⠿⣶⣤
-// ⠀⠀⠀⠀⠀⠀⣀⣿⠀⠀⣶⣶⠿⠿⠿
-// ⠀⠀⠀⠀⠀⠀⣿⠛
-// ⠀⠀⠀⠀⠀⠀⣭⣶
-
-// ⠀⠀⠀⠀⠀⠀⠀⠀⠀⣤⣤
-// ⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿
-// ⠀⠀⣶⠀⠀⣀⣤⣶⣤⣉⣿⣿⣤⣀
-// ⠤⣤⣿⣤⣿⠿⠿⣿⣿⣿⣿⣿⣿⣿⣿⣀
-// ⠀⠛⠿⠀⠀⠀⠀⠉⣿⣿⣿⣿⣿⠉⠛⠿⣿⣤
-// ⠀⠀⠀⠀⠀⠀⠀⠀⠿⣿⣿⣿⠛⠀⠀⠀⣶⠿
-// ⠀⠀⠀⠀⠀⠀⠀⠀⣀⣿⣿⣿⣿⣤⠀⣿⠿
-// ⠀⠀⠀⠀⠀⠀⠀⣶⣿⣿⣿⣿⣿⣿⣿⣿
-// ⠀⠀⠀⠀⠀⠀⠀⠿⣿⣿⣿⣿⣿⠿⠉⠉
-// ⠀⠀⠀⠀⠀⠀⠀⠉⣿⣿⣿⣿⠿
-// ⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⠉
-// ⠀⠀⠀⠀⠀⠀⠀⠀⣛⣿⣭⣶⣀
-// ⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⣿⣿
-// ⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⠉⠛⣿
-// ⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⠀⠀⣿⣿
-// ⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣉⠀⣶⠿
-// ⠀⠀⠀⠀⠀⠀⠀⠀⣶⣿⠿
-// ⠀⠀⠀⠀⠀⠀⠀⠛⠿⠛
-
-// ⠀⠀⠀⣶⣿⣶
-// ⠀⠀⠀⣿⣿⣿⣀
-// ⠀⣀⣿⣿⣿⣿⣿⣿
-// ⣶⣿⠛⣭⣿⣿⣿⣿
-// ⠛⠛⠛⣿⣿⣿⣿⠿
-// ⠀⠀⠀⠀⣿⣿⣿
-// ⠀⠀⣀⣭⣿⣿⣿⣿⣀
-// ⠀⠤⣿⣿⣿⣿⣿⣿⠉
-// ⠀⣿⣿⣿⣿⣿⣿⠉
-// ⣿⣿⣿⣿⣿⣿
-// ⣿⣿⣶⣿⣿
-// ⠉⠛⣿⣿⣶⣤
-// ⠀⠀⠉⠿⣿⣿⣤
-// ⠀⠀⣀⣤⣿⣿⣿
-// ⠀⠒⠿⠛⠉⠿⣿
-// ⠀⠀⠀⠀⠀⣀⣿⣿
-// ⠀⠀⠀⠀⣶⠿⠿⠛    

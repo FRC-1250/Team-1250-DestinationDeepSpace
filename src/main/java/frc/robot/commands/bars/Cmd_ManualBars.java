@@ -5,16 +5,15 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.bars;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class Cmd_CollectorInput extends Command {
-  public Cmd_CollectorInput() {
-    requires(Robot.s_collector);
-    // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
+public class Cmd_ManualBars extends Command {
+
+  public Cmd_ManualBars() {
+    requires(Robot.s_bars);
   }
 
   // Called just before this Command runs the first time
@@ -25,25 +24,25 @@ public class Cmd_CollectorInput extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.s_collector.collectorIntake();
+    Robot.s_bars.barsManualSpeed(0.5);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-  return (Robot.s_collector.isBallSensor());
+    return false;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    Robot.s_collector.collectorStop();
+    Robot.s_bars.barsManualSpeed(0);
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    Robot.s_collector.collectorStop();
+    Robot.s_bars.barsManualSpeed(0);
   }
 }

@@ -5,16 +5,14 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.arm;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class Cmd_CollectorForwardExtend extends Command {
-  public Cmd_CollectorForwardExtend() {
-    requires(Robot.s_collector);
-    // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
+public class Cmd_ArmManualUp extends Command {
+  public Cmd_ArmManualUp() {
+    requires(Robot.s_arm);
   }
 
   // Called just before this Command runs the first time
@@ -25,25 +23,26 @@ public class Cmd_CollectorForwardExtend extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.s_collector.solenoidExtendCollector();
+    Robot.s_arm.dartDriveGoUp();
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return (Robot.s_collector.isBallSensor());
+    return false;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    Robot.s_collector.solenoidRetractCollector();
+    Robot.s_arm.armStop();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    Robot.s_collector.solenoidRetractCollector();
+    Robot.s_arm.armStop();
+
   }
 }

@@ -5,55 +5,46 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.collector;
 
-import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.TimedCommand;
 import frc.robot.Robot;
 
-public class Cmd_AutoTurn extends Command {
-
-  double angle = 0;
-  double upperSpeed = 0;
-  double lowerSpeed = 0;
-
-  public Cmd_AutoTurn(double angle, double upperSpeed, double lowerSpeed) {
-    requires(Robot.s_drivetrain);
-    this.angle = angle;
-    this.upperSpeed = upperSpeed;
-    this.lowerSpeed = lowerSpeed;
-    Robot.s_drivetrain.resetGyro();
+/**
+ * Add your docs here.
+ */
+public class Cmd_CollectorThrowSlow extends TimedCommand {
+  /**
+   * Add your docs here.
+   */
+  public Cmd_CollectorThrowSlow(double timeout) {
+    super(timeout);
+      requires(Robot.s_collector);
+    // Use requires() here to declare subsystem dependencies
+    // eg. requires(chassis);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    Robot.s_drivetrain.resetGyro();
-    setTimeout(5);
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.s_drivetrain.turn(angle, upperSpeed, lowerSpeed);
+    Robot.s_collector.collectorThrowSlow();
   }
 
-  // Make this return true when this Command no longer needs to run execute()
-  @Override
-  protected boolean isFinished() {
-    return Robot.s_drivetrain.isDoneTurning(angle) || isTimedOut();
-  }
-
-  // Called once after isFinished returns true
+  // Called once after timeout
   @Override
   protected void end() {
-    Robot.s_drivetrain.driveStop();
+    Robot.s_collector.collectorStop();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    Robot.s_drivetrain.driveStop();
-
+    Robot.s_collector.collectorStop();
   }
 }
