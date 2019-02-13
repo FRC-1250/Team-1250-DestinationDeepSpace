@@ -16,6 +16,6 @@ public class CmdG_CollectionGroup extends CommandGroup {
   public CmdG_CollectionGroup() {
     addParallel(new Cmd_CollectorDropMotors());
     addParallel(new Cmd_CollectorForwardExtend());
-    addSequential(new Cmd_CollectorInput());
+    addParallel(new Cmd_CollectorInput());
   }
 }

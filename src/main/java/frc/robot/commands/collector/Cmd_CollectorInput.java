@@ -32,7 +32,6 @@ public class Cmd_CollectorInput extends Command {
   @Override
   protected boolean isFinished() {
     return(Robot.s_collector.isBallSensor() == false);
-
   }
 
   // Called once after isFinished returns true

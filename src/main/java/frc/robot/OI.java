@@ -69,9 +69,10 @@ public class OI {
   public OI() {
     //Arm testing
     // y.whenActive(new Cmd_ArmManualUp());
-    // a.whenActive(new Cmd_ArmManualDown());
-    // b.whenActive(new Cmd_ArmManualStop());
-    x.whenActive(new Cmd_CollectorHatchRemove(0.5));
+    a.whenActive(new Cmd_CollectorHatchRemove(1));
+    b.whenActive(new Cmd_CollectorDropMotors());
+    y.whenActive(new Cmd_CollectorForwardExtend());
+    x.whenActive(new Cmd_CollectorInput());
     lb.whenPressed(new Cmd_CollectorInput());
     rb.whenActive(new Cmd_CollectorThrow(1));
   }

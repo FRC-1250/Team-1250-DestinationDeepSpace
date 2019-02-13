@@ -56,20 +56,20 @@ public class Sub_Arm extends Subsystem {
     dartMotor0.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 10);
     dartMotor1.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 10);
 
-    dartMotor0.configNominalOutputForward(0, 10);
-		dartMotor0.configNominalOutputReverse(0, 10);
-		dartMotor0.configPeakOutputForward(.8, 10);
-		dartMotor0.configPeakOutputReverse(-.8, 10);
+    // dartMotor0.configNominalOutputForward(0, 10);
+		// dartMotor0.configNominalOutputReverse(0, 10);
+		// dartMotor0.configPeakOutputForward(.8, 10);
+		// dartMotor0.configPeakOutputReverse(-.8, 10);
 		dartMotor0.config_kF(0, 0.0, 10);
 		dartMotor0.config_kP(0, 0.0001, 10);
 		dartMotor0.config_kI(0, 0, 10);
 		dartMotor0.config_kD(0, 0, 10);
     dartMotor0.config_IntegralZone(0, 0, 10);
     
-    dartMotor1.configNominalOutputForward(0, 10);
-		dartMotor1.configNominalOutputReverse(0, 10);
-		dartMotor1.configPeakOutputForward(.8, 10);
-		dartMotor1.configPeakOutputReverse(-.8, 10);
+    // dartMotor1.configNominalOutputForward(0, 10);
+		// dartMotor1.configNominalOutputReverse(0, 10);
+		// dartMotor1.configPeakOutputForward(.8, 10);
+		// dartMotor1.configPeakOutputReverse(-.8, 10);
 		dartMotor1.config_kF(0, 0.0, 10);
 		dartMotor1.config_kP(0, 0.0001, 10);
 		dartMotor1.config_kI(0, 0, 10);
