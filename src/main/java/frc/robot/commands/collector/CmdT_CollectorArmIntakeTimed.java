@@ -5,48 +5,42 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.arm;
+package frc.robot.commands.collector;
 
-import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.TimedCommand;
 import frc.robot.Robot;
 
-public class Cmd_ArmHome extends Command {
-  float sign;
-  int distance = 0;
-
-  public Cmd_ArmHome() {
-       requires(Robot.s_arm);
-
+/**
+ * Add your docs here.
+ */
+public class CmdT_CollectorArmIntakeTimed extends TimedCommand {
+  /**
+   * Add your docs here.
+   */
+  public CmdT_CollectorArmIntakeTimed(double timeout) {
+    super(timeout);
+    requires(Robot.s_collector);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    setTimeout(5);
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.s_arm.setArmPosTest(Robot.s_arm.home);
+    Robot.s_collector.armIntakeCollect();
   }
 
-  // Make this return true when this Command no longer needs to run execute()
-  @Override
-  protected boolean isFinished() {
-    return(Robot.s_arm.dartMotor0Position() == Robot.s_arm.ARM_TICKS * Robot.s_arm.midHatchPos || isTimedOut());
-  }
-
-  // Called once after isFinished returns true
+  // Called once after timeout
   @Override
   protected void end() {
-    Robot.s_arm.armStop();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    Robot.s_arm.armStop();
   }
 }

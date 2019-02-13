@@ -35,6 +35,9 @@ public class Sub_Collector extends Subsystem {
 
   public Sub_Collector() {
     armIntake1.setInverted(true);
+    dropIntakeMotor1.setInverted(true);
+    dropIntakeMotor0.setInverted(false);
+
   }
   @Override
   public void initDefaultCommand() {

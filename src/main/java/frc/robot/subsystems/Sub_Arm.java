@@ -38,7 +38,7 @@ public class Sub_Arm extends Subsystem {
 
   //-----------------------------------
   // TODO: Figure out the math of this
-  public final double ARM_TICKS = 0;
+  public final double ARM_TICKS = 1;
 
   //Place holders for arm positions :)))
   public double highHatchPos = 0;
@@ -48,6 +48,7 @@ public class Sub_Arm extends Subsystem {
   public double midCargoPos = 0;
   public double highCargoPos = 0;
   public double shipCargoPos = 0;
+  public double home = 0;
   //------------------------------------
 
   double armSetpoint0;
@@ -109,7 +110,7 @@ public class Sub_Arm extends Subsystem {
 
 
   public void setArmPosTest(double pos){
-    armSetpoint0 = (int) (ARM_TICKS * pos);
+    armSetpoint0 = (int) pos;
     dartMotor0.set(ControlMode.Position, armSetpoint0);
     dartMotor1.set(ControlMode.Position, armSetpoint0);
   }

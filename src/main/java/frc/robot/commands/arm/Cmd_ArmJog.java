@@ -8,6 +8,7 @@
 package frc.robot.commands.arm;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 
 public class Cmd_ArmJog extends Command {
@@ -23,8 +24,17 @@ public class Cmd_ArmJog extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    double signvalue = Robot.s_arm.dartMotor0Position();
+    float sign = Math.signum((float)signvalue);
+
     if((int)Robot.m_oi.getLeftField().getRawAxis(0) < 0){
-      Robot.s_arm.dartDriveGoDown();
+      if(sign == 1){
+        Robot.s_arm.armStop();
+      }
+      else{
+        Robot.s_arm.dartDriveGoDown();
+
+      }
     }
     else if((int)Robot.m_oi.getLeftField().getRawAxis(0) > 0){
       Robot.s_arm.dartDriveGoUp();
@@ -33,6 +43,7 @@ public class Cmd_ArmJog extends Command {
     else{
       Robot.s_arm.armStop();
     }
+    SmartDashboard.putNumber("ArmLiveTicks", Robot.s_arm.dartMotor0Position());
   }
 
   // Make this return true when this Command no longer needs to run execute()

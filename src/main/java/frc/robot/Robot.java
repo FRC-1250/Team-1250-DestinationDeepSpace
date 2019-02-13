@@ -57,7 +57,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-  
+    SmartDashboard.putNumber("ArmPositionRobotPeriodic", s_arm.dartMotor0Position());
+    SmartDashboard.putBoolean("IsArmHome??", s_arm.isArmHome());
   }
 
   /**

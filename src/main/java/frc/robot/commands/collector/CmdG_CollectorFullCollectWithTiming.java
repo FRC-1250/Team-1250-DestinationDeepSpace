@@ -9,13 +9,12 @@ package frc.robot.commands.collector;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
-public class CmdG_CollectionGroup extends CommandGroup {
-
-  //Runs all parts of robot for collection
-
-  public CmdG_CollectionGroup() {
-    addParallel(new Cmd_CollectorDropMotors());
-    addParallel(new Cmd_CollectorForwardExtend());
-    addParallel(new Cmd_CollectorInput());
+public class CmdG_CollectorFullCollectWithTiming extends CommandGroup {
+  /**
+   * Add your docs here.
+   */
+  public CmdG_CollectorFullCollectWithTiming() {
+   addSequential(new Cmd_CollectorCollectCargoDropMotors());
+   addSequential(new CmdT_CollectorArmIntakeTimed(0.25));
   }
 }
