@@ -74,7 +74,7 @@ public class OI {
     y.whenActive(new Cmd_CollectorForwardExtend());
     x.whenActive(new Cmd_CollectorInput());
     lb.whenPressed(new Cmd_CollectorInput());
-    rb.whenActive(new Cmd_CollectorThrow(1));
+    rb.whenActive(new CmdT_CollectorArmIntakeSpit(1));
   }
 
   public void setAllowedHomeButtons() {
@@ -91,9 +91,9 @@ public class OI {
     mid.whenActive(new Cmd_ArmCargoMid());
     low.whenActive(new Cmd_ArmCargoLow());
     //Collector slow spit
-    lb.whenActive(new Cmd_CollectorThrowSlow(2));
+    lb.whenActive(new CmdT_CollectorArmIntakeSlowSpit(2));
     //Collector fast spit
-    rb.whenActive(new Cmd_CollectorThrow(1));
+    rb.whenActive(new CmdT_CollectorArmIntakeSpit(1));
     
     //Intake on
     //a.whenPressed(new Cmd_CollectorDropMotors(0.5));
