@@ -41,14 +41,14 @@ public class Sub_Arm extends Subsystem {
   public final double ARM_TICKS = 1;
 
   //Place holders for arm positions :)))
-  public double highHatchPos = 0;
-  public double midHatchPos = 0;
-  public double lowHatchPos = 0;
-  public double lowCargoPos = 0;
-  public double midCargoPos = 0;
-  public double highCargoPos = 0;
-  public double shipCargoPos = 0;
-  public double home = 0;
+  public double highHatchPos = 0; //75 inches
+  public double midHatchPos = 0; //47 inches
+  public double lowHatchPos = 0; //19 inches same as loading station and cargoship
+  public double lowCargoPos = 0; //27.50 inches
+  public double midCargoPos = 0; //55.50 inches
+  public double highCargoPos = 0; //83.50 inches DO NOT ATTEMPT YET UNTIL ARM INTAKE IS REINDEXED
+  public double shipCargoPos = 0; //39.625 inches
+  public double home = 0; //Home is home
   //------------------------------------
 
   double armSetpoint0;
