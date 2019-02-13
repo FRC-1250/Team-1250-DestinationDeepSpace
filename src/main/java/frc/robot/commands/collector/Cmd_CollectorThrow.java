@@ -13,11 +13,11 @@ import frc.robot.Robot;
 /**
  * Add your docs here.
  */
-public class Cmd_CollectorThrow extends TimedCommand {
+public class Cmd_armIntakeSpit extends TimedCommand {
   /**
    * Add your docs here.
    */
-  public Cmd_CollectorThrow(double timeout) {
+  public Cmd_armIntakeSpit(double timeout) {
     super(timeout);
       requires(Robot.s_collector);
     // Use requires() here to declare subsystem dependencies
@@ -32,19 +32,19 @@ public class Cmd_CollectorThrow extends TimedCommand {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.s_collector.collectorThrow();
+    Robot.s_collector.armIntakeSpit();
   }
 
   // Called once after timeout
   @Override
   protected void end() {
-    Robot.s_collector.collectorStop();
+    Robot.s_collector.armIntakeStop();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    Robot.s_collector.collectorStop();
+    Robot.s_collector.armIntakeStop();
   }
 }

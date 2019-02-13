@@ -20,28 +20,21 @@ public class Sub_Collector extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
-  Solenoid solenoidHatch = new Solenoid(RobotMap.COL_SOL_COL_0);
-  Solenoid solenoidCollect = new Solenoid(RobotMap.COL_SOL_COL_1);
+  Solenoid solenoidHatch = new Solenoid(RobotMap.COL_SOL_HATCH);
+  Solenoid solenoidDropMotors = new Solenoid(RobotMap.COL_SOL_DROPINTAKEMOTORS);
   DigitalInput sensorHatch = new DigitalInput(RobotMap.COL_SENSE_HATCH);
   DigitalInput sensorBall = new DigitalInput(RobotMap.COL_SENSE_BALL);
-  WPI_VictorSPX dropMotor0 = new WPI_VictorSPX(RobotMap.COL_DROPMOTOR_0);
-  WPI_VictorSPX dropMotor1 = new WPI_VictorSPX(RobotMap.COL_DROPMOTOR_1);
-  WPI_VictorSPX armCollector0 = new WPI_VictorSPX(RobotMap.COL_ARM_0);
-  WPI_VictorSPX armCollector1 = new WPI_VictorSPX(RobotMap.COL_ARM_1);
-
-
+  WPI_VictorSPX dropIntakeMotor0 = new WPI_VictorSPX(RobotMap.COL_DROPINTAKEMOTOR_0);
+  WPI_VictorSPX dropIntakeMotor1 = new WPI_VictorSPX(RobotMap.COL_DROPINTAKEMOTOR_1);
+  WPI_VictorSPX armIntake0 = new WPI_VictorSPX(RobotMap.COL_ARMINTAKEMOTOR_0);
+  WPI_VictorSPX armIntake1 = new WPI_VictorSPX(RobotMap.COL_ARMINTAKEMOTOR_1);
 
   // Motor groups for collector
-
-  private SpeedController gDropMotors = new SpeedControllerGroup(dropMotor0, dropMotor1);
-
-  private SpeedController gCollectorMotors = new SpeedControllerGroup(armCollector0, armCollector1);
-
-
-
+  private SpeedController gDropIntakeMotors = new SpeedControllerGroup(dropIntakeMotor0, dropIntakeMotor1);
+  private SpeedController gArmIntakeMotors = new SpeedControllerGroup(armIntake0, armIntake1);
 
   public Sub_Collector() {
-    armCollector1.setInverted(true);
+    armIntake1.setInverted(true);
   }
   @Override
   public void initDefaultCommand() {
@@ -50,40 +43,40 @@ public class Sub_Collector extends Subsystem {
   }
 
   // Methods for collector, collection speed, and throw speed
-  public void collectorIntake() {
-    gCollectorMotors.set(1);
+  public void armIntakeCollect() {
+    gArmIntakeMotors.set(1);
   }
-  public void collectorThrow() {
-    gCollectorMotors.set(-1);
+  public void armIntakeSpit() {
+    gArmIntakeMotors.set(-1);
   }
   // Stop collector
-  public void collectorStop() {
-    gCollectorMotors.set(0);
+  public void armIntakeStop() {
+    gArmIntakeMotors.set(0);
   }
   // Half the speed of the cargo throw
-  public void collectorThrowSlow() {
-    gCollectorMotors.set(-0.5);
+  public void armIntakeSlowSpit() {
+    gArmIntakeMotors.set(-0.5);
   }
   // Sets speed of collector
-  public void collectorSetSpeed(double speed) {
-    gCollectorMotors.set(speed);
+  public void setArmIntakeSpeed(double speed) {
+    gArmIntakeMotors.set(speed);
 
   }
   // Extends hatch cylinders
-  public void solenoidExtendHatch() {
+  public void extendHatchTongue() {
     solenoidHatch.set(true);
   }
   // Retracts hatch cylinders
-  public void solenoidRetractHatch() {
+  public void retractHatchTongue() {
     solenoidHatch.set(false);
   }
   // Extends collector cylinders
-  public void solenoidExtendCollector() {
-    solenoidCollect.set(true);
+  public void extendDropMotors() {
+    solenoidDropMotors.set(true);
   }
   // Retracts collector cylinders
-  public void solenoidRetractCollector() {
-    solenoidCollect.set(false);
+  public void retractDropMotors() {
+    solenoidDropMotors.set(false);
   }
   // Returns if hatch sensor is activated
   public boolean isBallSensorBackup() {
@@ -95,6 +88,6 @@ public class Sub_Collector extends Subsystem {
   }
   // Sets speed of drop motors
   public void dropMotorSetSpeed(double speed) {
-    gDropMotors.set(speed);
+    gDropIntakeMotors.set(speed);
   }
 }

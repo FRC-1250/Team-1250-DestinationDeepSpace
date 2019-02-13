@@ -32,19 +32,19 @@ public class Cmd_CollectorHatchRemove extends TimedCommand {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.s_collector.solenoidExtendHatch();
+    Robot.s_collector.extendHatchTongue();
   }
 
   // Called once after timeout
   @Override
   protected void end() {
-    Robot.s_collector.solenoidRetractHatch();
+    Robot.s_collector.retractHatchTongue();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    Robot.s_collector.solenoidRetractHatch();
+    Robot.s_collector.retractHatchTongue();
   }
 }
