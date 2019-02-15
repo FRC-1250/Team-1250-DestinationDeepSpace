@@ -72,7 +72,7 @@ public class OI {
     a.whenActive(new CmdI_CollectorHatchTongueExtend());
     b.whenActive(new CmdI_ResetArmZero());    // b.whenActive(new Cmd_CollectorDropMotors());
     y.whenActive(new CmdG_CollectorFullCollectWithTiming());
-    x.whenActive(new Cmd_ArmCargoLow());
+    x.whenActive(new Cmd_ArmCargoShip());
     lb.whenPressed(new Cmd_CollectorInput());
     rb.whenActive(new CmdT_CollectorArmIntakeSpit(1));
   }
