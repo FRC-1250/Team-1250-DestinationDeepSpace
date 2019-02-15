@@ -36,11 +36,15 @@ public class CmdT_CollectorArmIntakeTimed extends TimedCommand {
   // Called once after timeout
   @Override
   protected void end() {
+    Robot.s_collector.armIntakeStop();
+
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+    Robot.s_collector.armIntakeStop();
+
   }
 }

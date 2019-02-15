@@ -41,13 +41,13 @@ public class Sub_Arm extends Subsystem {
   public final double ARM_TICKS = 1;
 
   //Place holders for arm positions :)))
-  public double highHatchPos = 0; //75 inches
-  public double midHatchPos = 0; //47 inches
-  public double lowHatchPos = 0; //19 inches same as loading station and cargoship
-  public double lowCargoPos = 0; //27.50 inches
-  public double midCargoPos = 0; //55.50 inches
+  public double highHatchPos = 413611; //75 inches
+  public double midHatchPos = 247741; //47 inches
+  public double lowHatchPos = 8281; //19 inches same as loading station and cargoship
+  public double lowCargoPos = 179635; //27.50 inches
+  public double midCargoPos = 349505; //55.50 inches
   public double highCargoPos = 0; //83.50 inches DO NOT ATTEMPT YET UNTIL ARM INTAKE IS REINDEXED
-  public double shipCargoPos = 0; //39.625 inches
+  public double shipCargoPos = 259879; //39.625 inches
   public double home = 0; //Home is home
   //------------------------------------
 
@@ -62,7 +62,7 @@ public class Sub_Arm extends Subsystem {
 		// dartMotor0.configPeakOutputForward(.8, 10);
 		// dartMotor0.configPeakOutputReverse(-.8, 10);
 		dartMotor0.config_kF(0, 0.0, 10);
-		dartMotor0.config_kP(0, 0.0001, 10);
+		dartMotor0.config_kP(0, 0.01, 10);
 		dartMotor0.config_kI(0, 0, 10);
 		dartMotor0.config_kD(0, 0, 10);
     dartMotor0.config_IntegralZone(0, 0, 10);
@@ -72,10 +72,13 @@ public class Sub_Arm extends Subsystem {
 		// dartMotor1.configPeakOutputForward(.8, 10);
 		// dartMotor1.configPeakOutputReverse(-.8, 10);
 		dartMotor1.config_kF(0, 0.0, 10);
-		dartMotor1.config_kP(0, 0.0001, 10);
+		dartMotor1.config_kP(0, 0.01, 10);
 		dartMotor1.config_kI(0, 0, 10);
 		dartMotor1.config_kD(0, 0, 10);
-		dartMotor1.config_IntegralZone(0, 0, 10);
+    dartMotor1.config_IntegralZone(0, 0, 10);
+    
+    dartMotor0.setInverted(true);
+    dartMotor1.setInverted(true);
   }
 
   public double dartMotor0Position(){
@@ -91,11 +94,11 @@ public class Sub_Arm extends Subsystem {
   }
 
   public void dartDriveGoDown(){
-    gDartDrive.set(-1);
+    gDartDrive.set(.5);
   }
 
   public void dartDriveGoUp(){
-    gDartDrive.set(1);
+    gDartDrive.set(-.5);
   }
 
 

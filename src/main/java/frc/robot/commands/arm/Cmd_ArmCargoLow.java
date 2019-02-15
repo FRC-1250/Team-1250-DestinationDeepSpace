@@ -13,7 +13,6 @@ import frc.robot.Robot;
 
 public class Cmd_ArmCargoLow extends Command {
   float sign;
-  int distance = 0;
 
 
   public Cmd_ArmCargoLow() {
