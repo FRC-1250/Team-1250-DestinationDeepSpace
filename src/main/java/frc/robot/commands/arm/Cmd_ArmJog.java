@@ -28,7 +28,7 @@ public class Cmd_ArmJog extends Command {
     float sign = Math.signum((float)signvalue);
 
     if((int)Robot.m_oi.getLeftField().getRawAxis(0) < 0){
-      if(sign == -1 || Robot.s_arm.isArmHome() == false){
+      if( Robot.s_arm.isArmHome() == false){
         Robot.s_arm.armStop();
       }
       else{
