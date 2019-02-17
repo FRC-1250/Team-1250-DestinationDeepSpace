@@ -12,8 +12,8 @@ import frc.robot.Robot;
 
 
 public class Cmd_ArmCargoMid extends Command {
-  float sign;
   int distance = 0;
+  double currentPos = Robot.s_arm.dartMotor0Position();
 
 
   public Cmd_ArmCargoMid() {
@@ -35,7 +35,11 @@ public class Cmd_ArmCargoMid extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return(Robot.s_arm.dartMotor0Position() == Robot.s_arm.ARM_TICKS * Robot.s_arm.midCargoPos || isTimedOut());
+    double diff = (Robot.s_arm.midCargoPos - currentPos);
+    float sign = Math.signum((float)diff);
+    return(Robot.s_arm.dartMotor0Position() == Robot.s_arm.midCargoPos || isTimedOut());
+
+   
   }
 
   // Called once after isFinished returns true

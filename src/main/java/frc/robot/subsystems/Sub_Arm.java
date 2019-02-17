@@ -9,6 +9,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.SpeedController;
@@ -38,16 +39,15 @@ public class Sub_Arm extends Subsystem {
 
   //-----------------------------------
   // TODO: Figure out the math of this
-  public final double ARM_TICKS = 1;
 
   //Place holders for arm positions :)))
-  public double highHatchPos = 555655; //75 inches
-  public double midHatchPos = 343212; //47 inches
-  public double lowHatchPos = 8845; //19 inches same as loading station and cargoship
-  public double lowCargoPos = 249219; //27.50 inches
-  public double midCargoPos = 481920; //55.50 inches
+  public double highHatchPos = -555655; //75 inches
+  public double midHatchPos = -343212; //47 inches
+  public double lowHatchPos = -8845; //19 inches same as loading station and cargoship
+  public double lowCargoPos = -249219; //27.50 inches
+  public double midCargoPos = -481920; //55.50 inches
   public double highCargoPos = 0; //83.50 inches DO NOT ATTEMPT YET UNTIL ARM INTAKE IS REINDEXED
-  public double shipCargoPos = 363422; //39.625 inches
+  public double shipCargoPos = -363422; //39.625 inches
   public double home = 0; //Home is home
   //------------------------------------
 
@@ -57,28 +57,31 @@ public class Sub_Arm extends Subsystem {
     dartMotor0.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
     dartMotor1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
 
-    // dartMotor0.configNominalOutputForward(0, 10);
-		// dartMotor0.configNominalOutputReverse(0, 10);
-		// dartMotor0.configPeakOutputForward(.8, 10);
-		// dartMotor0.configPeakOutputReverse(-.8, 10);
-		// dartMotor0.config_kF(0, 0.0, 10);
-		dartMotor0.config_kP(0, 0.001, 10);
-		// dartMotor0.config_kI(0, .0001, 10);
-		// dartMotor0.config_kD(0, 0, 10);
-    // dartMotor0.config_IntegralZone(0, 0, 10);
+    dartMotor0.configNominalOutputForward(0, 10);
+		dartMotor0.configNominalOutputReverse(0, 10);
+		dartMotor0.configPeakOutputForward(1, 10);
+		dartMotor0.configPeakOutputReverse(-1, 10);
+		dartMotor0.config_kF(0, 0.0, 10);
+		dartMotor0.config_kP(0, 0.06, 10);
+		dartMotor0.config_kI(0, 0.002, 10);
+		dartMotor0.config_kD(0, 0, 10);
+    dartMotor0.config_IntegralZone(0, 2000, 10);
     
-    // dartMotor1.configNominalOutputForward(0, 10);
-		// dartMotor1.configNominalOutputReverse(0, 10);
-		// dartMotor1.configPeakOutputForward(.8, 10);
-		// dartMotor1.configPeakOutputReverse(-.8, 10);
-		// dartMotor1.config_kF(0, 0.0, 10);
-		dartMotor1.config_kP(0, 0.001, 10);
-		// dartMotor1.config_kI(0, .0001, 10);
-		// dartMotor1.config_kD(0, 0, 10);
-    // dartMotor1.config_IntegralZone(0, 0, 10);
+    dartMotor1.configNominalOutputForward(0, 10);
+		dartMotor1.configNominalOutputReverse(0, 10);
+		dartMotor1.configPeakOutputForward(1, 10);
+		dartMotor1.configPeakOutputReverse(-1, 10);
+		dartMotor1.config_kF(0, 0.0, 10);
+		dartMotor1.config_kP(0, 0.06, 10);
+		dartMotor1.config_kI(0, 0.002, 10);
+		dartMotor1.config_kD(0, 0, 10);
+    dartMotor1.config_IntegralZone(0, 2000, 10);
     
-    dartMotor0.setInverted(true);
-    dartMotor1.setInverted(true);
+    dartMotor0.setInverted(false);
+    dartMotor1.setInverted(false);
+
+    dartMotor0.setNeutralMode(NeutralMode.Brake);
+    dartMotor1.setNeutralMode(NeutralMode.Brake);
   }
 
   public double dartMotor0Position(){
@@ -94,11 +97,11 @@ public class Sub_Arm extends Subsystem {
   }
 
   public void dartDriveGoDown(){
-    gDartDrive.set(-.3);
+    gDartDrive.set(1);
   }
 
   public void dartDriveGoUp(){
-    gDartDrive.set(.3);
+    gDartDrive.set(-1);
   }
 
 
@@ -113,9 +116,9 @@ public class Sub_Arm extends Subsystem {
 
 
   public void setArmPosTest(double pos){
-    armSetpoint0 = (int) pos;
-    dartMotor0.set(ControlMode.Position, armSetpoint0);
-    dartMotor1.set(ControlMode.Position, armSetpoint0);
+    pos = armSetpoint0;
+    dartMotor0.set(ControlMode.Position, shipCargoPos);
+    dartMotor1.set(ControlMode.Position, shipCargoPos);
   }
 
   @Override

@@ -14,6 +14,7 @@ import frc.robot.Robot;
 public class Cmd_ArmHatchLow extends Command {
   float sign;
   int distance = 0;
+  double currentPos = Robot.s_arm.dartMotor0Position();
 
 
   public Cmd_ArmHatchLow() {
@@ -35,7 +36,7 @@ public class Cmd_ArmHatchLow extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return(Robot.s_arm.dartMotor0Position() == Robot.s_arm.ARM_TICKS * Robot.s_arm.lowHatchPos || isTimedOut());
+    return(Robot.s_arm.dartMotor0Position() == Robot.s_arm.lowHatchPos || isTimedOut());
   }
 
   // Called once after isFinished returns true

@@ -28,7 +28,7 @@ public class Cmd_ArmJog extends Command {
     float sign = Math.signum((float)signvalue);
 
     if((int)Robot.m_oi.getLeftField().getRawAxis(0) < 0){
-      if( Robot.s_arm.isArmHome() == false){
+      if(Robot.s_arm.isArmHome() == false){
         Robot.s_arm.armStop();
       }
       else{
@@ -39,7 +39,13 @@ public class Cmd_ArmJog extends Command {
 
     }
     else if((int)Robot.m_oi.getLeftField().getRawAxis(0) > 0){
+      if(Robot.s_arm.dartMotor0Position() <= Robot.s_arm.highHatchPos){
+        Robot.s_arm.armStop();
+      }
+      else{
       Robot.s_arm.dartDriveGoUp();
+      }
+      // Robot.s_arm.dartDriveGoUp();
     }
 
     else{

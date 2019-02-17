@@ -77,6 +77,7 @@ public Sub_DriveTrain(){
   mLeftMotor.setIdleMode(IdleMode.kCoast);
   bLeftMotor.setIdleMode(IdleMode.kCoast);
 
+  
 }
 
 
@@ -93,11 +94,11 @@ public Sub_DriveTrain(){
   }
 
   public void drive(Joystick joy){
-    drive(-joy.getY(), -joy.getThrottle());
+    drive(-joy.getY()*0.8, -joy.getThrottle()*0.8);
   }
 
   public void driveArcade(Joystick joy) {
-		diffDriveGroup.arcadeDrive(-joy.getThrottle(),joy.getZ());
+		diffDriveGroup.arcadeDrive(-joy.getThrottle()*0.8,joy.getZ()*0.8);
 	}
 
   //Encoder feedback from the drivetrain
