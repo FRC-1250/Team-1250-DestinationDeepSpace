@@ -29,7 +29,7 @@ public class Cmd_ArmCargoMid extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.s_arm.setArmPosTest(Robot.s_arm.midCargoPos);
+    Robot.s_arm.setArmCargoMid();
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -38,8 +38,6 @@ public class Cmd_ArmCargoMid extends Command {
     double diff = (Robot.s_arm.midCargoPos - currentPos);
     float sign = Math.signum((float)diff);
     return(Robot.s_arm.dartMotor0Position() == Robot.s_arm.midCargoPos || isTimedOut());
-
-   
   }
 
   // Called once after isFinished returns true

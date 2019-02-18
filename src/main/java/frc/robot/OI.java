@@ -68,7 +68,6 @@ public class OI {
 
   public OI() {
     //Arm testing
-    y.whenActive(new Cmd_ArmManualUp());
     a.whenActive(new Cmd_AutoDrive(-150, 0.3, 0.6));
     y.whenActive(new Cmd_AutoTurn(-35, 0.2, 0.4));
     b.whenActive(new Cmd_AutoDrive(-20, 0.3, 0.5));

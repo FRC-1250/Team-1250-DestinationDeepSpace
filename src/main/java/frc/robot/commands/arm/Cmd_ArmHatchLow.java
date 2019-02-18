@@ -30,7 +30,7 @@ public class Cmd_ArmHatchLow extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.s_arm.setArmPosTest(Robot.s_arm.lowHatchPos);
+    Robot.s_arm.setArmHatchLow();
   }
 
   // Make this return true when this Command no longer needs to run execute()

@@ -30,7 +30,7 @@ public class Cmd_ArmCargoShip extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.s_arm.setArmPosTest(Robot.s_arm.shipCargoPos);
+    Robot.s_arm.setArmCargoShip();
   }
 
   // Make this return true when this Command no longer needs to run execute()

@@ -121,9 +121,43 @@ public class Sub_Arm extends Subsystem {
     dartMotor1.set(ControlMode.Position, shipCargoPos);
   }
 
+  public void setArmCargoHigh(){
+    dartMotor0.set(ControlMode.Position, highCargoPos);
+    dartMotor1.set(ControlMode.Position, highCargoPos); 
+  }
+
+  public void setArmCargoMid(){
+    dartMotor0.set(ControlMode.Position, midCargoPos);
+    dartMotor1.set(ControlMode.Position, midCargoPos); 
+  }
+
+  public void setArmCargoLow(){
+    dartMotor0.set(ControlMode.Position, lowCargoPos);
+    dartMotor1.set(ControlMode.Position, lowCargoPos); 
+  }
+
+  public void setArmHatchHigh(){
+    dartMotor0.set(ControlMode.Position, highHatchPos);
+    dartMotor1.set(ControlMode.Position, highHatchPos); 
+  }
+
+  public void setArmHatchMid(){
+    dartMotor0.set(ControlMode.Position, midHatchPos);
+    dartMotor1.set(ControlMode.Position, midHatchPos); 
+  }
+
+  public void setArmHatchLow(){
+    dartMotor0.set(ControlMode.Position, lowHatchPos);
+    dartMotor1.set(ControlMode.Position, lowHatchPos); 
+  }
+
+  public void setArmCargoShip(){
+    dartMotor0.set(ControlMode.Position, shipCargoPos);
+    dartMotor1.set(ControlMode.Position, shipCargoPos);
+  }
+
   @Override
   public void initDefaultCommand() {
-    // Set the default command for a subsystem here.
     setDefaultCommand(new Cmd_ArmJog());
   }
 }

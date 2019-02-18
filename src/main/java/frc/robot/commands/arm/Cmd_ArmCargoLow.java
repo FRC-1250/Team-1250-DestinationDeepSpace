@@ -29,7 +29,7 @@ public class Cmd_ArmCargoLow extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.s_arm.setArmPosTest(Robot.s_arm.lowCargoPos);
+    Robot.s_arm.setArmCargoLow();
   }
 
   // Make this return true when this Command no longer needs to run execute()
