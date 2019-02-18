@@ -14,6 +14,7 @@ import frc.robot.commands.test.*;
 import frc.robot.commands.drive.*;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.buttons.Trigger;
 
 public class OI {
   //Controllers for driver (Gamepad) and for operator(Boards)
@@ -75,7 +76,8 @@ public class OI {
     rb.whenActive(new Cmd_AutoDrive(-45, 0.2, 0.4));
     lb.whenActive(new Cmd_AutoTurn(80, 0.2, 0.4));
     rt.whenActive(new Cmd_TrackingDrive(100, 0.4, 0.2));
-
+    
+    
    
     // y.whenActive(new CmdG_CollectorFullCollectWithTiming());
     // x.whenActive(new CmdI_CollectorHatchTongueExtend());
