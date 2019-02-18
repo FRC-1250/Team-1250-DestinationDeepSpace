@@ -35,6 +35,7 @@ public class Cmd_AutoDrive extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    Robot.s_drivetrain.drivePosReset();
     Robot.s_drivetrain.driveToPos(upperSpeed, lowerSpeed);
   }
 

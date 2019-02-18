@@ -61,25 +61,44 @@ public Sub_DriveTrain(){
 
   //Setting Linear Voltage Ramps for Drive Motors  TO DO - Check if values are high/low enough for robot
   //RightSide Ramps
-  fRightMotor.setRampRate(0.8);
-  mRightMotor.setRampRate(0.8);
-  bRightMotor.setRampRate(0.8);
+  fRightMotor.setOpenLoopRampRate(0.8);
+  mRightMotor.setOpenLoopRampRate(0.8);
+  bRightMotor.setOpenLoopRampRate(0.8);
   //LeftSide Ramps
-  fLeftMotor.setRampRate(0.8);
-  mLeftMotor.setRampRate(0.8);
-  bLeftMotor.setRampRate(0.8);
+  fLeftMotor.setOpenLoopRampRate(0.8);
+  mLeftMotor.setOpenLoopRampRate(0.8);
+  bLeftMotor.setOpenLoopRampRate(0.8);
   //Right Idlemode
-  fRightMotor.setIdleMode(IdleMode.kCoast);
-  mRightMotor.setIdleMode(IdleMode.kCoast);
-  bRightMotor.setIdleMode(IdleMode.kCoast);
+  fRightMotor.setIdleMode(IdleMode.kBrake);
+  mRightMotor.setIdleMode(IdleMode.kBrake);
+  bRightMotor.setIdleMode(IdleMode.kBrake);
   //Left Idlemode
-  fLeftMotor.setIdleMode(IdleMode.kCoast);
-  mLeftMotor.setIdleMode(IdleMode.kCoast);
-  bLeftMotor.setIdleMode(IdleMode.kCoast);
+  fLeftMotor.setIdleMode(IdleMode.kBrake);
+  mLeftMotor.setIdleMode(IdleMode.kBrake);
+  bLeftMotor.setIdleMode(IdleMode.kBrake);
 
-  
 }
 
+
+  public void speedRacer(){
+    fRightMotor.setOpenLoopRampRate(0);
+    mRightMotor.setOpenLoopRampRate(0);
+    bRightMotor.setOpenLoopRampRate(0);
+   
+    fLeftMotor.setOpenLoopRampRate(0);
+    mLeftMotor.setOpenLoopRampRate(0);
+    bLeftMotor.setOpenLoopRampRate(0);
+  }
+
+  public void slowBoy(){
+    fRightMotor.setOpenLoopRampRate(0.8);
+    mRightMotor.setOpenLoopRampRate(0.8);
+    bRightMotor.setOpenLoopRampRate(0.8);
+
+    fLeftMotor.setOpenLoopRampRate(0.8);
+    mLeftMotor.setOpenLoopRampRate(0.8);
+    bLeftMotor.setOpenLoopRampRate(0.8);
+  }
 
   @Override
   public void initDefaultCommand() {
@@ -94,11 +113,11 @@ public Sub_DriveTrain(){
   }
 
   public void drive(Joystick joy){
-    drive(-joy.getY()*0.8, -joy.getThrottle()*0.8);
+    drive(-joy.getY(), -joy.getThrottle());
   }
 
   public void driveArcade(Joystick joy) {
-		diffDriveGroup.arcadeDrive(-joy.getThrottle()*0.8,joy.getZ()*0.8);
+		diffDriveGroup.arcadeDrive(-joy.getThrottle(),joy.getZ());
 	}
 
   //Encoder feedback from the drivetrain
@@ -113,11 +132,16 @@ public Sub_DriveTrain(){
   }
 
   public double leftPosition(){
-    return fLeftMotor.getEncoder().getPosition();
+    return mLeftMotor.getEncoder().getPosition();
   }
 
   public double rightPostion(){
     return fRightMotor.getEncoder().getPosition();
+  }
+
+  public void drivePosReset(){
+    mLeftMotor.getEncoder().setPosition(0);
+    fRightMotor.getEncoder().setPosition(0);
   }
 
   public void linearDrivingAmpControl(){
@@ -152,10 +176,12 @@ public Sub_DriveTrain(){
 
   //Accepts the distance that you want the robot to go during auto motions
   //Converts the distance in inches to DRIVE_TICKS
-  //Factors in the current position of the encoders on the neo so there os no need for encoder resets anymore
+  //Factors in the current position of the encoders on the neo so there is no need for encoder resets anymore
 
   public void setSetpointPos(int distance){
-    driveSetpoint = (DRIVE_TICKS * distance) + leftPosition();
+    // float driveSign = Math.signum((float)leftPosition()); 
+   
+   driveSetpoint = (DRIVE_TICKS * distance);
   }
 
   //Auton Methods
@@ -218,7 +244,7 @@ public boolean isDoneDrivingBack() {
   //The speed is measured from 0 to 1, so 0.5 will be 50% motor output and 1 will be 100%
 
   private double linearRamp(double upperSpeed, double lowerSpeed) {
-    double diff = (driveSetpoint - (double)Math.abs(rightPostion()));
+    double diff = (driveSetpoint - leftPosition());
     double corrected = .05 * diff;
     double upperBound = Math.min(upperSpeed , corrected);
     double lowerBound = Math.max(lowerSpeed , upperBound);
@@ -241,7 +267,7 @@ public void trackCubeManualSpeed(double xOffset, double aJoy) {
   //Automatic alignment with auto distances
 
 public void driveToPosTrack(double upperSpeed, double lowerSpeed, double xOffset) {
-  double sign = Math.signum(driveSetpoint);
+  double sign = Math.signum(Math.abs(driveSetpoint));
   double xDiff = xOffset;
   double xCorrect = xDiff;
 

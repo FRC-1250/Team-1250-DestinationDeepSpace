@@ -61,6 +61,9 @@ public class Robot extends TimedRobot {
   public void robotPeriodic() {
     SmartDashboard.putNumber("ArmPositionRobotPeriodic", s_arm.dartMotor0Position());
     SmartDashboard.putBoolean("IsArmHome??", s_arm.isArmHome());
+    SmartDashboard.putNumber("tx", Robot.s_limelight.getCubeX());
+    SmartDashboard.putNumber("Drive Ticks", Robot.s_drivetrain.leftPosition());
+    SmartDashboard.putNumber("Angle", Robot.s_drivetrain.getGyroAngle());
   }
 
   /**

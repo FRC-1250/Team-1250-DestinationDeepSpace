@@ -13,7 +13,7 @@ import frc.robot.Robot;
 public class Cmd_ManualDrive extends Command {
 
   private double xCube;
-  private double Kp = -0.05;
+  private double Kp = -0.5;
   private double min_command = 0.3;
 
   public Cmd_ManualDrive() {
@@ -43,16 +43,24 @@ public class Cmd_ManualDrive extends Command {
           if(xCube < 1){
               steering_adjust = Kp * heading_error - min_command;
           }
-
-      Robot.s_drivetrain.trackCubeManualSpeed(steering_adjust, -Robot.m_oi.getGamepad().getY());
+          Robot.s_drivetrain.slowBoy();
+      Robot.s_drivetrain.trackCubeManualSpeed(steering_adjust, -Robot.m_oi.getGamepad().getThrottle());
       }
 
         else if (Robot.m_oi.getButtonState(8)){
+          Robot.s_drivetrain.slowBoy();
             Robot.s_drivetrain.driveArcade(Robot.m_oi.getGamepad());
+        }
+        else if (Robot.m_oi.getButtonState(12)){
+          Robot.s_drivetrain.driveArcade(Robot.m_oi.getGamepad());
+          Robot.s_drivetrain.speedRacer();
+
         }
 
           else {
               Robot.s_drivetrain.drive(Robot.m_oi.getGamepad());
+              Robot.s_drivetrain.slowBoy();
+
           }
   }
 
