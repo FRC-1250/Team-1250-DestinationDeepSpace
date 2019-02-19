@@ -64,6 +64,11 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("tx", Robot.s_limelight.getCubeX());
     SmartDashboard.putNumber("Drive Ticks", Robot.s_drivetrain.leftPosition());
     SmartDashboard.putNumber("Angle", Robot.s_drivetrain.getGyroAngle());
+    SmartDashboard.putData("Commands", Scheduler.getInstance());
+    SmartDashboard.putBoolean("TriggerBoolCargo",!m_oi.cargo.get());
+    SmartDashboard.putBoolean("TriggerBoolHigh",!m_oi.high.get());
+    SmartDashboard.putBoolean("TriggerBoolMid",!m_oi.mid.get());
+    SmartDashboard.putBoolean("TriggerBooLow",!m_oi.low.get());
   }
 
   /**
@@ -143,24 +148,5 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void testPeriodic() {
-  }
-
-  public void setMode() {
-    if(m_oi.defense.get()) {
-      m_oi.setAllowedDefenseButtons();
-      mode = "defense";
-    }
-    else if(m_oi.home.get()) {
-      m_oi.setAllowedHomeButtons();
-      mode = "home";
-    }
-    else if(m_oi.cargo.get()) {
-      m_oi.setAllowedCargoButtons();
-      mode = "cargo";
-    }
-    else if(m_oi.hatch.get()) {
-      m_oi.setAllowedHatchButtons();
-      mode = "hatch";
-    }
   }
 }

@@ -5,21 +5,19 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.mode;
+package frc.robot.commands.groups;
 
-import edu.wpi.first.wpilibj.command.InstantCommand;
-import frc.robot.Robot;
+import edu.wpi.first.wpilibj.command.CommandGroup;
+import frc.robot.commands.Cmd_DoNothing;
+import frc.robot.commands.arm.*;
+import frc.robot.commands.collector.*;
 
-public class CmdI_SetHatch extends InstantCommand {
+public class CmdG_Home extends CommandGroup {
 
-  public CmdI_SetHatch() {
-    super();
+  public CmdG_Home() {
+    addParallel(new CmdI_CollectorHome());
+    addParallel(new CmdI_CollectorHatchTongueRetract());
+    addSequential(new Cmd_DoNothing(0.2));
+    addSequential(new Cmd_ArmHome());
   }
-
-  @Override
-  protected void initialize() {
-    Robot.m_oi.setAllowedHatchButtons();
-    Robot.mode = "hatch";
-  }
-
 }

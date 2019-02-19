@@ -8,6 +8,7 @@
 package frc.robot.commands.arm;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 
 
@@ -30,6 +31,7 @@ public class Cmd_ArmHatchLow extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    SmartDashboard.putString("Trigger", "CargoLow");
     Robot.s_arm.setArmHatchLow();
   }
 

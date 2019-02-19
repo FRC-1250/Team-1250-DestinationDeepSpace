@@ -9,7 +9,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.TimedCommand;
 
 public class Cmd_DoNothing extends TimedCommand {
-  public Cmd_DoNothing(int i) {
+  public Cmd_DoNothing(double i) {
     super(i);
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
