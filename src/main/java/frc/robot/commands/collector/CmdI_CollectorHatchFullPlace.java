@@ -10,17 +10,24 @@ package frc.robot.commands.collector;
 import edu.wpi.first.wpilibj.command.InstantCommand;
 import frc.robot.Robot;
 
-public class CmdI_CollectorHatchTongueRetract extends InstantCommand {
-  
-  public CmdI_CollectorHatchTongueRetract() {
+/**
+ * Add your docs here.
+ */
+public class CmdI_CollectorHatchFullPlace extends InstantCommand {
+  /**
+   * Add your docs here.
+   */
+  public CmdI_CollectorHatchFullPlace() {
     super();
     requires(Robot.s_collector);
   }
 
+  // Called once when the command executes
   @Override
   protected void initialize() {
-    Robot.s_collector.retractHatchTongue();
-    Robot.s_collector.retractPokeEyes();
+    Robot.s_collector.extendHatchTongue();
+    Robot.s_collector.extendPokeEyes();
+
   }
 
 }

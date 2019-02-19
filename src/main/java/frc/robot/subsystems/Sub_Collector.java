@@ -22,6 +22,7 @@ public class Sub_Collector extends Subsystem {
 
   Solenoid solenoidHatch = new Solenoid(RobotMap.COL_SOL_HATCH);
   Solenoid solenoidDropMotors = new Solenoid(RobotMap.COL_SOL_DROPINTAKEMOTORS);
+  Solenoid solenoidPokeEyes = new Solenoid(RobotMap.COL_SOL_POKEEYES);
   DigitalInput sensorHatch = new DigitalInput(RobotMap.COL_SENSE_HATCH);
   DigitalInput sensorBall = new DigitalInput(RobotMap.COL_SENSE_BALL);
   WPI_VictorSPX dropIntakeMotor0 = new WPI_VictorSPX(RobotMap.COL_DROPINTAKEMOTOR_0);
@@ -81,6 +82,15 @@ public class Sub_Collector extends Subsystem {
   public void retractDropMotors() {
     solenoidDropMotors.set(false);
   }
+
+  public void extendPokeEyes(){
+    solenoidPokeEyes.set(true);
+  }
+
+  public void retractPokeEyes(){
+    solenoidPokeEyes.set(false);
+  }
+
   // Returns if hatch sensor is activated
   public boolean isBallSensorBackup() {
     return sensorHatch.get();

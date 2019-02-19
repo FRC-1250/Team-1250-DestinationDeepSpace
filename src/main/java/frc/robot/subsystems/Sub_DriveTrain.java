@@ -81,13 +81,13 @@ public Sub_DriveTrain(){
 
 
   public void speedRacer(){
-    fRightMotor.setOpenLoopRampRate(0);
-    mRightMotor.setOpenLoopRampRate(0);
-    bRightMotor.setOpenLoopRampRate(0);
+    fRightMotor.setOpenLoopRampRate(0.2);
+    mRightMotor.setOpenLoopRampRate(0.2);
+    bRightMotor.setOpenLoopRampRate(0.2);
    
-    fLeftMotor.setOpenLoopRampRate(0);
-    mLeftMotor.setOpenLoopRampRate(0);
-    bLeftMotor.setOpenLoopRampRate(0);
+    fLeftMotor.setOpenLoopRampRate(0.2);
+    mLeftMotor.setOpenLoopRampRate(0.2);
+    bLeftMotor.setOpenLoopRampRate(0.2);
   }
 
   public void slowBoy(){
@@ -98,6 +98,30 @@ public Sub_DriveTrain(){
     fLeftMotor.setOpenLoopRampRate(0.8);
     mLeftMotor.setOpenLoopRampRate(0.8);
     bLeftMotor.setOpenLoopRampRate(0.8);
+  }
+
+  public void brakeMode(){
+     //Right Idlemode
+  fRightMotor.setIdleMode(IdleMode.kBrake);
+  mRightMotor.setIdleMode(IdleMode.kBrake);
+  bRightMotor.setIdleMode(IdleMode.kBrake);
+  //Left Idlemode
+  fLeftMotor.setIdleMode(IdleMode.kBrake);
+  mLeftMotor.setIdleMode(IdleMode.kBrake);
+  bLeftMotor.setIdleMode(IdleMode.kBrake);
+
+  }
+
+  public void coastMode(){
+     //Right Idlemode
+  fRightMotor.setIdleMode(IdleMode.kCoast);
+  mRightMotor.setIdleMode(IdleMode.kCoast);
+  bRightMotor.setIdleMode(IdleMode.kCoast);
+  //Left Idlemode
+  fLeftMotor.setIdleMode(IdleMode.kCoast);
+  mLeftMotor.setIdleMode(IdleMode.kCoast);
+  bLeftMotor.setIdleMode(IdleMode.kCoast);
+
   }
 
   @Override
@@ -113,7 +137,7 @@ public Sub_DriveTrain(){
   }
 
   public void drive(Joystick joy){
-    drive(-joy.getY(), -joy.getThrottle());
+    drive(-joy.getY()*.8, -joy.getThrottle()*.8);
   }
 
   public void driveArcade(Joystick joy) {
@@ -244,7 +268,7 @@ public boolean isDoneDrivingBack() {
   //The speed is measured from 0 to 1, so 0.5 will be 50% motor output and 1 will be 100%
 
   private double linearRamp(double upperSpeed, double lowerSpeed) {
-    double diff = (driveSetpoint - leftPosition());
+    double diff = (driveSetpoint - (double)Math.abs(leftPosition()));
     double corrected = .05 * diff;
     double upperBound = Math.min(upperSpeed , corrected);
     double lowerBound = Math.max(lowerSpeed , upperBound);
@@ -267,7 +291,7 @@ public void trackCubeManualSpeed(double xOffset, double aJoy) {
   //Automatic alignment with auto distances
 
 public void driveToPosTrack(double upperSpeed, double lowerSpeed, double xOffset) {
-  double sign = Math.signum(Math.abs(driveSetpoint));
+  double sign = Math.signum(driveSetpoint);
   double xDiff = xOffset;
   double xCorrect = xDiff;
 

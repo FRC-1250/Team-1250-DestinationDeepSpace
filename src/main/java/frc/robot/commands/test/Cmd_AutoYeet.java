@@ -5,19 +5,20 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.drive;
+package frc.robot.commands.test;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class Cmd_AutoDrive extends Command {
 
+
+public class Cmd_AutoYeet extends Command {
   int distance = 0;
   double upperSpeed;
   double lowerSpeed;
   float sign;
 
-  public Cmd_AutoDrive(int distance, double upperSpeed, double lowerSpeed) {
+  public Cmd_AutoYeet(int distance, double upperSpeed, double lowerSpeed) {
     requires(Robot.s_drivetrain);
     this.distance = distance;
     this.upperSpeed = upperSpeed;
@@ -27,6 +28,7 @@ public class Cmd_AutoDrive extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    Robot.s_drivetrain.speedRacer();
     Robot.s_drivetrain.drivePosReset();
     Robot.s_drivetrain.resetGyro();
     Robot.s_drivetrain.setSetpointPos(distance);
@@ -59,6 +61,7 @@ public class Cmd_AutoDrive extends Command {
   @Override
   protected void end() {
     Robot.s_drivetrain.driveStop();
+    Robot.s_drivetrain.slowBoy();
 
   }
 
@@ -67,6 +70,7 @@ public class Cmd_AutoDrive extends Command {
   @Override
   protected void interrupted() {
     Robot.s_drivetrain.driveStop();
+    Robot.s_drivetrain.slowBoy();
 
   }
 }

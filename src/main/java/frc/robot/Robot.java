@@ -33,7 +33,7 @@ public class Robot extends TimedRobot {
   public static Sub_Collector s_collector = new Sub_Collector();
   public static Sub_Arm s_arm = new Sub_Arm();
   public static Sub_Bars s_bars = new Sub_Bars();
-  public String mode;
+  public static String mode = new String();
 
   Command m_autonomousCommand;
   SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -45,8 +45,8 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     m_oi = new OI();
-    CameraServer.getInstance().startAutomaticCapture();
-    
+    CameraServer.getInstance().startAutomaticCapture(0);
+    CameraServer.getInstance().startAutomaticCapture(1);
   }
 
   /**
@@ -73,6 +73,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void disabledInit() {
+    s_drivetrain.coastMode();
   }
 
   @Override
@@ -94,6 +95,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     m_autonomousCommand = m_chooser.getSelected();
+    s_drivetrain.brakeMode();
 
     /*
      * String autoSelected = SmartDashboard.getString("Auto Selector",
@@ -118,6 +120,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
+    s_drivetrain.brakeMode();
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
@@ -133,7 +136,6 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
-    setMode();
   }
 
   /**

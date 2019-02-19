@@ -30,6 +30,7 @@ public class Cmd_TrackingDrive extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    Robot.s_drivetrain.drivePosReset();
     Robot.s_drivetrain.resetGyro();
     Robot.s_drivetrain.setSetpointPos(distance);
     setTimeout(15);
@@ -38,7 +39,6 @@ public class Cmd_TrackingDrive extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.s_drivetrain.drivePosReset();
     xCube = Robot.s_limelight.getCubeX();
 
       double heading_error = -xCube;

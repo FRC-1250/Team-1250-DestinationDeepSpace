@@ -5,34 +5,28 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
-import edu.wpi.first.wpilibj.command.TimedCommand;
+package frc.robot.commands.test;
 
-public class Cmd_DoNothing extends TimedCommand {
-  public Cmd_DoNothing(int i) {
-    super(i);
+import edu.wpi.first.wpilibj.command.InstantCommand;
+import edu.wpi.first.wpilibj.command.Scheduler;
+
+/**
+ * Add your docs here.
+ */
+public class CmdI_SchedulerRemoveAll extends InstantCommand {
+  /**
+   * Add your docs here.
+   */
+  public CmdI_SchedulerRemoveAll() {
+    super();
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
   }
 
-  // Called just before this Command runs the first time
+  // Called once when the command executes
   @Override
   protected void initialize() {
+    Scheduler.getInstance().removeAll();
   }
 
-  // Called repeatedly when this Command is scheduled to run
-  @Override
-  protected void execute() {
-  }
-
-  // Called once after isFinished returns true
-  @Override
-  protected void end() {
-  }
-
-  // Called when another command which requires one or more of the same
-  // subsystems is scheduled to run
-  @Override
-  protected void interrupted() {
-  }
 }

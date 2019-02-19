@@ -5,22 +5,21 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.collector;
+package frc.robot.commands.mode;
 
 import edu.wpi.first.wpilibj.command.InstantCommand;
 import frc.robot.Robot;
 
-public class CmdI_CollectorHatchTongueRetract extends InstantCommand {
-  
-  public CmdI_CollectorHatchTongueRetract() {
+public class CmdI_SetDefense extends InstantCommand {
+
+  public CmdI_SetDefense() {
     super();
-    requires(Robot.s_collector);
   }
 
   @Override
   protected void initialize() {
-    Robot.s_collector.retractHatchTongue();
-    Robot.s_collector.retractPokeEyes();
+    Robot.m_oi.setAllowedDefenseButtons();
+    Robot.mode = "defense";
   }
 
 }

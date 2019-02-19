@@ -5,34 +5,26 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
-import edu.wpi.first.wpilibj.command.TimedCommand;
+package frc.robot.commands.mode;
 
-public class Cmd_DoNothing extends TimedCommand {
-  public Cmd_DoNothing(int i) {
-    super(i);
+import edu.wpi.first.wpilibj.command.InstantCommand;
+
+/**
+ * Add your docs here.
+ */
+public class CmdI_SetHome extends InstantCommand {
+  /**
+   * Add your docs here.
+   */
+  public CmdI_SetHome() {
+    super();
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
   }
 
-  // Called just before this Command runs the first time
+  // Called once when the command executes
   @Override
   protected void initialize() {
   }
 
-  // Called repeatedly when this Command is scheduled to run
-  @Override
-  protected void execute() {
-  }
-
-  // Called once after isFinished returns true
-  @Override
-  protected void end() {
-  }
-
-  // Called when another command which requires one or more of the same
-  // subsystems is scheduled to run
-  @Override
-  protected void interrupted() {
-  }
 }

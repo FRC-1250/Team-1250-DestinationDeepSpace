@@ -5,22 +5,18 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.collector;
+package frc.robot.commands.test;
 
-import edu.wpi.first.wpilibj.command.InstantCommand;
-import frc.robot.Robot;
+import edu.wpi.first.wpilibj.command.CommandGroup;
+import frc.robot.commands.drive.Cmd_AutoDrive;
 
-public class CmdI_CollectorHatchTongueRetract extends InstantCommand {
-  
-  public CmdI_CollectorHatchTongueRetract() {
-    super();
-    requires(Robot.s_collector);
+public class CmdG_Hab2Climb extends CommandGroup {
+  /**
+   * Add your docs here.
+   */
+  public CmdG_Hab2Climb() {
+    addSequential(new Cmd_AutoDrive(-35, 0.2, 0.4));
+    addSequential(new Cmd_AutoYeet(90, 1, 1));
+
   }
-
-  @Override
-  protected void initialize() {
-    Robot.s_collector.retractHatchTongue();
-    Robot.s_collector.retractPokeEyes();
-  }
-
 }
