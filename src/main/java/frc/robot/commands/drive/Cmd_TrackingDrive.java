@@ -16,8 +16,8 @@ public class Cmd_TrackingDrive extends Command {
     double lowerSpeed;
     float sign;
     private double xCube;
-    private double Kp = -0.05;
-    private double min_command = 0;
+    private double Kp = -0.035;
+    private double min_command = 0.03;
 
     public Cmd_TrackingDrive(int distance, double upperSpeed, double lowerSpeed) {
       requires(Robot.s_drivetrain);

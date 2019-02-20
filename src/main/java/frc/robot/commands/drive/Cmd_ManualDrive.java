@@ -13,8 +13,8 @@ import frc.robot.Robot;
 public class Cmd_ManualDrive extends Command {
 
   private double xCube;
-  private double Kp = -0.5;
-  private double min_command = 0.3;
+  private double Kp = -0.025;
+  private double min_command = 0.03;
 
   public Cmd_ManualDrive() {
     requires(Robot.s_drivetrain);

@@ -141,7 +141,7 @@ public Sub_DriveTrain(){
   }
 
   public void driveArcade(Joystick joy) {
-		diffDriveGroup.arcadeDrive(-joy.getThrottle(),joy.getZ());
+		diffDriveGroup.arcadeDrive(-joy.getThrottle()*.8,joy.getZ()*.8);
 	}
 
   //Encoder feedback from the drivetrain
