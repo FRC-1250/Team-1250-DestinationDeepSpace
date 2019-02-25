@@ -108,7 +108,7 @@ public class OI {
 
     lb.whenActive(new CmdI_CollectorHatchTongueExtend());
     rb.whenActive(new CmdI_CollectorHatchFullPlace());
-    // a.whenActive(new CmdI_CollectorHatchTongueRetract());
+    a.whenActive(new CmdI_CollectorHatchTongueRetract());
     y.whenActive(new Cmd_CollectorInput());
     x.whenActive(new CmdG_CollectorFullCollectWithTiming());
     b.whenActive(new CmdT_CollectorArmIntakeSpit(1));
@@ -132,7 +132,7 @@ public class OI {
     // lb.whenActive(new Cmd_AutoTurn(80, 0.2, 0.4));
     // rt.whenActive(new Cmd_TrackingDrive(100, 0.4, 0.2));
 
-    a.whenActive(new CmdG_AutoRightHatchRightHab2());
+    // a.whenActive(new CmdG_AutoRightHatchRightHab2());
     // b.whenActive(new CmdG_Hab2Climb());
     
     // y.whenActive(new CmdG_CollectorFullCollectWithTiming());
