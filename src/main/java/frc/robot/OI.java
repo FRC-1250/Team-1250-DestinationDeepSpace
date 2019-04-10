@@ -28,7 +28,9 @@ public class OI {
 	JoystickButton x = new JoystickButton(Gamepad, 1);
 	JoystickButton a = new JoystickButton(Gamepad, 2);
 	JoystickButton b = new JoystickButton(Gamepad, 3);
-	JoystickButton y = new JoystickButton(Gamepad, 4);
+  JoystickButton y = new JoystickButton(Gamepad, 4);
+  JoystickButton s = new JoystickButton(Gamepad, 10);
+
 
   //lb slow cargo throw
   //rb fast cargo throw
@@ -112,6 +114,7 @@ public class OI {
     y.whenActive(new Cmd_CollectorInput());
     x.whenActive(new CmdG_CollectorFullCollectWithTiming());
     b.whenActive(new CmdT_CollectorArmIntakeSpit(1));
+    s.whenActive(new CmdG_BoringClimb());
 
     cargoHigh.whenActive(new Cmd_ArmCargoHigh());
     cargoMid.whenActive(new Cmd_ArmCargoMid());
@@ -119,7 +122,7 @@ public class OI {
 
     hatchHigh.whenActive(new Cmd_ArmHatchHigh());
     hatchMid.whenActive(new Cmd_ArmHatchMid());
-    hatchLow.whenActive(new CmdG_Home());
+    hatchLow.whenActive(new Cmd_ArmHome());
 
     home.whenInactive(new CmdG_Home());
 

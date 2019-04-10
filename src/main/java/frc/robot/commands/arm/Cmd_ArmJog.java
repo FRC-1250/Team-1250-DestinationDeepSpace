@@ -39,7 +39,7 @@ public class Cmd_ArmJog extends Command {
 
     }
     else if((int)Robot.m_oi.getLeftField().getRawAxis(0) > 0){
-      if(Robot.s_arm.dartMotor0Position() <= Robot.s_arm.highHatchPos){
+      if(Robot.s_arm.dartMotor0Position() <= Robot.s_arm.highCargoPos){
         Robot.s_arm.armStop();
       }
       else{

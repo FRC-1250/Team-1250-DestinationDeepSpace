@@ -7,7 +7,6 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
@@ -19,12 +18,20 @@ public class Sub_Climber extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
-WPI_TalonSRX climbDrive = new WPI_TalonSRX(RobotMap.CLIMB_DRIVE);
 Solenoid climbSolenoid = new Solenoid(RobotMap.CLIMB_SOLENOID);
 
   @Override
   public void initDefaultCommand() {
-    // Set the default command for a subsystem here.
-    // setDefaultCommand(new MySpecialCommand());
+    
   }
+
+  public void climberDeploy(){
+    climbSolenoid.set(true);
+  }
+
+  public void climberRetract(){
+    climbSolenoid.set(false);
+  }
+
+  
 }

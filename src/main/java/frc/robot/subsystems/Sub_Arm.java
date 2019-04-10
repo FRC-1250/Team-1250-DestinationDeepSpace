@@ -25,18 +25,19 @@ public class Sub_Arm extends Subsystem {
   WPI_TalonSRX dartMotor0 = new WPI_TalonSRX(RobotMap.ARM_DART0);
   WPI_TalonSRX dartMotor1 = new WPI_TalonSRX(RobotMap.ARM_DART1);
   DigitalInput armHomeSensor = new DigitalInput(RobotMap.ARM_HOME);
+  boolean homePositionDiscrepencyErrorState = false;
 
   //Group for voltage control outputs
   private SpeedController gDartDrive = new SpeedControllerGroup(dartMotor0, dartMotor1);
 
   //-----------------------------------
   //Arm position locations minus the high cargo because we can't do that with the current arm.
-  public double highHatchPos = -555655; //75 inches
-  public double midHatchPos = -362442; //47 inches
+  public double highHatchPos = -516958; //75 inches
+  public double midHatchPos = -305000; //47 inches
   public double lowHatchPos = -8845; //19 inches same as loading station and cargoship
-  public double lowCargoPos = -291195; //27.50 inches
-  public double midCargoPos = -508961; //55.50 inches
-  public double highCargoPos = 0; //83.50 inches DO NOT ATTEMPT YET UNTIL ARM REDONE
+  public double lowCargoPos = -245660; //27.50 inches
+  public double midCargoPos = -470451; //55.50 inches
+  public double highCargoPos = -657072; //83.50 inches DO NOT ATTEMPT YET UNTIL ARM REDONE
   public double shipCargoPos = -363422; //39.625 inches
   public double home = 0; //Home is home
   //------------------------------------
@@ -122,13 +123,13 @@ public class Sub_Arm extends Subsystem {
   //Velocity control for the arm to keep both sides in sync even is the motors aren't the same power
   //TODO: Velocity control needs to be tested
   public void dartVelocitySetUp(){
-    dartMotor0.set(ControlMode.Velocity, -555565);
-    dartMotor1.set(ControlMode.Velocity, -555565);
+    dartMotor0.set(ControlMode.Velocity, -55565);
+    dartMotor1.set(ControlMode.Velocity, -55565);
   }
 
   public void dartVelocitySetDown(){
-    dartMotor0.set(ControlMode.Velocity, 555565);
-    dartMotor1.set(ControlMode.Velocity, 555565);
+    dartMotor0.set(ControlMode.Velocity, 55565);
+    dartMotor1.set(ControlMode.Velocity, 55565);
   }
 
   public void dartVelocityStop(){
@@ -193,5 +194,14 @@ public class Sub_Arm extends Subsystem {
   public void initDefaultCommand() {
     //Default command for manual arm control
     setDefaultCommand(new Cmd_ArmJog());
+  }
+
+  public void setHomePositionDiscrepencyErrorState(boolean state) {
+      SmartDashboard.putBoolean("homePositionDiscrepencyErrorState", state);
+      homePositionDiscrepencyErrorState = state;
+  }
+
+  public boolean getHomePositionDiscrepencyErrorState() {
+    return homePositionDiscrepencyErrorState;
   }
 }

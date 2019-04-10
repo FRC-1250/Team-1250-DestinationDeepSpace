@@ -7,14 +7,17 @@
 
 package frc.robot;
 
+import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.commands.test.Cmd_StartMatch;
 import frc.robot.subsystems.Sub_Arm;
 import frc.robot.subsystems.Sub_Bars;
+import frc.robot.subsystems.Sub_Climber;
 import frc.robot.subsystems.Sub_Collector;
 import frc.robot.subsystems.Sub_DriveTrain;
 import frc.robot.subsystems.Sub_Limelight;
@@ -31,9 +34,11 @@ public class Robot extends TimedRobot {
   public static Sub_DriveTrain s_drivetrain = new Sub_DriveTrain();
   public static Sub_Limelight s_limelight = new Sub_Limelight();
   public static Sub_Collector s_collector = new Sub_Collector();
+  public static Sub_Climber s_climber = new Sub_Climber();
   public static Sub_Arm s_arm = new Sub_Arm();
   public static Sub_Bars s_bars = new Sub_Bars();
   public static String mode = new String();
+  public static Cmd_StartMatch c_startmatch = new Cmd_StartMatch();
 
   Command m_autonomousCommand;
   SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -44,9 +49,18 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
+    if(!s_arm.isArmHome() && s_arm.dartMotor0Position() >= 0){
+      s_arm.setHomePositionDiscrepencyErrorState(true);
+    }
+    else {
+      s_arm.setHomePositionDiscrepencyErrorState(false);
+    }
+
     m_oi = new OI();
-    CameraServer.getInstance().startAutomaticCapture(0);
-    CameraServer.getInstance().startAutomaticCapture(1);
+   UsbCamera camera = CameraServer.getInstance().startAutomaticCapture(0);
+  camera.setFPS(10);
+  camera.setResolution(300, 200);
+
   }
 
   /**
@@ -101,7 +115,7 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     m_autonomousCommand = m_chooser.getSelected();
     s_drivetrain.brakeMode();
-
+    c_startmatch.start();
     /*
      * String autoSelected = SmartDashboard.getString("Auto Selector",
      * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand

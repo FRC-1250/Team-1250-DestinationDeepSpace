@@ -5,16 +5,20 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.collector;
+package frc.robot.commands.test;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import frc.robot.commands.Cmd_DoNothing;
+import frc.robot.commands.collector.CmdI_CollectorHatchTongueExtend;
+import frc.robot.commands.collector.CmdI_CollectorHatchTongueRetract;
 
-public class CmdG_CollectorFullCollectWithTiming extends CommandGroup {
+public class Cmd_StartMatch extends CommandGroup {
   /**
    * Add your docs here.
    */
-  public CmdG_CollectorFullCollectWithTiming() {
-   addSequential(new Cmd_CollectorCollectCargoDropMotors());
-   addSequential(new CmdT_CollectorArmIntakeTimed(0.5));
+  public Cmd_StartMatch() {
+    addSequential(new CmdI_CollectorHatchTongueExtend());
+    addSequential(new Cmd_DoNothing(.2));
+    addSequential(new CmdI_CollectorHatchTongueRetract());
   }
 }

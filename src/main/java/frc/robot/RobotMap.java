@@ -68,7 +68,7 @@ public class RobotMap {
    // Climber Subsystem IDs
 
 // Climber Solenoid ID
-  public static final int CLIMB_SOLENOID = 7;
+  public static final int CLIMB_SOLENOID = 3;
 // Climber Talon ID
   public static final int CLIMB_DRIVE = 24;
 
