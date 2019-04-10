@@ -8,6 +8,8 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -22,8 +24,8 @@ import frc.robot.commands.arm.Cmd_ArmJog;
 public class Sub_Arm extends Subsystem {
   
 
-  WPI_TalonSRX dartMotor0 = new WPI_TalonSRX(RobotMap.ARM_DART0);
-  WPI_TalonSRX dartMotor1 = new WPI_TalonSRX(RobotMap.ARM_DART1);
+  CANSparkMax dartMotor0 = new CANSparkMax(RobotMap.ARM_DART0, MotorType.kBrushless);
+  CANSparkMax dartMotor1 = new CANSparkMax(RobotMap.ARM_DART1, MotorType.kBrushless);
   DigitalInput armHomeSensor = new DigitalInput(RobotMap.ARM_HOME);
   boolean homePositionDiscrepencyErrorState = false;
 
