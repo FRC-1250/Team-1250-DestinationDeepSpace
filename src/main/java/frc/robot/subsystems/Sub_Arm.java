@@ -8,12 +8,17 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.revrobotics.CANEncoder;
+import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.ControlType;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -28,6 +33,14 @@ public class Sub_Arm extends Subsystem {
   CANSparkMax dartMotor1 = new CANSparkMax(RobotMap.ARM_DART1, MotorType.kBrushless);
   DigitalInput armHomeSensor = new DigitalInput(RobotMap.ARM_HOME);
   boolean homePositionDiscrepencyErrorState = false;
+
+  public CANPIDController pid0 = new CANPIDController(dartMotor0);
+  public CANPIDController pid1 = new CANPIDController(dartMotor1);
+
+  public CANEncoder encoder0 = new CANEncoder(dartMotor0);
+  public CANEncoder encoder1 = new CANEncoder(dartMotor1);
+
+
 
   //Group for voltage control outputs
   private SpeedController gDartDrive = new SpeedControllerGroup(dartMotor0, dartMotor1);
@@ -44,59 +57,50 @@ public class Sub_Arm extends Subsystem {
   public double home = 0; //Home is home
   //------------------------------------
 
+  
+
   double armSetpoint0;
 
   public Sub_Arm(){
     //General config for both motors on the dart drives for the arm
     //Not set to following because we wanted individual control for both sides
 
-    //Config For Encoder
-    dartMotor0.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
-    dartMotor1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
-
     //PID and other motor config for dart motor 0
-    dartMotor0.configNominalOutputForward(0, 10);
-		dartMotor0.configNominalOutputReverse(0, 10);
-		dartMotor0.configPeakOutputForward(1, 10);
-		dartMotor0.configPeakOutputReverse(-1, 10);
-		dartMotor0.config_kF(0, 0.0, 10);
-		dartMotor0.config_kP(0, 0.06, 10);
-		dartMotor0.config_kI(0, 0.002, 10);
-		dartMotor0.config_kD(0, 0, 10);
-    dartMotor0.config_IntegralZone(0, 2000, 10);
+    pid0.setP(0.06);
+    pid0.setI(0.002);
+    pid0.setD(0);
+    pid0.setIZone(2000);
     
     //PID and other motor config for dart motor 1
-    dartMotor1.configNominalOutputForward(0, 10);
-		dartMotor1.configNominalOutputReverse(0, 10);
-		dartMotor1.configPeakOutputForward(1, 10);
-		dartMotor1.configPeakOutputReverse(-1, 10);
-		dartMotor1.config_kF(0, 0.0, 10);
-		dartMotor1.config_kP(0, 0.06, 10);
-		dartMotor1.config_kI(0, 0.002, 10);
-		dartMotor1.config_kD(0, 0, 10);
-    dartMotor1.config_IntegralZone(0, 2000, 10);
-    
+    pid1.setP(0.06);
+    pid1.setI(0.002);
+    pid1.setD(0);
+    pid1.setIZone(2000);
+
     //Inversion for both motors
     dartMotor0.setInverted(false);
     dartMotor1.setInverted(false);
 
     //Neutral mode config
-    dartMotor0.setNeutralMode(NeutralMode.Brake);
-    dartMotor1.setNeutralMode(NeutralMode.Brake);
+    dartMotor0.setIdleMode(IdleMode.kBrake);
+    dartMotor1.setIdleMode(IdleMode.kBrake);
   }
 
   //Encode position for both sides
   public double dartMotor0Position(){
-    return dartMotor0.getSelectedSensorPosition();
+    return encoder0.getPosition();
   }
   public double dartMotor1Position(){
-    return dartMotor1.getSelectedSensorPosition();
+    return encoder1.getPosition();
   }
 
   //Reset the arm position to 0 for when it gets home
   public void resetArmPos(){
-    dartMotor0.setSelectedSensorPosition(0);
-    dartMotor1.setSelectedSensorPosition(0);
+    // dartMotor0.setSelectedSensorPosition(0);
+    // dartMotor1.setSelectedSensorPosition(0);
+    encoder0.setPosition(0);
+    encoder1.setPosition(0);
+
   }
 
   //-----------------------------------
@@ -124,20 +128,20 @@ public class Sub_Arm extends Subsystem {
   //-----------------------------------
   //Velocity control for the arm to keep both sides in sync even is the motors aren't the same power
   //TODO: Velocity control needs to be tested
-  public void dartVelocitySetUp(){
-    dartMotor0.set(ControlMode.Velocity, -55565);
-    dartMotor1.set(ControlMode.Velocity, -55565);
-  }
+  // public void dartVelocitySetUp(){
+  //   dartMotor0.set(ControlMode.Velocity, -55565);
+  //   dartMotor1.set(ControlMode.Velocity, -55565);
+  // }
 
-  public void dartVelocitySetDown(){
-    dartMotor0.set(ControlMode.Velocity, 55565);
-    dartMotor1.set(ControlMode.Velocity, 55565);
-  }
+  // public void dartVelocitySetDown(){
+  //   dartMotor0.set(ControlMode.Velocity, 55565);
+  //   dartMotor1.set(ControlMode.Velocity, 55565);
+  // }
 
-  public void dartVelocityStop(){
-    dartMotor0.set(ControlMode.Velocity, 0);
-    dartMotor1.set(ControlMode.Velocity, 0);
-  }
+  // public void dartVelocityStop(){
+  //   dartMotor0.set(ControlMode.Velocity, 0);
+  //   dartMotor1.set(ControlMode.Velocity, 0);
+  // }
   //-----------------------------------
 
   //-----------------------------------
@@ -147,49 +151,49 @@ public class Sub_Arm extends Subsystem {
 
   //Allows a position to be passed in from any command it is needed in
   public void setArmPosTest(double pos){
-    dartMotor0.set(ControlMode.Position, pos);
-    dartMotor1.set(ControlMode.Position, pos);
+    pid0.setReference(pos, ControlType.kPosition);
+    pid1.setReference(pos, ControlType.kPosition);   
   }
   //High cargo position - WILL NOT WORK, WILL JUST RETURN THE ARM TO HOME
   public void setArmCargoHigh(){
-    dartMotor0.set(ControlMode.Position, highCargoPos);
-    dartMotor1.set(ControlMode.Position, highCargoPos); 
+    pid0.setReference(highCargoPos, ControlType.kPosition);
+    pid1.setReference(highCargoPos, ControlType.kPosition);
   }
 
   //Mid cargo position
   public void setArmCargoMid(){
-    dartMotor0.set(ControlMode.Position, midCargoPos);
-    dartMotor1.set(ControlMode.Position, midCargoPos); 
+    pid0.setReference(midCargoPos, ControlType.kPosition);
+    pid1.setReference(midCargoPos, ControlType.kPosition);
   }
 
   //Low cargo position
   public void setArmCargoLow(){
-    dartMotor0.set(ControlMode.Position, lowCargoPos);
-    dartMotor1.set(ControlMode.Position, lowCargoPos); 
+    pid0.setReference(lowCargoPos, ControlType.kPosition);
+    pid1.setReference(lowCargoPos, ControlType.kPosition);
   }
 
   //High hatch position
   public void setArmHatchHigh(){
-    dartMotor0.set(ControlMode.Position, highHatchPos);
-    dartMotor1.set(ControlMode.Position, highHatchPos); 
+    pid0.setReference(highHatchPos, ControlType.kPosition);
+    pid1.setReference(highHatchPos, ControlType.kPosition);
   }
 
   //Mid hatch position
   public void setArmHatchMid(){
-    dartMotor0.set(ControlMode.Position, midHatchPos);
-    dartMotor1.set(ControlMode.Position, midHatchPos); 
+    pid0.setReference(midHatchPos, ControlType.kPosition);
+    pid1.setReference(midHatchPos, ControlType.kPosition);
   }
 
   //Low hatch position
   public void setArmHatchLow(){
-    dartMotor0.set(ControlMode.Position, lowHatchPos);
-    dartMotor1.set(ControlMode.Position, lowHatchPos); 
+    pid0.setReference(lowHatchPos, ControlType.kPosition);
+    pid1.setReference(lowHatchPos, ControlType.kPosition);
   }
 
   //Cargo ship cargo position
   public void setArmCargoShip(){
-    dartMotor0.set(ControlMode.Position, shipCargoPos);
-    dartMotor1.set(ControlMode.Position, shipCargoPos);
+    pid0.setReference(shipCargoPos, ControlType.kPosition);
+    pid1.setReference(shipCargoPos, ControlType.kPosition);
   }
 
   @Override
