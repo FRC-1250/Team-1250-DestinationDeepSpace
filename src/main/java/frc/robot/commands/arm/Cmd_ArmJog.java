@@ -48,6 +48,14 @@ public class Cmd_ArmJog extends Command {
       // Robot.s_arm.dartDriveGoUp();
     }
 
+    else if((int)Robot.m_oi.getLeftField().getRawAxis(1) > 0){
+
+    }
+
+    else if((int)Robot.m_oi.getLeftField().getRawAxis(1) < 0){
+
+    }
+
     else{
       Robot.s_arm.armStop();
     }

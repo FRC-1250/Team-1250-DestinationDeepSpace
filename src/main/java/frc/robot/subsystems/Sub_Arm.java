@@ -78,8 +78,8 @@ public class Sub_Arm extends Subsystem {
     pid1.setIZone(2000);
 
     //Inversion for both motors
-    dartMotor0.setInverted(false);
-    dartMotor1.setInverted(false);
+    dartMotor0.setInverted(true);
+    dartMotor1.setInverted(true);
 
     //Neutral mode config
     dartMotor0.setIdleMode(IdleMode.kBrake);
@@ -112,6 +112,14 @@ public class Sub_Arm extends Subsystem {
 
   public void dartDriveGoUp(){
     gDartDrive.set(-1);
+  }
+
+  public void dartDriveGoDownDevLeft(){
+    dartMotor0.set(.2);
+  }
+
+  public void dartDriveGoUpDevLeft(){
+    dartMotor0.set(-.2);
   }
   //-----------------------------------
 
