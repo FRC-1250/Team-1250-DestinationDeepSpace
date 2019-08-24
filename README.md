@@ -9,24 +9,9 @@ These instructions will get you a copy of the project on your local machine that
 
 ### Prerequisites
 
-You'll need the following in order use this code
-
+You'll need the following in order use this code:
 1) VSCode source code editor with WPILib intregration - https://wpilib.screenstepslive.com/s/currentCS/m/java/l/1027503-installing-c-and-java-development-tools-for-frc
-
-2) (Optional) Install GitHub desktop - https://desktop.github.com/
-
-### Deploying to the robot (WORK IN PROGRESS)
-
-Follow one of the methods below.
-
-1) Using Git
-
-2) Downloading the source directly
-
-## Contributing
-
-1) Make an account - https://github.com/join
-2) In our private Discord or Facebook group, contact Damien Fullerton, Ruiqi Mao OR Rodney Lewis with your account name or email. We'll get you added to the project from there.
+2) GitHub desktop or equivalent git option - https://desktop.github.com/
 
 ## FAQ
 *What is Git*? - It's a version control system that allows for easy group collaboration. Most often it's used for software development but it's not only limited to that. It could be easily used to persist changes in other types of files as well. - https://en.wikipedia.org/wiki/Version_control
