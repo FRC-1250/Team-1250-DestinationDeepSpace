@@ -175,6 +175,7 @@ public class Sub_Arm extends Subsystem {
   }
 
   //Low cargo position
+
   public void setArmCargoLow(){
     pid0.setReference(lowCargoPos, ControlType.kPosition);
     pid1.setReference(lowCargoPos, ControlType.kPosition);

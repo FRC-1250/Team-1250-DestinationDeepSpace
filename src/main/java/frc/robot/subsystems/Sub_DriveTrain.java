@@ -202,7 +202,7 @@ public Sub_DriveTrain(){
   //Converts the distance in inches to DRIVE_TICKS
   //Factors in the current position of the encoders on the neo so there is no need for encoder resets anymore
 
-  public void setSetpointPos(int distance){
+  public void setSetpointPos(double distance){
     // float driveSign = Math.signum((float)leftPosition()); 
    
    driveSetpoint = (DRIVE_TICKS * distance);
