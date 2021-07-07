@@ -5,50 +5,72 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.arm;
+package frc.robot.commands.test;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
 
-public class Cmd_ArmCargoShip extends Command {
-  float sign;
+
+public class Cmd_AutoYeet extends Command {
   int distance = 0;
-  double currentPos = Robot.s_arm.dartMotor0Position();
+  double upperSpeed;
+  double lowerSpeed;
+  float sign;
 
-
-  public Cmd_ArmCargoShip() {
-    requires(Robot.s_arm);
+  public Cmd_AutoYeet(int distance, double upperSpeed, double lowerSpeed) {
+    requires(Robot.s_drivetrain);
+    this.distance = distance;
+    this.upperSpeed = upperSpeed;
+    this.lowerSpeed = lowerSpeed;
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    setTimeout(5);
+    Robot.s_drivetrain.speedRacer();
+    Robot.s_drivetrain.drivePosReset();
+    Robot.s_drivetrain.resetGyro();
+    Robot.s_drivetrain.setSetpointPos(distance);
+    setTimeout(15);
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.s_arm.setArmCargoShip();
+    Robot.s_drivetrain.driveToPos(upperSpeed, lowerSpeed);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return(Robot.s_arm.dartMotor0Position() == Robot.s_arm.shipCargoPos || isTimedOut());
+    sign = Math.signum(distance);
+        
+        if (sign == 1){
+            return Robot.s_drivetrain.isDoneDriving() || isTimedOut();
+        }
+        if (sign == -1){
+            return Robot.s_drivetrain.isDoneDrivingBack() || isTimedOut();
+        }
+        else{
+            return false;
+        }
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    Robot.s_arm.armStop();
+    Robot.s_drivetrain.driveStop();
+    Robot.s_drivetrain.slowBoy();
+
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    Robot.s_arm.armStop();
+    Robot.s_drivetrain.driveStop();
+    Robot.s_drivetrain.slowBoy();
+
   }
 }

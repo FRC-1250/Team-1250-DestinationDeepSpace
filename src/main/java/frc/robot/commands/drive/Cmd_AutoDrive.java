@@ -27,6 +27,7 @@ public class Cmd_AutoDrive extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    Robot.s_drivetrain.drivePosReset();
     Robot.s_drivetrain.resetGyro();
     Robot.s_drivetrain.setSetpointPos(distance);
     setTimeout(15);

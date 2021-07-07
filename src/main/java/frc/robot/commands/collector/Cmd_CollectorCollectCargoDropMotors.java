@@ -7,44 +7,41 @@
 
 package frc.robot.commands.collector;
 
-import edu.wpi.first.wpilibj.command.TimedCommand;
+import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-/**
- * Add your docs here.
- */
-public class Cmd_CollectorThrow extends TimedCommand {
-  /**
-   * Add your docs here.
-   */
-  public Cmd_CollectorThrow(double timeout) {
-    super(timeout);
-      requires(Robot.s_collector);
-    // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
+public class Cmd_CollectorCollectCargoDropMotors extends Command {
+  public Cmd_CollectorCollectCargoDropMotors() {
+    requires(Robot.s_collector);
   }
 
-  // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    Robot.s_collector.extendDropMotors();
+    Robot.s_collector.armIntakeCollect();
+    Robot.s_collector.dropMotorSetSpeed(1);
   }
 
-  // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.s_collector.collectorThrow();
+    //No need to run continuously 
   }
 
-  // Called once after timeout
+  @Override
+  protected boolean isFinished() {
+    return(Robot.s_collector.isBallSensor() == false);
+  }
+
   @Override
   protected void end() {
-    Robot.s_collector.collectorStop();
+    Robot.s_collector.dropMotorSetSpeed(0);
+    Robot.s_collector.armIntakeStop();
+    Robot.s_collector.retractDropMotors();
   }
 
-  // Called when another command which requires one or more of the same
-  // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    Robot.s_collector.collectorStop();
+    //Interrupt same as end
+    end();
   }
 }

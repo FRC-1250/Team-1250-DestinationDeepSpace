@@ -8,12 +8,14 @@
 package frc.robot.commands.arm;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 
 
 public class Cmd_ArmHatchLow extends Command {
   float sign;
   int distance = 0;
+  double currentPos = Robot.s_arm.dartMotor0Position();
 
 
   public Cmd_ArmHatchLow() {
@@ -29,13 +31,14 @@ public class Cmd_ArmHatchLow extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.s_arm.setArmPosTest(Robot.s_arm.lowHatchPos);
+    SmartDashboard.putString("Trigger", "CargoLow");
+    Robot.s_arm.setArmHatchLow();
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return(Robot.s_arm.dartMotor0Position() == Robot.s_arm.ARM_TICKS * Robot.s_arm.lowHatchPos || isTimedOut());
+    return(Robot.s_arm.dartMotor0Position() == Robot.s_arm.lowHatchPos || isTimedOut() || Robot.s_arm.getHomePositionDiscrepencyErrorState());
   }
 
   // Called once after isFinished returns true

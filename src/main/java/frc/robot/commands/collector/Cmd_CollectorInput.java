@@ -25,26 +25,25 @@ public class Cmd_CollectorInput extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.s_collector.collectorIntake();
+    Robot.s_collector.armIntakeCollect();
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
     return(Robot.s_collector.isBallSensor() == false);
-
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    Robot.s_collector.collectorStop();
+    Robot.s_collector.armIntakeStop();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    Robot.s_collector.collectorStop();
+    Robot.s_collector.armIntakeStop();
   }
 }

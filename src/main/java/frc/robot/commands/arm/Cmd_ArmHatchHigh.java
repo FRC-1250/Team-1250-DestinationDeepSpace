@@ -14,6 +14,7 @@ import frc.robot.Robot;
 public class Cmd_ArmHatchHigh extends Command {
   float sign;
   int distance = 0;
+  double currentPos = Robot.s_arm.dartMotor0Position();
 
 
   public Cmd_ArmHatchHigh() {
@@ -29,13 +30,13 @@ public class Cmd_ArmHatchHigh extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.s_arm.setArmPosTest(Robot.s_arm.highHatchPos);
+    Robot.s_arm.setArmHatchHigh();
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return(Robot.s_arm.dartMotor0Position() == Robot.s_arm.ARM_TICKS * Robot.s_arm.highHatchPos || isTimedOut());
+    return(Robot.s_arm.dartMotor0Position() == Robot.s_arm.highHatchPos || isTimedOut());
   }
 
   // Called once after isFinished returns true

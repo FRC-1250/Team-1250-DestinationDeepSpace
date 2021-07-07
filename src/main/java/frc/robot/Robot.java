@@ -7,13 +7,17 @@
 
 package frc.robot;
 
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.commands.test.Cmd_StartMatch;
 import frc.robot.subsystems.Sub_Arm;
 import frc.robot.subsystems.Sub_Bars;
+import frc.robot.subsystems.Sub_Climber;
 import frc.robot.subsystems.Sub_Collector;
 import frc.robot.subsystems.Sub_DriveTrain;
 import frc.robot.subsystems.Sub_Limelight;
@@ -30,9 +34,11 @@ public class Robot extends TimedRobot {
   public static Sub_DriveTrain s_drivetrain = new Sub_DriveTrain();
   public static Sub_Limelight s_limelight = new Sub_Limelight();
   public static Sub_Collector s_collector = new Sub_Collector();
+  public static Sub_Climber s_climber = new Sub_Climber();
   public static Sub_Arm s_arm = new Sub_Arm();
   public static Sub_Bars s_bars = new Sub_Bars();
-  public String mode;
+  public static String mode = new String();
+  public static Cmd_StartMatch c_startmatch = new Cmd_StartMatch();
 
   Command m_autonomousCommand;
   SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -43,8 +49,18 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
+    if(!s_arm.isArmHome() && s_arm.dartMotor0Position() >= 0){
+      s_arm.setHomePositionDiscrepencyErrorState(true);
+    }
+    else {
+      s_arm.setHomePositionDiscrepencyErrorState(false);
+    }
+
     m_oi = new OI();
-    
+   UsbCamera camera = CameraServer.getInstance().startAutomaticCapture(0);
+  camera.setFPS(10);
+  camera.setResolution(300, 200);
+
   }
 
   /**
@@ -57,7 +73,16 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-  
+    SmartDashboard.putNumber("ArmPositionRobotPeriodic", s_arm.dartMotor0Position());
+    SmartDashboard.putBoolean("IsArmHome??", s_arm.isArmHome());
+    SmartDashboard.putNumber("tx", Robot.s_limelight.getCubeX());
+    SmartDashboard.putNumber("Drive Ticks", Robot.s_drivetrain.leftPosition());
+    SmartDashboard.putNumber("Angle", Robot.s_drivetrain.getGyroAngle());
+    SmartDashboard.putData("Commands", Scheduler.getInstance());
+    SmartDashboard.putBoolean("TriggerBoolCargo",!m_oi.cargo.get());
+    SmartDashboard.putBoolean("TriggerBoolHigh",!m_oi.high.get());
+    SmartDashboard.putBoolean("TriggerBoolMid",!m_oi.mid.get());
+    SmartDashboard.putBoolean("TriggerBooLow",!m_oi.low.get());
   }
 
   /**
@@ -67,6 +92,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void disabledInit() {
+    s_drivetrain.coastMode();
   }
 
   @Override
@@ -88,7 +114,8 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     m_autonomousCommand = m_chooser.getSelected();
-
+    s_drivetrain.brakeMode();
+    c_startmatch.start();
     /*
      * String autoSelected = SmartDashboard.getString("Auto Selector",
      * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
@@ -112,6 +139,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
+    s_drivetrain.brakeMode();
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
@@ -127,7 +155,6 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
-    setMode();
   }
 
   /**
@@ -135,24 +162,5 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void testPeriodic() {
-  }
-
-  public void setMode() {
-    if(m_oi.defense.get()) {
-      m_oi.setAllowedDefenseButtons();
-      mode = "defense";
-    }
-    else if(m_oi.home.get()) {
-      m_oi.setAllowedHomeButtons();
-      mode = "home";
-    }
-    else if(m_oi.cargo.get()) {
-      m_oi.setAllowedCargoButtons();
-      mode = "cargo";
-    }
-    else if(m_oi.hatch.get()) {
-      m_oi.setAllowedHatchButtons();
-      mode = "hatch";
-    }
   }
 }

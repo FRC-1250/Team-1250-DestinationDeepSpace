@@ -16,8 +16,8 @@ public class Cmd_TrackingDrive extends Command {
     double lowerSpeed;
     float sign;
     private double xCube;
-    private double Kp = -0.05;
-    private double min_command = 0.3;
+    private double Kp = -0.035;
+    private double min_command = 0.03;
 
     public Cmd_TrackingDrive(int distance, double upperSpeed, double lowerSpeed) {
       requires(Robot.s_drivetrain);
@@ -30,6 +30,7 @@ public class Cmd_TrackingDrive extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    Robot.s_drivetrain.drivePosReset();
     Robot.s_drivetrain.resetGyro();
     Robot.s_drivetrain.setSetpointPos(distance);
     setTimeout(15);
@@ -38,7 +39,6 @@ public class Cmd_TrackingDrive extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-
     xCube = Robot.s_limelight.getCubeX();
 
       double heading_error = -xCube;

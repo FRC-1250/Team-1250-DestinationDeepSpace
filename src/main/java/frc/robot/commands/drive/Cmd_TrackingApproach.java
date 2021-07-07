@@ -10,30 +10,44 @@ package frc.robot.commands.drive;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class Cmd_ManualDrive extends Command {
+public class Cmd_TrackingApproach extends Command {
+    double upperSpeed;
+    double lowerSpeed;
+    float sign;
+    double distance;
+    double height = 0.125;
+    private double xCube;
+    private double yCube;
+    private double Kp = -0.035;
+    private double min_command = 0.03;
 
-  private double xCube;
-  private double Kp = -0.025;
-  private double min_command = 0.03;
+    public Cmd_TrackingApproach(double upperSpeed, double lowerSpeed) {
+      requires(Robot.s_drivetrain);
+      requires(Robot.s_limelight);
 
-  public Cmd_ManualDrive() {
-    requires(Robot.s_drivetrain);
-    requires(Robot.s_limelight);
-  }
+        this.upperSpeed = upperSpeed;
+        this.lowerSpeed = upperSpeed;
+    }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+
+    yCube = Robot.s_limelight.getCubeY();
+    double camera_angle = yCube;
+
+    distance = height/ Math.tan(camera_angle);
+
+    Robot.s_drivetrain.drivePosReset();
+    Robot.s_drivetrain.resetGyro();
+    Robot.s_drivetrain.setSetpointPos(distance);
+    setTimeout(15);
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.s_drivetrain.linearDrivingAmpControl();
-    //For switching between diving states such as tank, arcade, and assisted arcade
-    if (Robot.m_oi.getButtonState(7) && Robot.m_oi.getButtonState(8)) {
-      xCube = Robot.s_limelight.getCubeX();
-
+    xCube = Robot.s_limelight.getCubeX();
       double heading_error = -xCube;
       double steering_adjust = 0.0;
 
@@ -42,42 +56,39 @@ public class Cmd_ManualDrive extends Command {
           }
           if(xCube < 1){
               steering_adjust = Kp * heading_error - min_command;
-          }
-          Robot.s_drivetrain.slowBoy();
-      Robot.s_drivetrain.trackCubeManualSpeed(steering_adjust, -Robot.m_oi.getGamepad().getThrottle());
-      }
+    }
 
-        else if (Robot.m_oi.getButtonState(8)){
-          Robot.s_drivetrain.slowBoy();
-            Robot.s_drivetrain.driveArcade(Robot.m_oi.getGamepad());
-        }
-        else if (Robot.m_oi.getButtonState(12)){
-          Robot.s_drivetrain.driveArcade(Robot.m_oi.getGamepad());
-          Robot.s_drivetrain.speedRacer();
-
-        }
-
-          else {
-              Robot.s_drivetrain.drive(Robot.m_oi.getGamepad());
-              Robot.s_drivetrain.slowBoy();
-
-          }
+      Robot.s_drivetrain.driveToPosTrack(upperSpeed, lowerSpeed, steering_adjust);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
-  }
+      sign = Math.signum((float)distance);
+
+      if (sign == 1){
+          return Robot.s_drivetrain.isDoneDriving() || isTimedOut();
+      }
+      if (sign == -1){
+          return Robot.s_drivetrain.isDoneDrivingBack() || isTimedOut();
+      }
+      else{
+          return false;
+      }
+    }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    Robot.s_drivetrain.driveStop();
+
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+    Robot.s_drivetrain.driveStop();
+
   }
 }

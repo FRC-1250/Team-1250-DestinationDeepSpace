@@ -61,14 +61,59 @@ public Sub_DriveTrain(){
 
   //Setting Linear Voltage Ramps for Drive Motors  TO DO - Check if values are high/low enough for robot
   //RightSide Ramps
-  fRightMotor.setRampRate(0.8);
-  mRightMotor.setRampRate(0.8);
-  bRightMotor.setRampRate(0.8);
+  fRightMotor.setOpenLoopRampRate(0.8);
+  mRightMotor.setOpenLoopRampRate(0.8);
+  bRightMotor.setOpenLoopRampRate(0.8);
   //LeftSide Ramps
-  fLeftMotor.setRampRate(0.8);
-  mLeftMotor.setRampRate(0.8);
-  bLeftMotor.setRampRate(0.8);
+  fLeftMotor.setOpenLoopRampRate(0.8);
+  mLeftMotor.setOpenLoopRampRate(0.8);
+  bLeftMotor.setOpenLoopRampRate(0.8);
   //Right Idlemode
+  fRightMotor.setIdleMode(IdleMode.kBrake);
+  mRightMotor.setIdleMode(IdleMode.kBrake);
+  bRightMotor.setIdleMode(IdleMode.kBrake);
+  //Left Idlemode
+  fLeftMotor.setIdleMode(IdleMode.kBrake);
+  mLeftMotor.setIdleMode(IdleMode.kBrake);
+  bLeftMotor.setIdleMode(IdleMode.kBrake);
+
+}
+
+
+  public void speedRacer(){
+    fRightMotor.setOpenLoopRampRate(0.2);
+    mRightMotor.setOpenLoopRampRate(0.2);
+    bRightMotor.setOpenLoopRampRate(0.2);
+   
+    fLeftMotor.setOpenLoopRampRate(0.2);
+    mLeftMotor.setOpenLoopRampRate(0.2);
+    bLeftMotor.setOpenLoopRampRate(0.2);
+  }
+
+  public void slowBoy(){
+    fRightMotor.setOpenLoopRampRate(0.8);
+    mRightMotor.setOpenLoopRampRate(0.8);
+    bRightMotor.setOpenLoopRampRate(0.8);
+
+    fLeftMotor.setOpenLoopRampRate(0.8);
+    mLeftMotor.setOpenLoopRampRate(0.8);
+    bLeftMotor.setOpenLoopRampRate(0.8);
+  }
+
+  public void brakeMode(){
+     //Right Idlemode
+  fRightMotor.setIdleMode(IdleMode.kBrake);
+  mRightMotor.setIdleMode(IdleMode.kBrake);
+  bRightMotor.setIdleMode(IdleMode.kBrake);
+  //Left Idlemode
+  fLeftMotor.setIdleMode(IdleMode.kBrake);
+  mLeftMotor.setIdleMode(IdleMode.kBrake);
+  bLeftMotor.setIdleMode(IdleMode.kBrake);
+
+  }
+
+  public void coastMode(){
+     //Right Idlemode
   fRightMotor.setIdleMode(IdleMode.kCoast);
   mRightMotor.setIdleMode(IdleMode.kCoast);
   bRightMotor.setIdleMode(IdleMode.kCoast);
@@ -77,8 +122,7 @@ public Sub_DriveTrain(){
   mLeftMotor.setIdleMode(IdleMode.kCoast);
   bLeftMotor.setIdleMode(IdleMode.kCoast);
 
-}
-
+  }
 
   @Override
   public void initDefaultCommand() {
@@ -93,11 +137,11 @@ public Sub_DriveTrain(){
   }
 
   public void drive(Joystick joy){
-    drive(-joy.getY(), -joy.getThrottle());
+    drive(-joy.getY()*.8, -joy.getThrottle()*.8);
   }
 
   public void driveArcade(Joystick joy) {
-		diffDriveGroup.arcadeDrive(-joy.getThrottle(),joy.getZ());
+		diffDriveGroup.arcadeDrive(-joy.getThrottle()*.8,joy.getZ()*.8);
 	}
 
   //Encoder feedback from the drivetrain
@@ -112,11 +156,16 @@ public Sub_DriveTrain(){
   }
 
   public double leftPosition(){
-    return fLeftMotor.getEncoder().getPosition();
+    return mLeftMotor.getEncoder().getPosition();
   }
 
   public double rightPostion(){
     return fRightMotor.getEncoder().getPosition();
+  }
+
+  public void drivePosReset(){
+    mLeftMotor.getEncoder().setPosition(0);
+    fRightMotor.getEncoder().setPosition(0);
   }
 
   public void linearDrivingAmpControl(){
@@ -151,10 +200,12 @@ public Sub_DriveTrain(){
 
   //Accepts the distance that you want the robot to go during auto motions
   //Converts the distance in inches to DRIVE_TICKS
-  //Factors in the current position of the encoders on the neo so there os no need for encoder resets anymore
+  //Factors in the current position of the encoders on the neo so there is no need for encoder resets anymore
 
-  public void setSetpointPos(int distance){
-    driveSetpoint = (DRIVE_TICKS * distance) + leftPosition();
+  public void setSetpointPos(double distance){
+    // float driveSign = Math.signum((float)leftPosition()); 
+   
+   driveSetpoint = (DRIVE_TICKS * distance);
   }
 
   //Auton Methods
@@ -217,7 +268,7 @@ public boolean isDoneDrivingBack() {
   //The speed is measured from 0 to 1, so 0.5 will be 50% motor output and 1 will be 100%
 
   private double linearRamp(double upperSpeed, double lowerSpeed) {
-    double diff = (driveSetpoint - (double)Math.abs(rightPostion()));
+    double diff = (driveSetpoint - (double)Math.abs(leftPosition()));
     double corrected = .05 * diff;
     double upperBound = Math.min(upperSpeed , corrected);
     double lowerBound = Math.max(lowerSpeed , upperBound);

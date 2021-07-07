@@ -5,33 +5,27 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.subsystems;
+package frc.robot.commands.test;
 
-import edu.wpi.first.wpilibj.Solenoid;
-import edu.wpi.first.wpilibj.command.Subsystem;
-import frc.robot.RobotMap;
+import edu.wpi.first.wpilibj.command.InstantCommand;
+import frc.robot.Robot;
 
 /**
  * Add your docs here.
  */
-public class Sub_Climber extends Subsystem {
-  // Put methods for controlling this subsystem
-  // here. Call these from Commands.
+public class CmdI_ClimberRetract extends InstantCommand {
+  /**
+   * Add your docs here.
+   */
+  public CmdI_ClimberRetract() {
+    super();
+    requires(Robot.s_climber);
+  }
 
-Solenoid climbSolenoid = new Solenoid(RobotMap.CLIMB_SOLENOID);
-
+  // Called once when the command executes
   @Override
-  public void initDefaultCommand() {
-    
+  protected void initialize() {
+    Robot.s_climber.climberRetract();
   }
 
-  public void climberDeploy(){
-    climbSolenoid.set(true);
-  }
-
-  public void climberRetract(){
-    climbSolenoid.set(false);
-  }
-
-  
 }

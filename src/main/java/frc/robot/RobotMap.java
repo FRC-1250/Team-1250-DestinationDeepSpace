@@ -32,18 +32,19 @@ public class RobotMap {
    // Collector Subsystem IDs
 
 // Solenoid PCM Channel
-  public static final int COL_SOL_COL_0 = 0;
-  public static final int COL_SOL_COL_1 = 1;
+  public static final int COL_SOL_HATCH = 0;
+  public static final int COL_SOL_DROPINTAKEMOTORS = 1;
+  public static final int COL_SOL_POKEEYES = 2;
 // Collector Sensor IDs
   public static final int COL_SENSE_HATCH = 1;
   public static final int COL_SENSE_BALL = 0;
 // Drop Motor Victors IDs
-  public static final int COL_DROPMOTOR_0 = 18;
-  public static final int COL_DROPMOTOR_1 = 19;
+  public static final int COL_DROPINTAKEMOTOR_0 = 18;
+  public static final int COL_DROPINTAKEMOTOR_1 = 19;
 // Arm Collector ID
 
-  public static final int COL_ARM_0 = 20;
-  public static final int COL_ARM_1 = 21;
+  public static final int COL_ARMINTAKEMOTOR_0 = 20;
+  public static final int COL_ARMINTAKEMOTOR_1 = 21;
 
    // Arm Subsystem IDs
 
@@ -67,7 +68,7 @@ public class RobotMap {
    // Climber Subsystem IDs
 
 // Climber Solenoid ID
-  public static final int CLIMB_SOLENOID = 2;
+  public static final int CLIMB_SOLENOID = 3;
 // Climber Talon ID
   public static final int CLIMB_DRIVE = 24;
 

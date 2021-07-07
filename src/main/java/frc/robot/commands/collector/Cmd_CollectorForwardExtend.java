@@ -25,7 +25,7 @@ public class Cmd_CollectorForwardExtend extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.s_collector.solenoidExtendCollector();
+    Robot.s_collector.extendDropMotors();
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -37,13 +37,13 @@ public class Cmd_CollectorForwardExtend extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    Robot.s_collector.solenoidRetractCollector();
+    Robot.s_collector.retractDropMotors();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    Robot.s_collector.solenoidRetractCollector();
+    Robot.s_collector.retractDropMotors();
   }
 }

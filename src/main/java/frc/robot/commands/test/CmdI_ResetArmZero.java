@@ -5,34 +5,29 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
-import edu.wpi.first.wpilibj.command.TimedCommand;
+package frc.robot.commands.test;
 
-public class Cmd_DoNothing extends TimedCommand {
-  public Cmd_DoNothing(double i) {
-    super(i);
+import edu.wpi.first.wpilibj.command.InstantCommand;
+import frc.robot.Robot;
+
+/**
+ * Add your docs here.
+ */
+public class CmdI_ResetArmZero extends InstantCommand {
+  /**
+   * Add your docs here.
+   */
+  public CmdI_ResetArmZero() {
+    super();
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
+    requires(Robot.s_arm);
   }
 
-  // Called just before this Command runs the first time
+  // Called once when the command executes
   @Override
   protected void initialize() {
+    Robot.s_arm.resetArmPos();
   }
 
-  // Called repeatedly when this Command is scheduled to run
-  @Override
-  protected void execute() {
-  }
-
-  // Called once after isFinished returns true
-  @Override
-  protected void end() {
-  }
-
-  // Called when another command which requires one or more of the same
-  // subsystems is scheduled to run
-  @Override
-  protected void interrupted() {
-  }
 }

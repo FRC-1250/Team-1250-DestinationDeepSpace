@@ -12,8 +12,10 @@ import frc.robot.commands.collector.*;
 import frc.robot.commands.bars.*; 
 import frc.robot.commands.test.*;
 import frc.robot.commands.drive.*;
+import frc.robot.commands.groups.*;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.buttons.Trigger;
 
 public class OI {
   //Controllers for driver (Gamepad) and for operator(Boards)
@@ -26,7 +28,9 @@ public class OI {
 	JoystickButton x = new JoystickButton(Gamepad, 1);
 	JoystickButton a = new JoystickButton(Gamepad, 2);
 	JoystickButton b = new JoystickButton(Gamepad, 3);
-	JoystickButton y = new JoystickButton(Gamepad, 4);
+  JoystickButton y = new JoystickButton(Gamepad, 4);
+  JoystickButton s = new JoystickButton(Gamepad, 10);
+
 
   //lb slow cargo throw
   //rb fast cargo throw
@@ -66,54 +70,83 @@ public class OI {
   JoystickButton rightCargoShipFront = new JoystickButton(BoardRightField, 7);
   JoystickButton rightFeedingStation = new JoystickButton(BoardRightField, 8);
 
+  Trigger cargoHigh = new Trigger() {
+    @Override 
+    public boolean get() 
+    { return !cargo.get() && !high.get(); }
+  };
+
+  Trigger cargoMid = new Trigger() {
+    @Override 
+    public boolean get() 
+    { return !cargo.get() && !mid.get(); }
+  };
+
+   Trigger cargoLow = new Trigger() {
+   @Override 
+   public boolean get() 
+   { return !cargo.get() && !low.get(); }
+  };
+
+  Trigger hatchHigh = new Trigger() {
+    @Override 
+    public boolean get() 
+    { return !hatch.get() && !high.get(); }
+  };
+
+  Trigger hatchMid = new Trigger() {
+    @Override 
+    public boolean get() 
+    { return !hatch.get() && !mid.get(); }
+  };
+
+   Trigger hatchLow = new Trigger() {
+   @Override 
+   public boolean get() 
+   { return !hatch.get() && !low.get(); }
+  };
+
   public OI() {
+
+    lb.whenActive(new CmdI_CollectorHatchTongueExtend());
+    rb.whenActive(new CmdI_CollectorHatchFullPlace());
+    a.whenActive(new CmdI_CollectorHatchTongueRetract());
+    y.whenActive(new Cmd_CollectorInput());
+    x.whenActive(new CmdG_CollectorFullCollectWithTiming());
+    b.whenActive(new CmdT_CollectorArmIntakeSpit(1));
+    s.whenActive(new CmdG_BoringClimb());
+
+    cargoHigh.whenActive(new Cmd_ArmCargoHigh());
+    cargoMid.whenActive(new Cmd_ArmCargoMid());
+    cargoLow.whenActive(new Cmd_ArmCargoLow());
+
+    hatchHigh.whenActive(new Cmd_ArmHatchHigh());
+    hatchMid.whenActive(new Cmd_ArmHatchMid());
+    hatchLow.whenActive(new Cmd_ArmHome());
+
+    home.whenInactive(new CmdG_Home());
+
     //Arm testing
-    // y.whenActive(new Cmd_ArmManualUp());
-    // a.whenActive(new Cmd_ArmManualDown());
-    // b.whenActive(new Cmd_ArmManualStop());
-    x.whenActive(new Cmd_CollectorHatchRemove(0.5));
-    lb.whenPressed(new Cmd_CollectorInput());
-    rb.whenActive(new Cmd_CollectorThrow(1));
-  }
+    // a.whenActive(new Cmd_AutoDrive(-150, 0.3, 0.6));
+    // y.whenActive(new Cmd_AutoTurn(-35, 0.2, 0.4));
+    // b.whenActive(new Cmd_AutoDrive(-20, 0.3, 0.5));
+    // x.whenActive(new Cmd_AutoTurn(35, 0.2, 0.4));
+    // rb.whenActive(new Cmd_AutoDrive(-45, 0.2, 0.4));
+    // lb.whenActive(new Cmd_AutoTurn(80, 0.2, 0.4));
+    // rt.whenActive(new Cmd_TrackingDrive(100, 0.4, 0.2));
 
-  public void setAllowedHomeButtons() {
- 
-  }
-
-  public void setAllowedDefenseButtons() {
-
-  }
-
-  public void setAllowedCargoButtons() {
-    //Auto positions cargo
-    high.whenActive(new Cmd_ArmCargoHigh());
-    mid.whenActive(new Cmd_ArmCargoMid());
-    low.whenActive(new Cmd_ArmCargoLow());
-    //Collector slow spit
-    lb.whenActive(new Cmd_CollectorThrowSlow(2));
-    //Collector fast spit
-    rb.whenActive(new Cmd_CollectorThrow(1));
+    // a.whenActive(new CmdG_AutoRightHatchRightHab2());
+    // b.whenActive(new CmdG_Hab2Climb());
     
-    //Intake on
-    //a.whenPressed(new Cmd_CollectorDropMotors(0.5));
-    //Intake off
-    //b.whenPressed(new Cmd_CollectorDropMotors(0));
-    
-    //Jog up
-    //Jog down 
-  }
+    // y.whenActive(new CmdG_CollectorFullCollectWithTiming());
+    //x.whenActive(new CmdI_CollectorHatchTongueRetract());
+    //y.whenActive(new CmdI_CollectorHatchTongueExtend());
+    //b.whenActive(new CmdI_CollectorHatchFullPlace());
+    //a.whenActive(new CmdG_CollectorFullCollectWithTiming());
+    //rb.whenActive(new CmdT_CollectorArmIntakeSpit(1));
 
-  public void setAllowedHatchButtons() {
-    //Auto positions hatch
-    high.whenActive(new Cmd_ArmHatchHigh());
-    mid.whenActive(new Cmd_ArmHatchMid());
-    low.whenActive(new Cmd_ArmHatchLow());
-
-    //Hatch plunger
-    //x.whenPressed(new Cmd_CollectorHatchRemove(0.5));
-    
-    //Jog up
-    //Jog down
+    // lb.whenPressed(new Cmd_CollectorInput());
+     // b.whenActive(new CmdI_ResetArmZero());    // b.whenActive(new Cmd_CollectorDropMotors());
   }
 
   public Joystick getGamepad(){
@@ -131,5 +164,8 @@ public class OI {
   public boolean getButtonState(int btn) {
     return Gamepad.getRawButton(btn);
   }
-
+  
+  public boolean getButtonStateBoard(int btn) {
+    return BoardController.getRawButton(btn);
+  }
 }

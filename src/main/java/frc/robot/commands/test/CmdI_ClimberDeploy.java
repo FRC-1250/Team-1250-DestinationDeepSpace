@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.arm;
+package frc.robot.commands.test;
 
 import edu.wpi.first.wpilibj.command.InstantCommand;
 import frc.robot.Robot;
@@ -13,19 +13,19 @@ import frc.robot.Robot;
 /**
  * Add your docs here.
  */
-public class Cmd_ArmManualStop extends InstantCommand {
+public class CmdI_ClimberDeploy extends InstantCommand {
   /**
    * Add your docs here.
    */
-  public Cmd_ArmManualStop() {
+  public CmdI_ClimberDeploy() {
     super();
-    requires(Robot.s_arm);
+    requires(Robot.s_climber);
   }
 
   // Called once when the command executes
   @Override
   protected void initialize() {
-    Robot.s_arm.armStop();
+    Robot.s_climber.climberDeploy();
   }
 
 }

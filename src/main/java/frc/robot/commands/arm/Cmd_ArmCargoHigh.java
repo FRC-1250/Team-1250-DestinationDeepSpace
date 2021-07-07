@@ -8,12 +8,14 @@
 package frc.robot.commands.arm;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 
 
 public class Cmd_ArmCargoHigh extends Command {
   float sign;
   int distance = 0;
+  double currentPos = Robot.s_arm.dartMotor0Position();
 
 
   public Cmd_ArmCargoHigh() {
@@ -23,19 +25,22 @@ public class Cmd_ArmCargoHigh extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    
     setTimeout(5);
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.s_arm.setArmPosTest(Robot.s_arm.highCargoPos);
+    SmartDashboard.putString("Trigger", "CargoHigh");
+    Robot.s_arm.setArmCargoHigh();
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return(Robot.s_arm.dartMotor0Position() == Robot.s_arm.ARM_TICKS * Robot.s_arm.highCargoPos || isTimedOut());
+
+    return(Robot.s_arm.dartMotor0Position() ==  Robot.s_arm.highCargoPos || isTimedOut());
   }
 
   // Called once after isFinished returns true
